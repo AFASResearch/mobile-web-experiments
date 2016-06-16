@@ -3,7 +3,7 @@ import localforage = require('localforage');
 import {createProjector} from 'maquette';
 
 import {UserInfo} from './interfaces';
-import {createApp} from './components/app';
+import {createApp} from './components/app/app';
 
 // Bootstrapping code
 

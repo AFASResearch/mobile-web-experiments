@@ -1,5 +1,6 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
   entry: {
@@ -12,10 +13,9 @@ module.exports = {
     publicPath: "/",
     filename: "bundle.js"
   },
-  
-  // Currently we need to add '.ts' to the resolve.extensions array.
+
   resolve: {
-    extensions: ['', '.ts', '.webpack.js', '.web.js', '.js']
+    extensions: ['', '.ts', '.webpack.js', '.web.js', '.js', '.css']
   },
 
   // Source maps support ('inline-source-map' also works)
@@ -27,8 +27,15 @@ module.exports = {
       {
         test: /\.ts$/,
         loader: 'ts-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader?modules&sourceMap!postcss-loader'
       }
     ]
+  },
+  postcss: function() {
+    return [autoprefixer({browsers: ['iOS 8', 'last 1 version']})];
   },
   plugins: [
     new HtmlWebpackPlugin({
