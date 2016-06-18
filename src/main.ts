@@ -16,6 +16,7 @@ let userInfo: UserInfo;
 let startApp = () => {
   let projector = createProjector({});
   let app = createApp(horizon, store, userInfo, projector);
+  document.body.innerHTML = '';
   projector.merge(document.body, app.renderMaquette);
 }
 

@@ -1,5 +1,12 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+
 .app {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 0;
+  padding: 0;
 }

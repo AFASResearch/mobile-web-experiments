@@ -39,7 +39,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Collaboration'
+      title: 'Collaboration',
+      template: 'index.ejs'
     })
   ],
   devServer: {

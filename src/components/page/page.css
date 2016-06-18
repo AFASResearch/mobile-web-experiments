@@ -1,0 +1,21 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.header {
+  background-color: #444444;
+  font-weight: bold;
+  color: #EEEEEE;
+  line-height: 24px;
+  font-size: 16px;
+  padding: 8px 8px 8px 16px;
+}
+
+.body {
+  background-color: #CCCCCC;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
