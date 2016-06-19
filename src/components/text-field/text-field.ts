@@ -17,12 +17,13 @@ export let createTextField = (config: TextFieldConfig, bindings: TextFieldBindin
     setValue((evt.target as HTMLInputElement).value);
   };
 
-  return {
+  let textField = {
     renderMaquette: () => {
-      return h('label', {class: styles.textField}, [
+      return h('label', {class: styles.textField, key: textField}, [
         h('span', {class: styles.label}, [config.label]),
         h('input', {class: styles.input, type: 'text', value: getValue(), oninput: handleInput})
       ])
     }
-  }
+  };
+  return textField;
 }

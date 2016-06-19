@@ -13,9 +13,9 @@ export interface PageConfig {
 
 export let createPage = (config: PageConfig) => {
   let {title, body} = config;
-  return {
+  let page = {
     renderMaquette: () => {
-      return h('div', {class: styles.page}, [
+      return h('div', {class: styles.page, key: page}, [
         h('div', {class: styles.header}, [
           // backButton
           h('span', [title])
@@ -26,4 +26,5 @@ export let createPage = (config: PageConfig) => {
       ]);
     }
   };
+  return page;
 };

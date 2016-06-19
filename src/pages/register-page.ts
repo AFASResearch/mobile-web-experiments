@@ -1,9 +1,9 @@
 import {h} from 'maquette';
-import {createPage} from '../page/page';
-import {createText} from '../text/text';
-import {createTextField} from '../text-field/text-field';
-import {createButton} from '../button/button';
-import {UserInfo} from '../../interfaces';
+import {createPage} from '../components/page/page';
+import {createText} from '../components/text/text';
+import {createTextField} from '../components/text-field/text-field';
+import {createButton} from '../components/button/button';
+import {UserInfo} from '../interfaces';
 
 export let createRegisterPage = (updateUserInfo: (newUserInfo: UserInfo) => void, id: string) => {
   let firstName = 'Funny';
