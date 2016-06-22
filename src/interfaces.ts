@@ -6,3 +6,10 @@ export interface UserInfo {
   oauth?: {
   }
 }
+
+export interface MessageInfo {
+  fromUserId: string;
+  toUserId: string;
+  text: string;
+  date: Date;
+}

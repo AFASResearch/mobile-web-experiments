@@ -9,7 +9,7 @@ export let createUserListPage = (horizon: any, projector: Projector) => {
 
   let usersCollection = horizon('users');
 
-  usersCollection.order('lastName').watch().subscribe((allUsers: UserInfo[]) => {
+  let subscription = usersCollection.order('lastName').watch().subscribe((allUsers: UserInfo[]) => {
     users = allUsers;
     projector.scheduleRender();
   });
@@ -37,7 +37,7 @@ export let createUserListPage = (horizon: any, projector: Projector) => {
   return {
     renderMaquette: page.renderMaquette,
     destroy: () => {
-      // Not sure how to kill/detach/destroy the subscription
+      subscription.unsubscribe();
     }
   }
 };
