@@ -4,6 +4,7 @@ let styles = <any>require('./app.css');
 import {UserInfo} from '../interfaces';
 import {createRegisterPage} from '../pages/register-page';
 import {createUserListPage} from '../pages/user-list-page';
+import {randomId} from '../utilities';
 
 export let createApp = (horizon: any, store: LocalForage, userInfo: UserInfo, projector: Projector) => {
 
@@ -21,7 +22,7 @@ export let createApp = (horizon: any, store: LocalForage, userInfo: UserInfo, pr
     });
   };
 
-  let registerPage = createRegisterPage(updateUserInfo, Math.random().toString(36).substr(2));
+  let registerPage = createRegisterPage(updateUserInfo, randomId());
   let userListPage = createUserListPage(horizon, projector);
   let router = {
     renderMaquette: () => {
