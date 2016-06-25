@@ -17,8 +17,9 @@ export let createChatPage = (horizon: any, user: UserInfo, toUserId: string, pro
     .findAll(
       {from: user.id, to: toUserId}, {from: toUserId, to: user.id}
     )
-    .order("date", "descending").limit(500)
-    .watch().subscribe((msgs: MessageInfo[]) => { messages = msgs; });
+//    .order("date", "descending")
+    .watch()
+    .subscribe((msgs: MessageInfo[]) => { messages = msgs; });
 
   let list = createList({columns: [{header: 'From', key: 'from'}, {header:'Message', key:'message'}]}, {
     getItems: () => messages,

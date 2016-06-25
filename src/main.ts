@@ -4,6 +4,8 @@ import {createProjector} from 'maquette';
 
 import {UserInfo} from './interfaces';
 import {createApp} from './app/app';
+import {createRouter} from './router';
+import {createRouteRegistry} from './route-registry'
 
 // Bootstrapping code
 
@@ -15,7 +17,8 @@ let userInfo: UserInfo;
 
 let startApp = () => {
   let projector = createProjector({});
-  let app = createApp(horizon, store, userInfo, projector);
+  let router = createRouter(window, projector, createRouteRegistry(horizon, projector, userInfo));
+  let app = createApp(horizon, store, userInfo, router, projector);
   document.body.innerHTML = '';
   projector.merge(document.body, app.renderMaquette);
 }

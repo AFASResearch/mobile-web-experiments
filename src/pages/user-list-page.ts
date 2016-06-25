@@ -24,7 +24,7 @@ export let createUserListPage = (horizon: any, projector: Projector) => {
     getItems: () => users,
     getKey: (user: UserInfo) => user.id,
     renderCell: (item: UserInfo, columnKey: string) => {
-      return (item as any)[columnKey];
+      return h('a', {href: `#chat/${item.id}`}, [(item as any)[columnKey]]);
     }
   });
   let page = createPage({

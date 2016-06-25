@@ -13,6 +13,8 @@ export let createRouteRegistry = (horizon: any, projector: Projector, user: User
         if (match) {
           return createChatPage(horizon, user, match[1], projector)
         }
+        // Nothing matches, default page:
+        return createUserListPage(horizon, projector);
     }
   }};
 };

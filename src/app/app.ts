@@ -5,8 +5,9 @@ import {UserInfo} from '../interfaces';
 import {createRegisterPage} from '../pages/register-page';
 import {createUserListPage} from '../pages/user-list-page';
 import {randomId} from '../utilities';
+import {Router} from '../router';
 
-export let createApp = (horizon: any, store: LocalForage, userInfo: UserInfo, projector: Projector) => {
+export let createApp = (horizon: any, store: LocalForage, userInfo: UserInfo, router: Router, projector: Projector) => {
 
   let users = horizon('users');
 
@@ -23,12 +24,6 @@ export let createApp = (horizon: any, store: LocalForage, userInfo: UserInfo, pr
   };
 
   let registerPage = createRegisterPage(updateUserInfo, randomId());
-  let userListPage = createUserListPage(horizon, projector);
-  let router = {
-    renderMaquette: () => {
-      return userListPage.renderMaquette();
-    }
-  };
 
   return {
     renderMaquette: () => {

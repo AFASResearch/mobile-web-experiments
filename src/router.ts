@@ -1,7 +1,10 @@
 import {Projector, Component} from 'maquette';
 import {RouteRegistry, Page} from './interfaces';
 
-export let createRouter = (window: Window, projector: Projector, registry: RouteRegistry): Component => {
+export interface Router extends Component {
+}
+
+export let createRouter = (window: Window, projector: Projector, registry: RouteRegistry): Router => {
   let hash = window.location.hash;
   let page: Page = registry.initializePage(hash);
 
@@ -11,7 +14,7 @@ export let createRouter = (window: Window, projector: Projector, registry: Route
     if (page && page.destroy) {
       page.destroy();
     }
-    page = registry.initializePage(hash);
+    page = registry.initializePage(hash.substr(1)); // strips the # token
   }
 
   return {
