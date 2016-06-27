@@ -2,7 +2,7 @@ import {Component, h} from 'maquette';
 let styles = <any>require('./page.css');
 
 export interface PageConfig {
-  title: string;
+  title: string | (() => string);
   backButton?: {
     title: string;
     route: string;
@@ -15,10 +15,11 @@ export let createPage = (config: PageConfig) => {
   let {title, body} = config;
   let page = {
     renderMaquette: () => {
+      let renderTitle = typeof title === 'string' ? title : title();
       return h('div', {class: styles.page, key: page}, [
         h('div', {class: styles.header}, [
           // backButton
-          h('span', [title])
+          h('span', [renderTitle])
         ]),
         h('div', {class: styles.body}, [
           config.body.map(c => c.renderMaquette())

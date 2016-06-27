@@ -11,6 +11,7 @@ export interface UserInfo {
 
 export interface MessageInfo {
   id: string;
+  chatRoomId: string; // format: see chat-page
   fromUserId: string;
   toUserId: string;
   text: string;

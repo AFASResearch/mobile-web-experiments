@@ -2,6 +2,8 @@
   padding: 8px;
   border-collapse: collapse;
   width: 100%;
+  flex: 1 1 auto;
+  overflow: scroll;
 }
 
 .list tr {

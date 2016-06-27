@@ -11,11 +11,12 @@
   line-height: 24px;
   font-size: 16px;
   padding: 8px 8px 8px 16px;
+  flex: 0 0 auto;
 }
 
 .body {
   background-color: #CCCCCC;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex: 1 0 auto;
 }

@@ -1,4 +1,4 @@
-import {h, VNode} from 'maquette';
+import {h, VNode, Component} from 'maquette';
 let styles = <any>require('./list.css');
 
 export interface ListColumn {
@@ -16,26 +16,30 @@ export interface ListBindings<Item> {
   renderCell: (item: Item, columnKey: string) => VNode|string;
 }
 
-export let createList = (config: ListConfig, bindings: ListBindings<Object>) => {
+export let createList = (config: ListConfig, bindings: ListBindings<Object>): Component => {
   let {getItems, getKey, renderCell} = bindings;
   let {columns} = config;
 
-  return {
+  let list = {
     renderMaquette: () => {
       let items = getItems();
-      if (!items) {
-        return h('span', ['Loading...']);
-      }
-      return h('table', {class: styles.list}, [
-        h('thead', [
-          h('tr', columns.map(c => h('th', [c.header])))
-        ]),
-        h('tbody', items.map(item =>
-          h('tr', {key: getKey(item)}, [
-            columns.map(c => h('td', [renderCell(item, c.key)]))
+      return h('div', {key: list, class: styles.list}, [
+        items ? [
+          h('table', [
+            h('thead', [
+              h('tr', columns.map(c => h('th', [c.header])))
+            ]),
+            h('tbody', items.map(item =>
+              h('tr', {key: getKey(item)}, [
+                columns.map(c => h('td', [renderCell(item, c.key)]))
+              ])
+            ))
           ])
-        ))
+        ] : [
+          h('span', ['Loading...'])
+        ]
       ]);
     }
-  }
+  };
+  return list;
 };

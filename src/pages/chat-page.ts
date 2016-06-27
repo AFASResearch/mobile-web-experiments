@@ -2,24 +2,31 @@ import {Projector} from 'maquette';
 import {createList} from '../components/list/list';
 import {createPage} from '../components/page/page';
 import {createTextField} from '../components/text-field/text-field';
+import {createMessageComposer} from '../components/message-composer/message-composer';
 import {UserInfo, MessageInfo} from '../interfaces';
+import {nameOfUser, randomId} from '../utilities';
 
 export let createChatPage = (horizon: any, user: UserInfo, toUserId: string, projector: Projector) => {
   let otherUser: UserInfo;
   let messages: MessageInfo[];
+  let chatRoomId = [user.id, toUserId].sort().join('-'); // format: lowestUserId-highestUserId
 
   let otherUserSubscription = horizon('users').find(toUserId).watch().subscribe((user: UserInfo) => {
     otherUser = user;
     projector.scheduleRender();
   });
 
-  let messagesSubscription = horizon('messages')
+  let messagesSubscription = horizon('directMessages')
     .findAll(
-      {from: user.id, to: toUserId}, {from: toUserId, to: user.id}
+      {chatRoomId: chatRoomId}
     )
-//    .order("date", "descending")
+    .order('date', 'descending')
+    .limit(500)
     .watch()
-    .subscribe((msgs: MessageInfo[]) => { messages = msgs; });
+    .subscribe((msgs: MessageInfo[]) => {
+      projector.scheduleRender();
+      messages = msgs; 
+    });
 
   let list = createList({columns: [{header: 'From', key: 'from'}, {header:'Message', key:'message'}]}, {
     getItems: () => messages,
@@ -34,8 +41,25 @@ export let createChatPage = (horizon: any, user: UserInfo, toUserId: string, pro
     }
   });
 
+  let sendMessage = (text: string) => {
+    let message: MessageInfo = {
+      date: new Date(),
+      fromUserId: user.id,
+      id: randomId(),
+      chatRoomId,
+      text,
+      toUserId
+    };
+    horizon('directMessages').upsert(message);
+  }
+
+  let messageComposer = createMessageComposer({sendMessage});
+
   return createPage({
-    title: 'Chat with user ...',
-    body: [list]
+    title: () => `Chat with ${nameOfUser(otherUser)}`,
+    body: [
+      list,
+      messageComposer
+    ]
   });
 }
