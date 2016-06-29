@@ -15,7 +15,9 @@ export interface MessageInfo {
   fromUserId: string;
   toUserId: string;
   text: string;
+  // deprecated
   date: Date;
+  timestamp: number;
 }
 
 export interface Page extends Component {

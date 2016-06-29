@@ -11,6 +11,7 @@ export let createMessageComposer = (bindings: MessageComposerBindings) => {
     if (evt.which === 13) {
       evt.preventDefault();
       bindings.sendMessage(textToSend);
+      textToSend = '';
     }
   }
   let handleInput = (evt: Event) => {

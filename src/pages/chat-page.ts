@@ -20,12 +20,12 @@ export let createChatPage = (horizon: any, user: UserInfo, toUserId: string, pro
     .findAll(
       {chatRoomId: chatRoomId}
     )
-    .order('date', 'descending')
+    .order('timestamp', 'descending')
     .limit(500)
     .watch()
     .subscribe((msgs: MessageInfo[]) => {
       projector.scheduleRender();
-      messages = msgs; 
+      messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp); 
     });
 
   let list = createList({columns: [{header: 'From', key: 'from'}, {header:'Message', key:'message'}]}, {
@@ -44,6 +44,7 @@ export let createChatPage = (horizon: any, user: UserInfo, toUserId: string, pro
   let sendMessage = (text: string) => {
     let message: MessageInfo = {
       date: new Date(),
+      timestamp: new Date().valueOf(),
       fromUserId: user.id,
       id: randomId(),
       chatRoomId,
