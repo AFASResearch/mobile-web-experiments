@@ -2,44 +2,44 @@ import {h, VNode, Component} from 'maquette';
 let styles = <any>require('./list.css');
 
 export interface ListColumn {
-  key: string;
-  header: string;
+    key: string;
+    header: string;
 }
 
 export interface ListConfig {
-  columns: ListColumn[];
+    columns: ListColumn[];
 }
 
 export interface ListBindings<Item> {
-  getItems: () => Item[];
-  getKey: (item: Item) => string|number;
-  renderCell: (item: Item, columnKey: string) => VNode|string;
+    getItems: () => Item[];
+    getKey: (item: Item) => string | number;
+    renderCell: (item: Item, columnKey: string) => VNode | string;
 }
 
 export let createList = (config: ListConfig, bindings: ListBindings<Object>): Component => {
-  let {getItems, getKey, renderCell} = bindings;
-  let {columns} = config;
+    let {getItems, getKey, renderCell} = bindings;
+    let {columns} = config;
 
-  let list = {
-    renderMaquette: () => {
-      let items = getItems();
-      return h('div', {key: list, class: styles.list}, [
-        items ? [
-          h('table', [
-            h('thead', [
-              h('tr', columns.map(c => h('th', [c.header])))
-            ]),
-            h('tbody', items.map(item =>
-              h('tr', {key: getKey(item)}, [
-                columns.map(c => h('td', [renderCell(item, c.key)]))
-              ])
-            ))
-          ])
-        ] : [
-          h('span', ['Loading...'])
-        ]
-      ]);
-    }
-  };
-  return list;
+    let list = {
+        renderMaquette: () => {
+            let items = getItems();
+            return h('div', { key: list, class: styles.list }, [
+                items ? [
+                    h('table', [
+                        h('thead', [
+                            h('tr', columns.map(c => h('th', [c.header])))
+                        ]),
+                        h('tbody', items.map(item =>
+                            h('tr', { key: getKey(item) }, [
+                                columns.map(c => h('td', [renderCell(item, c.key)]))
+                            ])
+                        ))
+                    ])
+                ] : [
+                        h('span', ['Loading...'])
+                    ]
+            ]);
+        }
+    };
+    return list;
 };

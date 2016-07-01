@@ -4,37 +4,39 @@ import {createProjector} from 'maquette';
 
 import {UserInfo} from './interfaces';
 import {createApp} from './app/app';
-import {createRouter} from './router';
+import {createRouter} from './services/router';
 import {createRouteRegistry} from './route-registry'
+import {createUserService} from './services/user-service'
 
 // Bootstrapping code
 
 let horizon = Horizon();
-let store = (localforage as any as LocalForage).createInstance({storeName: 'collaboration'});
+let store = (localforage as any as LocalForage).createInstance({ storeName: 'collaboration' });
 
 let horizonReady = false;
-let userInfo: UserInfo;
+let userServiceReady = false;
+let projector = createProjector({});
+let userService = createUserService(horizon, store, projector.scheduleRender);
 
 let startApp = () => {
-  let projector = createProjector({});
-  let router = createRouter(window, projector, createRouteRegistry(horizon, projector, userInfo));
-  let app = createApp(horizon, store, userInfo, router, projector);
-  document.body.innerHTML = '';
-  projector.merge(document.body, app.renderMaquette);
+    let router = createRouter(window, projector, createRouteRegistry(horizon, projector, userService));
+    let app = createApp(horizon, store, router, userService, projector);
+    document.body.innerHTML = '';
+    projector.merge(document.body, app.renderMaquette);
 }
 
-store.getItem('user-info').then((info: UserInfo) => {
-  userInfo = info;
-  if (horizonReady) {
-    startApp();
-  }
+userService.initialize().then(() => {
+    userServiceReady = true;
+    if (horizonReady) {
+        startApp();
+    }
 });
 
 horizon.onReady(() => {
-  horizonReady = true;
-  if (userInfo !== undefined) {
-    startApp();
-  }
+    horizonReady = true;
+    if (userServiceReady) {
+        startApp();
+    }
 });
 
 horizon.connect();

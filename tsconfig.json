@@ -9,5 +9,9 @@
     "exclude": [
         "node_modules",
         ".c9"
+    ],
+    "filesGlob": [
+        "src/**/*.ts",
+        "test/**/*.ts"
     ]
 }
