@@ -16,9 +16,10 @@ let store = (localforage as any as LocalForage).createInstance({ storeName: 'col
 let horizonReady = false;
 let userServiceReady = false;
 let projector = createProjector({});
-let userService = createUserService(horizon, store, projector.scheduleRender);
+let userService = createUserService(store, projector.scheduleRender);
 
 let startApp = () => {
+    userService.initializeHorizon(horizon);
     let router = createRouter(window, projector, createRouteRegistry(horizon, projector, userService));
     let app = createApp(horizon, store, router, userService, projector);
     document.body.innerHTML = '';
