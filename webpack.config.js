@@ -1,5 +1,6 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 
 module.exports = {
@@ -39,9 +40,13 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Collaboration',
+      title: 'Mobile Web Experiments',
       template: 'index.ejs'
-    })
+    }),
+    new CopyWebpackPlugin([
+      // {output}/file.txt 
+      { from: 'public' }
+    ])
   ],
   devServer: {
     contentBase: './public'
