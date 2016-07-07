@@ -2,6 +2,7 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var autoprefixer = require('autoprefixer');
+var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -46,7 +47,14 @@ module.exports = {
     new CopyWebpackPlugin([
       // {output}/file.txt 
       { from: 'public' }
-    ])
+    ]),
+    new SWPrecacheWebpackPlugin({
+      cacheId: "mobile-web-experiments",
+      dynamicUrlToDependencies: {
+        '/': ['index.ejs'],
+        '/index.html': ['index.ejs']
+      }
+    })
   ],
   devServer: {
     contentBase: './public'

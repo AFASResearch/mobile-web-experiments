@@ -6,5 +6,5 @@ To run the application, install rethinkdb and execute the following commands:
 npm install -g horizon webpack
 npm install
 webpack
-hz serve --dev --bind $IP --port 8081
+hz serve --dev --bind $IP --port $PORT
 ```

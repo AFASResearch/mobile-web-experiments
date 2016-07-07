@@ -7,10 +7,11 @@ import {createUserListPage} from '../pages/user-list-page';
 import {randomId} from '../utilities';
 import {Router} from '../services/router';
 import {UserService} from '../services/user-service';
+import {DataService} from '../services/data-service';
 
-export let createApp = (horizon: any, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
+export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
-    let registerPage = createRegisterPage(userService, randomId());
+    let registerPage = createRegisterPage(dataService, userService, randomId());
 
     return {
         renderMaquette: () => {

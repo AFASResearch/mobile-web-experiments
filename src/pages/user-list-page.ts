@@ -1,13 +1,14 @@
 import {Projector, h} from 'maquette';
+import {DataService} from '../services/data-service';
 import {UserInfo} from '../interfaces';
 import {createPage} from '../components/page/page';
 import {createList} from '../components/list/list';
 
-export let createUserListPage = (horizon: any, projector: Projector) => {
+export let createUserListPage = (dataService: DataService, projector: Projector) => {
 
     let users: UserInfo[] = undefined;
 
-    let usersCollection = horizon('users');
+    let usersCollection = dataService.horizon('users');
 
     let subscription = usersCollection.order('lastName').watch().subscribe((allUsers: UserInfo[]) => {
         users = allUsers;
@@ -29,6 +30,7 @@ export let createUserListPage = (horizon: any, projector: Projector) => {
         });
     let page = createPage({
         title: 'Users',
+        dataService,
         body: [
             list
         ]
