@@ -8,3 +8,5 @@ npm install
 webpack
 hz serve --dev --bind $IP --port $PORT
 ```
+
+Good luck
