@@ -8,29 +8,29 @@ import {DataService} from '../services/data-service';
 
 
 export let createRegisterPage = (dataService: DataService, userService: UserService, id: string) => {
-    let firstName = 'Funny';
-    let lastName = 'Crocodile';
-    let company = '';
+  let firstName = 'Funny';
+  let lastName = 'Crocodile';
+  let company = '';
 
-    let doRegister = () => {
-        userService.updateUserInfo({
-            id,
-            firstName,
-            lastName,
-            company
-        })
-    };
-
-    let page = createPage({
-        title: 'Registration',
-        dataService,
-        body: [
-            createText({ htmlContent: 'How may we identify you?' }),
-            createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value } }),
-            createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value } }),
-            createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value } }),
-            createButton({ text: 'Register', primary: true }, { onClick: doRegister })
-        ]
+  let doRegister = () => {
+    userService.updateUserInfo({
+      id,
+      firstName,
+      lastName,
+      company
     })
-    return page;
+  };
+
+  let page = createPage({
+    title: 'Registration',
+    dataService,
+    body: [
+      createText({ htmlContent: 'How may we identify you?' }),
+      createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value } }),
+      createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value } }),
+      createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value } }),
+      createButton({ text: 'Register', primary: true }, { onClick: doRegister })
+    ]
+  })
+  return page;
 }

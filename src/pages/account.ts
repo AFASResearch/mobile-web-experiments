@@ -9,27 +9,27 @@ import {DataService} from '../services/data-service';
 
 export let createAccountPage = (dataService: DataService, userService: UserService) => {
 
-    let {id, firstName, lastName, company} = userService.getUserInfo();
-    
-    let doUpdate = () => {
-        userService.updateUserInfo({
-            id,
-            firstName,
-            lastName,
-            company
-        })
-    };
+  let {id, firstName, lastName, company} = userService.getUserInfo();
 
-    let page = createPage({
-        title: 'Account',
-        dataService,
-        body: [
-            createText({ htmlContent: 'About me' }),
-            createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value } }),
-            createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value } }),
-            createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value } }),
-            createButton({ text: 'Update', primary: true }, { onClick: doUpdate })
-        ]
+  let doUpdate = () => {
+    userService.updateUserInfo({
+      id,
+      firstName,
+      lastName,
+      company
     })
-    return page;
+  };
+
+  let page = createPage({
+    title: 'Account',
+    dataService,
+    body: [
+      createText({ htmlContent: 'About me' }),
+      createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value } }),
+      createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value } }),
+      createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value } }),
+      createButton({ text: 'Update', primary: true }, { onClick: doUpdate })
+    ]
+  })
+  return page;
 }

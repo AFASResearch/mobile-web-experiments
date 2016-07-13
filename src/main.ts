@@ -23,26 +23,26 @@ let userService = createUserService(store, projector.scheduleRender);
 let dataService = createDataService(horizon, projector.scheduleRender);
 
 let startApp = () => {
-    userService.initializeHorizon(horizon);
-    let router = createRouter(window, projector, createRouteRegistry(dataService, projector, userService));
-    let app = createApp(dataService, store, router, userService, projector);
-    document.body.innerHTML = '';
-    projector.merge(document.body, app.renderMaquette);
+  userService.initializeHorizon(horizon);
+  let router = createRouter(window, projector, createRouteRegistry(dataService, projector, userService));
+  let app = createApp(dataService, store, router, userService, projector);
+  document.body.innerHTML = '';
+  projector.merge(document.body, app.renderMaquette);
 }
 
 userService.initialize().then(() => {
-    userServiceReady = true;
-    if (horizonReady) {
-        userService.initializeHorizon(horizon);
-    }
-    startApp();
+  userServiceReady = true;
+  if (horizonReady) {
+    userService.initializeHorizon(horizon);
+  }
+  startApp();
 });
 
 horizon.onReady(() => {
-    horizonReady = true;
-    if (userServiceReady) {
-       userService.initializeHorizon(horizon);
-    }
+  horizonReady = true;
+  if (userServiceReady) {
+    userService.initializeHorizon(horizon);
+  }
 });
 
 horizon.connect();

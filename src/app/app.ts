@@ -11,13 +11,13 @@ import {DataService} from '../services/data-service';
 
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
-    let registerPage = createRegisterPage(dataService, userService, randomId());
+  let registerPage = createRegisterPage(dataService, userService, randomId());
 
-    return {
-        renderMaquette: () => {
-            return h('body', { class: styles.app }, [
-                userService.getUserInfo() ? router.renderMaquette() : registerPage.renderMaquette()
-            ]);
-        }
+  return {
+    renderMaquette: () => {
+      return h('body', { class: styles.app }, [
+        userService.getUserInfo() ? router.renderMaquette() : registerPage.renderMaquette()
+      ]);
     }
+  }
 };
