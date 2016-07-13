@@ -1,5 +1,6 @@
 import {Component, h} from 'maquette';
 import {DataService} from '../../services/data-service';
+import {createMainMenu} from '../../components/main-menu/main-menu';
 
 let styles = <any>require('./page.css');
 
@@ -14,12 +15,15 @@ export interface PageConfig {
     body: Component[];
 }
 
+let mainMenu = createMainMenu();
+
 export let createPage = (config: PageConfig) => {
     let {dataService, title, body} = config;
     let page = {
         renderMaquette: () => {
             let renderTitle = typeof title === 'string' ? title : title();
             return h('div', { class: styles.page, key: page }, [
+                mainMenu.renderMaquette(),
                 h('div', { class: styles.header }, [
                     // backButton
                     h('span', { class: styles.title }, [renderTitle]),
