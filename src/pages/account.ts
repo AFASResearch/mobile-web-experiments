@@ -17,7 +17,8 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       firstName,
       lastName,
       company
-    })
+    });
+    document.location.hash = '#users';
   };
 
   let page = createPage({

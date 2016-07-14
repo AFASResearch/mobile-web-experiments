@@ -14,7 +14,7 @@ import {createUserService} from './services/user-service'
 // Bootstrapping code
 
 let horizon = Horizon();
-let store = (localforage as any as LocalForage).createInstance({ storeName: 'collaboration' });
+let store = (localforage as any as LocalForage).createInstance({ storeName: 'mobile-web-experiments' });
 
 let horizonReady = false;
 let userServiceReady = false;

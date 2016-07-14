@@ -8,8 +8,8 @@ import {DataService} from '../services/data-service';
 
 
 export let createRegisterPage = (dataService: DataService, userService: UserService, id: string) => {
-  let firstName = 'Funny';
-  let lastName = 'Crocodile';
+  let firstName = '';
+  let lastName = '';
   let company = '';
 
   let doRegister = () => {

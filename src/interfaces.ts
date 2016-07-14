@@ -19,11 +19,3 @@ export interface MessageInfo {
   date: Date;
   timestamp: number;
 }
-
-export interface Page extends Component {
-  destroy?(): void;
-}
-
-export interface RouteRegistry {
-  initializePage(route: string): Page;
-}

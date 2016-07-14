@@ -18,9 +18,7 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
   });
 
   let messagesSubscription = dataService.horizon('directMessages')
-    .findAll(
-    { chatRoomId: chatRoomId }
-    )
+    .findAll({ chatRoomId: chatRoomId })
     .order('timestamp', 'descending')
     .limit(500)
     .watch()
@@ -63,6 +61,10 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     body: [
       list,
       messageComposer
-    ]
+    ],
+    destroy: () => {
+      otherUserSubscription.unsubscribe();
+      messagesSubscription.unsubscribe();
+    }
   });
 }

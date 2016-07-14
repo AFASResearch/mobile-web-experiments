@@ -1,15 +1,18 @@
 import {Projector} from 'maquette';
-import {RouteRegistry, UserInfo} from './interfaces';
+import {Page} from './components/page/page';
 import {createUserListPage} from './pages/user-list-page';
 import {createAccountPage} from './pages/account';
 import {createChatPage} from './pages/chat-page';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
 
+export interface RouteRegistry {
+  initializePage(route: string): Page;
+}
 
 export let createRouteRegistry = (dataService: DataService, projector: Projector, userService: UserService): RouteRegistry => {
   return {
-    initializePage: (route: string) => {
+    initializePage: (route: string): Page => {
       switch (route) {
         case 'users':
           return createUserListPage(dataService, projector);

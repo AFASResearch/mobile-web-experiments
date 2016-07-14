@@ -1,4 +1,4 @@
-import {Component, h} from 'maquette';
+import {Component, VNode, h} from 'maquette';
 import {DataService} from '../../services/data-service';
 import {createMainMenu} from '../../components/main-menu/main-menu';
 
@@ -11,27 +11,31 @@ export interface PageConfig {
     title: string;
     route: string;
   };
+  destroy?(): void;
   // Note: the body components should handle scrolling themselves
   body: Component[];
 }
 
-let mainMenu = createMainMenu();
+export interface Page {
+  renderHeader(): VNode;
+  renderBody(): VNode;
+  destroy?(): void;
+}
 
-export let createPage = (config: PageConfig) => {
-  let {dataService, title, body} = config;
-  let page = {
-    renderMaquette: () => {
-      let renderTitle = typeof title === 'string' ? title : title();
+export let createPage = (config: PageConfig): Page => {
+  let {dataService, title, body, destroy} = config;
+  let getTitle = typeof title === 'string' ? () => title : title;
+  let page: Page = {
+    destroy,
+    renderHeader: () => {
+      return h('div', { class: styles.header }, [
+        // backButton
+        h('span', { class: styles.title }, [getTitle()])
+      ])
+    },
+    renderBody: () => {
       return h('div', { class: styles.page, key: page }, [
-        mainMenu.renderMaquette(),
-        h('div', { class: styles.header }, [
-          // backButton
-          h('span', { class: styles.title }, [renderTitle]),
-          h('div', { class: styles.status }, [dataService.isOnline() ? 'V' : 'X'])
-        ]),
-        h('div', { class: styles.body }, [
-          config.body.map(c => c.renderMaquette())
-        ])
+        body.map(c => c.renderMaquette())
       ]);
     }
   };

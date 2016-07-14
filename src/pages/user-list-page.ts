@@ -28,18 +28,16 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
         return h('a', { href: `#chat/${item.id}` }, [(item as any)[columnKey]]);
       }
     });
-  let page = createPage({
+
+  return createPage({
     title: 'Users',
     dataService,
     body: [
       list
-    ]
-  });
-
-  return {
-    renderMaquette: page.renderMaquette,
+    ],
     destroy: () => {
       subscription.unsubscribe();
     }
-  }
+  });
+
 };

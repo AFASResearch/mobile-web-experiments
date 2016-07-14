@@ -1,12 +1,14 @@
 import {Projector, Component} from 'maquette';
-import {RouteRegistry, Page} from '../interfaces';
+import {RouteRegistry} from '../route-registry';
+import {Page} from '../components/page/page';
 
-export interface Router extends Component {
+export interface Router {
+  getCurrentPage: () => Page;
 }
 
 export let createRouter = (window: Window, projector: Projector, registry: RouteRegistry): Router => {
   let hash = window.location.hash.substr(1);
-  let page: Page = registry.initializePage(hash);
+  let page: Page;
 
   window.onhashchange = (evt) => {
     projector.scheduleRender();
@@ -18,6 +20,11 @@ export let createRouter = (window: Window, projector: Projector, registry: Route
   }
 
   return {
-    renderMaquette: () => page.renderMaquette()
+    getCurrentPage: () => {
+      if (!page) {
+         page = registry.initializePage(hash);
+      }
+      return page
+    }
   };
 }
