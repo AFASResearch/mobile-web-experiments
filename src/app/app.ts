@@ -1,9 +1,7 @@
-import {h, Projector, Component} from 'maquette';
+import {h, Projector} from 'maquette';
 let styles = <any>require('./app.css');
 
-import {UserInfo} from '../interfaces';
 import {createRegisterPage} from '../pages/register-page';
-import {createUserListPage} from '../pages/user-list-page';
 import {randomId} from '../utilities';
 import {Router} from '../services/router';
 import {UserService} from '../services/user-service';
@@ -17,18 +15,18 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
   return {
     renderMaquette: () => {
-      let currentPage = userService.getUserInfo() ? router.getCurrentPage() : registerPage ;
-      
+      let currentPage = userService.getUserInfo() ? router.getCurrentPage() : registerPage;
+
       return h('body', { class: styles.app }, [
-        h('div', {class: styles.header}, [
+        h('div', { class: styles.header }, [
           mainMenu.renderMaquette(),
           currentPage.renderHeader(),
           h('div', { class: styles.status }, [dataService.isOnline() ? 'V' : 'X'])
         ]),
-        h('div', {key: currentPage, class: styles.body}, [
+        h('div', { key: currentPage, class: styles.body }, [
           currentPage.renderBody()
         ])
       ]);
     }
-  }
+  };
 };

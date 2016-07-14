@@ -22,8 +22,8 @@ export let createTextField = (config: TextFieldConfig, bindings: TextFieldBindin
       return h('label', { class: styles.textField, key: textField }, [
         h('span', { class: styles.label }, [config.label]),
         h('input', { class: styles.input, type: 'text', value: getValue(), oninput: handleInput })
-      ])
+      ]);
     }
   };
   return textField;
-}
+};

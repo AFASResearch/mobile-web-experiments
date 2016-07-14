@@ -15,13 +15,15 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
     projector.scheduleRender();
   });
 
-  let list = createList({
-    columns: [
-      { header: 'First Name', key: 'firstName' },
-      { header: 'Last Name', key: 'lastName' },
-      { header: 'Company', key: 'company' }
-    ]
-  }, {
+  let list = createList(
+    {
+      columns: [
+        { header: 'First Name', key: 'firstName' },
+        { header: 'Last Name', key: 'lastName' },
+        { header: 'Company', key: 'company' }
+      ]
+    },
+    {
       getItems: () => users,
       getKey: (user: UserInfo) => user.id,
       renderCell: (item: UserInfo, columnKey: string) => {

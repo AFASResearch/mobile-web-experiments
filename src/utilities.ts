@@ -7,4 +7,4 @@ export let nameOfUser = (user: UserInfo) => {
     return '';
   }
   return `${user.firstName} ${user.lastName}`;
-}
+};

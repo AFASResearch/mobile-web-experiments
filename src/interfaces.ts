@@ -1,4 +1,3 @@
-import {Component} from 'maquette';
 
 export interface UserInfo {
   id: string;
@@ -6,7 +5,7 @@ export interface UserInfo {
   lastName: string;
   company?: string;
   oauth?: {
-  }
+  };
 }
 
 export interface MessageInfo {

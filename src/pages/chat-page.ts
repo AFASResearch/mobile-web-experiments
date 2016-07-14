@@ -2,7 +2,6 @@ import {Projector} from 'maquette';
 import {createList} from '../components/list/list';
 import {DataService} from '../services/data-service';
 import {createPage} from '../components/page/page';
-import {createTextField} from '../components/text-field/text-field';
 import {createMessageComposer} from '../components/message-composer/message-composer';
 import {UserInfo, MessageInfo} from '../interfaces';
 import {nameOfUser, randomId} from '../utilities';
@@ -12,8 +11,8 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
   let messages: MessageInfo[];
   let chatRoomId = [user.id, toUserId].sort().join('-'); // format: lowestUserId-highestUserId
 
-  let otherUserSubscription = dataService.horizon('users').find(toUserId).watch().subscribe((user: UserInfo) => {
-    otherUser = user;
+  let otherUserSubscription = dataService.horizon('users').find(toUserId).watch().subscribe((userInfo: UserInfo) => {
+    otherUser = userInfo;
     projector.scheduleRender();
   });
 
@@ -51,7 +50,7 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
       toUserId
     };
     dataService.horizon('directMessages').upsert(message);
-  }
+  };
 
   let messageComposer = createMessageComposer({ sendMessage });
 
@@ -67,4 +66,4 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
       messagesSubscription.unsubscribe();
     }
   });
-}
+};

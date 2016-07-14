@@ -1,4 +1,4 @@
-import {h, VNode} from 'maquette';
+import {h} from 'maquette';
 let styles = <any>require('./message-composer.css');
 
 export interface MessageComposerBindings {
@@ -13,10 +13,12 @@ export let createMessageComposer = (bindings: MessageComposerBindings) => {
       bindings.sendMessage(textToSend);
       textToSend = '';
     }
-  }
+  };
+
   let handleInput = (evt: Event) => {
     textToSend = (evt.target as HTMLInputElement).value;
   };
+
   let handleSendClick = (evt: Event) => {
     evt.preventDefault();
     bindings.sendMessage(textToSend);
@@ -28,7 +30,7 @@ export let createMessageComposer = (bindings: MessageComposerBindings) => {
       return h('div', { class: styles.messageComposer }, [
         h('input', { class: styles.input, value: textToSend, oninput: handleInput, onkeydown: handleKeyDown }),
         h('button', { class: styles.send, onclick: handleSendClick }, ['Send'])
-      ])
+      ]);
     }
-  }
-}
+  };
+};

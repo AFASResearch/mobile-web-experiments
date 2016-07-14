@@ -13,5 +13,5 @@ export let createDataService = (horizon: any, scheduleRender: () => void): DataS
   return {
     horizon,
     isOnline: () => status === 'ready'
-  }
-}
+  };
+};

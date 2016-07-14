@@ -15,13 +15,13 @@ export let createButton = (config: ButtonConfig, bindings: ButtonBindings) => {
   let handleClick = (evt: Event) => {
     evt.preventDefault();
     bindings.onClick();
-  }
+  };
 
   return {
     renderMaquette: () => {
       return h('button', { class: styles.button, classes: { [styles.primary]: config.primary }, onclick: handleClick }, [
         config.text
-      ])
+      ]);
     }
-  }
+  };
 };

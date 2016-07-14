@@ -1,12 +1,11 @@
 import {Component, VNode, h} from 'maquette';
 import {DataService} from '../../services/data-service';
-import {createMainMenu} from '../../components/main-menu/main-menu';
 
 let styles = <any>require('./page.css');
 
 export interface PageConfig {
   title: string | (() => string);
-  dataService: DataService,
+  dataService: DataService;
   backButton?: {
     title: string;
     route: string;
@@ -23,7 +22,7 @@ export interface Page {
 }
 
 export let createPage = (config: PageConfig): Page => {
-  let {dataService, title, body, destroy} = config;
+  let {title, body, destroy} = config;
   let getTitle = typeof title === 'string' ? () => title : title;
   let page: Page = {
     destroy,
@@ -31,7 +30,7 @@ export let createPage = (config: PageConfig): Page => {
       return h('div', { class: styles.header }, [
         // backButton
         h('span', { class: styles.title }, [getTitle()])
-      ])
+      ]);
     },
     renderBody: () => {
       return h('div', { class: styles.page, key: page }, [

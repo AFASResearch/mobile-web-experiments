@@ -1,4 +1,4 @@
-declare module "@horizon/client" {
+declare module '@horizon/client' {
   function Horizon(args?: any): any;
   export = Horizon;
 }

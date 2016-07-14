@@ -4,12 +4,11 @@ import Horizon = require('@horizon/client');
 import localforage = require('localforage');
 import {createProjector} from 'maquette';
 
-import {UserInfo} from './interfaces';
 import {createApp} from './app/app';
 import {createRouter} from './services/router';
 import {createDataService} from './services/data-service';
-import {createRouteRegistry} from './route-registry'
-import {createUserService} from './services/user-service'
+import {createRouteRegistry} from './route-registry';
+import {createUserService} from './services/user-service';
 
 // Bootstrapping code
 
@@ -28,7 +27,7 @@ let startApp = () => {
   let app = createApp(dataService, store, router, userService, projector);
   document.body.innerHTML = '';
   projector.merge(document.body, app.renderMaquette);
-}
+};
 
 userService.initialize().then(() => {
   userServiceReady = true;

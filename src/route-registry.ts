@@ -21,7 +21,7 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
         default:
           let match = /chat\/(\w+)/.exec(route);
           if (match) {
-            return createChatPage(dataService, userService.getUserInfo(), match[1], projector)
+            return createChatPage(dataService, userService.getUserInfo(), match[1], projector);
           }
           // Nothing matches, default page:
           return createUserListPage(dataService, projector);

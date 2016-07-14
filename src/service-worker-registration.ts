@@ -4,7 +4,7 @@ if ('serviceWorker' in navigator) {
     reg.onupdatefound = function() {
       // The updatefound event implies that reg.installing is set; see
       // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#service-worker-container-updatefound-event
-      var installingWorker = reg.installing;
+      let installingWorker = reg.installing;
       console.log('Installing new service worker...');
 
       installingWorker.onstatechange = function() {

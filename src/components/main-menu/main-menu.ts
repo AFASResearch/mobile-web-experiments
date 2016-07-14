@@ -1,4 +1,4 @@
-import {h, VNode} from 'maquette';
+import {h} from 'maquette';
 let styles = <any>require('./main-menu.css');
 
 const MENU_ITEMS: { text: string, route: string }[] = [
@@ -23,17 +23,17 @@ export let createMainMenu = () => {
   let handleOverlayClick = (evt: Event) => {
     evt.preventDefault();
     isOpen = false;
-  }
+  };
 
   let handleMenuButtonClick = (evt: Event) => {
     evt.preventDefault();
     isOpen = true;
-  }
+  };
 
   let handleItemClick = (evt: Event) => {
     isOpen = false;
     // not preventing default, so the url changes and routing kicks in
-  }
+  };
 
   return {
     renderMaquette: () => {
@@ -48,8 +48,8 @@ export let createMainMenu = () => {
             ])
           ] : undefined
         ]),
-        h('div', { key: 'openButton', class: styles.openButton, onclick: handleMenuButtonClick }, ['M']),
+        h('div', { key: 'openButton', class: styles.openButton, onclick: handleMenuButtonClick }, ['M'])
       ]);
     }
-  }
-}
+  };
+};

@@ -1,4 +1,4 @@
-import {Projector, Component} from 'maquette';
+import {Projector} from 'maquette';
 import {RouteRegistry} from '../route-registry';
 import {Page} from '../components/page/page';
 
@@ -17,14 +17,14 @@ export let createRouter = (window: Window, projector: Projector, registry: Route
       page.destroy();
     }
     page = registry.initializePage(hash.substr(1)); // strips the # token
-  }
+  };
 
   return {
     getCurrentPage: () => {
       if (!page) {
-         page = registry.initializePage(hash);
+        page = registry.initializePage(hash);
       }
-      return page
+      return page;
     }
   };
-}
+};

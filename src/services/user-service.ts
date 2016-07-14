@@ -1,4 +1,5 @@
-import {UserInfo} from '../interfaces'
+import {UserInfo} from '../interfaces';
+
 export interface UserService {
   initialize(): Promise<void>;
   initializeHorizon(horizon: any): void;
@@ -12,7 +13,7 @@ export let createUserService = (store: LocalForage, scheduleRender: () => void):
 
   let updateUserInfo = (newUserInfo: UserInfo) => {
     users.upsert(newUserInfo).subscribe({
-      error: (msg: Object) => { console.error(msg) },
+      error: (msg: Object) => { console.error(msg); },
       complete: () => {
         store.setItem('user-info', newUserInfo).then(() => {
           userInfo = newUserInfo;
@@ -32,17 +33,20 @@ export let createUserService = (store: LocalForage, scheduleRender: () => void):
       users = horizon('users');
       // synchronize the userInfo with horizon in the background
       if (userInfo) {
-        users.findAll({ id: userInfo.id }).fetch().subscribe((serverInfo: UserInfo[]) => {
-          if (serverInfo.length === 0) {
-            // The server forgot about us, lets remind him who we are
-            updateUserInfo(userInfo)
-          } else {
-            // The server may have updated info
-            userInfo = serverInfo[0];
+        users.findAll({ id: userInfo.id }).fetch().subscribe(
+          (serverInfo: UserInfo[]) => {
+            if (serverInfo.length === 0) {
+              // The server forgot about us, lets remind him who we are
+              updateUserInfo(userInfo);
+            } else {
+              // The server may have updated info
+              userInfo = serverInfo[0];
+            }
+          },
+          (err: any) => {
+            console.error(err);
           }
-        }, (err: any) => {
-          console.error(err);
-        });
+        );
       }
     },
     updateUserInfo,
