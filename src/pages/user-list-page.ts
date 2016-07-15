@@ -28,7 +28,11 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
       getItems: () => users,
       getKey: (user: UserInfo) => user.id,
       renderCell: (item: UserInfo, columnKey: string) => {
-        return h('a', { href: `#chat/${item.id}` }, [(item as any)[columnKey]]);
+        if (columnKey != 'phoneNumber') { 
+          return h('a', { href: `#chat/${item.id}` }, [(item as any)[columnKey]]);
+        } else { 
+          return h('a', { href: `tel:` + (item as any)[columnKey] }, [(item as any)[columnKey]]);
+        }
       }
     });
 
