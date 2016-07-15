@@ -20,6 +20,7 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
       columns: [
         { header: 'First Name', key: 'firstName' },
         { header: 'Last Name', key: 'lastName' },
+        { header: 'Phone number', key: 'phoneNumber' },
         { header: 'Company', key: 'company' }
       ]
     },

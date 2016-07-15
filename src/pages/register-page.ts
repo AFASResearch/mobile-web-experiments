@@ -9,12 +9,14 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
   let firstName = '';
   let lastName = '';
   let company = '';
+  let phoneNumber = '';
 
   let doRegister = () => {
     userService.updateUserInfo({
       id,
       firstName,
       lastName,
+      phoneNumber,
       company
     });
   };
@@ -26,6 +28,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       createText({ htmlContent: 'How may we identify you?' }),
       createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value; } }),
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
+      createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
       createButton({ text: 'Register', primary: true }, { onClick: doRegister })
     ]
