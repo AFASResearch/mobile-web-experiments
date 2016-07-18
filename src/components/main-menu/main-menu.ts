@@ -48,7 +48,7 @@ export let createMainMenu = () => {
             ])
           ] : undefined
         ]),
-        h('div', { key: 'openButton', class: styles.openButton, onclick: handleMenuButtonClick }, ['M'])
+        h('div', { key: 'openButton', class: styles.openButton, onclick: handleMenuButtonClick }, ['☰'])
       ]);
     }
   };
