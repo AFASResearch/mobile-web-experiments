@@ -8,6 +8,14 @@ import {h} from 'maquette';
 
 export let createCameraPage = (dataService: DataService, userService: UserService) => {
 
+      function gotPic(event : any) {
+        if(event.target.files.length == 1 && 
+           event.target.files[0].type.indexOf("image/") == 0) {
+           var mobileScreenshot = <HTMLImageElement> document.getElementById("mobile-screenshot")
+           mobileScreenshot.src = URL.createObjectURL(event.target.files[0]);
+        }
+	    }
+
     function createScreenShot() { 
         console.log("creating screenshot...");
         var w = <any>window;
@@ -18,7 +26,8 @@ export let createCameraPage = (dataService: DataService, userService: UserServic
         var video = <HTMLVideoElement> document.getElementById("video");
         var videoObj = { "video": true };
         var errBack = function(error : any) {
-          console.log("Video capture error: ", error.code); 
+          alert("Video capture error: " + error.code); 
+
         };
 
         var n = <any>navigator;
@@ -40,10 +49,11 @@ export let createCameraPage = (dataService: DataService, userService: UserServic
             video.src = window.URL.createObjectURL(stream);
             video.play();
           }, errBack);
-        }
-	      context.drawImage(video, 0, 0, 640, 480);
+        } else {
+           alert("getUserMedia not supported");
+        } 
+	      context.drawImage(video, 0, 0, 320, 240);
        }
-
 
   let page = createPage({
     title: 'Camera',
@@ -52,10 +62,17 @@ export let createCameraPage = (dataService: DataService, userService: UserServic
       createText({ htmlContent: 'May I take your picture?' }),
        {
         renderMaquette: () => {
-            return  h('div', {class: "test"},[
-                h('video', {id: "video", width: '640', height: '480'}),
+            return  h('div', {class: "camera-container"},[
+                h('b', ['desktop version:']),
+                h('hr'),
+                h('video', {id: "video", width: '320', height: '240'}),
                 h('button', {id: "snap", onclick: createScreenShot}, ['snap photo']),
-                h('canvas', {id: "canvas", width: '640', height: '480'})
+                h('canvas', {id: "canvas", width: '320', height: '240'}),
+                h('br'),
+                h('b', ['mobile version:']),
+                h('hr'),
+                h('input', {type: "file", capture: 'camera', accept: 'image/*', id: 'takePictureField', onchange: gotPic}),
+                h('img', {id: 'mobile-screenshot', height: '100px', width: '100px'})
             ]);
         }
     }
