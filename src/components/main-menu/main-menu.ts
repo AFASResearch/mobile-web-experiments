@@ -9,6 +9,10 @@ const MENU_ITEMS: { text: string, route: string }[] = [
   {
     text: 'People',
     route: 'users'
+  },
+  {
+    text: 'Camera',
+    route: 'camera'
   }
 ];
 

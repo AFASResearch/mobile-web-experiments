@@ -2,6 +2,8 @@ import {Projector} from 'maquette';
 import {Page} from './components/page/page';
 import {createUserListPage} from './pages/user-list-page';
 import {createAccountPage} from './pages/account';
+import {createCameraPage} from './pages/camera';
+
 import {createChatPage} from './pages/chat-page';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
@@ -18,6 +20,9 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
           return createUserListPage(dataService, projector);
         case 'account':
           return createAccountPage(dataService, userService);
+        case 'camera':
+         // return createUserListPage(dataService, projector);
+         return createCameraPage(dataService, userService);
         default:
           let match = /chat\/(\w+)/.exec(route);
           if (match) {
