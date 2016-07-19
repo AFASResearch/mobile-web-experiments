@@ -21,8 +21,8 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
         case 'account':
           return createAccountPage(dataService, userService);
         case 'camera':
-         // return createUserListPage(dataService, projector);
-         return createCameraPage(dataService, userService);
+          // return createUserListPage(dataService, projector);
+          return createCameraPage(dataService, userService);
         default:
           let match = /chat\/(\w+)/.exec(route);
           if (match) {
