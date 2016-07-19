@@ -21,7 +21,6 @@ let showModalButton = createButton(buttonConfig, { onClick: toggleModal });
 export let createModal = (content: Component) => {
     return {
         renderMaquette: () => {
-
             let modal = h('div', [
                 showModalButton.renderMaquette(),
                 h('div',

@@ -73,8 +73,16 @@ export let createCameraPage = (dataService: DataService, userService: UserServic
 
   let snapShotButton = createButton({
     text: 'Create Snapshot',
-    primary: true
+    primary: false
   }, { onClick: createScreenShot });
+
+    let saveButton = createButton({
+    text: 'Save this image',
+    primary: true
+    }, { onClick: function() { 
+      console.log('saving is not working yet~!') 
+    }
+  });
 
   let modal = createModal(createLiveCamera(snapShotButton));
 
@@ -87,14 +95,15 @@ export let createCameraPage = (dataService: DataService, userService: UserServic
         renderMaquette: () => {
           return h('div', { class: "camera-container" }, [
             getUserMediaIsSupported ? modal.renderMaquette() : '',
-            //h('button', {id: "snap", onclick: createScreenShot}, ['snap photo']),
             h('input', { type: "file", capture: 'camera', accept: 'image/*', id: 'takePictureField', onchange: getPicture }),
 
             // after the DOM is loaded we will try to load the video in it
             h('canvas', { id: "canvas", width: '320', height: '240', afterCreate: initCamera }),
+            saveButton.renderMaquette() 
           ]);
         }
-      }
+      },
+
     ]
   });
   return page;

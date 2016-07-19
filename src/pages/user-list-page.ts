@@ -21,6 +21,7 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
         { header: 'First Name', key: 'firstName' },
         { header: 'Last Name', key: 'lastName' },
         { header: 'Phone number', key: 'phoneNumber' },
+        { header: 'Profile picture URL', key: 'imageUrl'},
         { header: 'Company', key: 'company' }
       ]
     },

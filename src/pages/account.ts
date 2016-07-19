@@ -7,7 +7,7 @@ import {DataService} from '../services/data-service';
 
 export let createAccountPage = (dataService: DataService, userService: UserService) => {
 
-  let {id, firstName, lastName, phoneNumber, company} = userService.getUserInfo();
+  let {id, firstName, lastName, phoneNumber, imageUrl, company} = userService.getUserInfo();
 
   let doUpdate = () => {
     userService.updateUserInfo({
@@ -15,7 +15,8 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       firstName,
       lastName,
       phoneNumber,
-      company
+      company,
+      imageUrl
     });
     document.location.hash = '#users';
   };
@@ -29,6 +30,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
+      createTextField({ label: 'profile picture URL' }, { getValue: () => imageUrl, setValue: (value) => { imageUrl = value; } }),
       createButton({ text: 'Update', primary: true }, { onClick: doUpdate })
     ]
   });
