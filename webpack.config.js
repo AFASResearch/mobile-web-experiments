@@ -17,7 +17,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.ts', '.webpack.js', '.web.js', '.js', '.css']
+    extensions: ['', '.ts', '.webpack.js', '.web.js', '.js', '.css'],
   },
 
   // Source maps support ('inline-source-map' also works)
@@ -36,8 +36,8 @@ module.exports = {
       }
     ]
   },
-  postcss: function() {
-    return [autoprefixer({browsers: ['iOS 8', 'last 1 version']})];
+  postcss: function () {
+    return [autoprefixer({ browsers: ['iOS 8', 'last 1 version'] })];
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -6,9 +6,12 @@ import {createButton} from '../components/button/button';
 import {createLiveCamera} from '../components/live-camera/live-camera';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
-import {h} from 'maquette';
+
+import {h, Component} from 'maquette';
 
 export let createCameraPage = (dataService: DataService, userService: UserService) => {
+
+  let getUserMediaIsSupported = true;
 
   let canvas: HTMLCanvasElement,
     context: any,
@@ -48,8 +51,7 @@ export let createCameraPage = (dataService: DataService, userService: UserServic
         video.play();
       }, errBack);
     } else {
-      // we might be able to do some useful stuff here 
-      console.log("getUserMedia not supported");
+      getUserMediaIsSupported = false;
     }
   }
 
@@ -74,21 +76,22 @@ export let createCameraPage = (dataService: DataService, userService: UserServic
     primary: true
   }, { onClick: createScreenShot });
 
+  let modal = createModal(createLiveCamera(snapShotButton));
+
   let page = createPage({
     title: 'Camera',
     dataService,
     body: [
       createText({ htmlContent: 'May I take your picture?' }),
-      createModal(createLiveCamera(snapShotButton)),
       {
         renderMaquette: () => {
           return h('div', { class: "camera-container" }, [
+            getUserMediaIsSupported ? modal.renderMaquette() : '',
             //h('button', {id: "snap", onclick: createScreenShot}, ['snap photo']),
             h('input', { type: "file", capture: 'camera', accept: 'image/*', id: 'takePictureField', onchange: getPicture }),
 
             // after the DOM is loaded we will try to load the video in it
             h('canvas', { id: "canvas", width: '320', height: '240', afterCreate: initCamera }),
-
           ]);
         }
       }

@@ -26,7 +26,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
         h('div', { key: currentPage, class: styles.body }, [
           currentPage.renderBody()
         ])
-      ]);
+      ]); 
     }
   };
 };
