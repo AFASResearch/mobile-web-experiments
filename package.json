@@ -4,8 +4,6 @@
   "repository": "",
   "author": "Johan Gorter <johan@johangorter.com>",
   "dependencies": {
-    "modernizr-loader": "0.0.5",
-    "modernizr-webpack-plugin": "^1.0.5"
   },
   "devDependencies": {
     "@horizon/client": "1.1.3",
@@ -18,6 +16,7 @@
     "localforage": "1.4.2",
     "maquette": "2.3.3",
     "postcss-loader": "0.9.1",
+    "quagga": "^0.11.2",
     "style-loader": "0.13.1",
     "sw-precache-webpack-plugin": "0.3.1",
     "ts-loader": "0.8.2",

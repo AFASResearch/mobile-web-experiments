@@ -39,8 +39,16 @@
 
 canvas {
   border: 1px solid black;
-  display: block;
+  position: absolute;
 }
 
+video { 
+  margin: 24px 8px 8px 8px;
+  position: absolute;
+}
 
+#interactive {
+  position: absolute;
+      margin: 24px 8px 8px 8px;
+}
 

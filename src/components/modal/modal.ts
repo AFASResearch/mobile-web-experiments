@@ -11,8 +11,8 @@ let toggleModal = () => {
 }
 
 let buttonConfig = {
-    text: 'Open modal',
-    primary: true
+    text: 'Use camera',
+    primary: false
 };
 
 

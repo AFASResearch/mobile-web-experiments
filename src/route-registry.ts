@@ -3,7 +3,7 @@ import {Page} from './components/page/page';
 import {createUserListPage} from './pages/user-list-page';
 import {createAccountPage} from './pages/account';
 import {createCameraPage} from './pages/camera';
-
+import { createBarcodePage } from './pages/barcodescanner'
 import {createChatPage} from './pages/chat-page';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
@@ -23,6 +23,9 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
         case 'camera':
           // return createUserListPage(dataService, projector);
           return createCameraPage(dataService, userService);
+        case 'barcodescanner':
+          // return createUserListPage(dataService, projector);
+          return createBarcodePage(dataService, userService);
         default:
           let match = /chat\/(\w+)/.exec(route);
           if (match) {

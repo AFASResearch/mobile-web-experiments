@@ -13,6 +13,10 @@ const MENU_ITEMS: { text: string, route: string }[] = [
   {
     text: 'Camera',
     route: 'camera'
+  },
+  {
+    text: 'Scan Barcodes',
+    route: 'barcodescanner'
   }
 ];
 
