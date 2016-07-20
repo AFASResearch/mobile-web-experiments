@@ -1,42 +1,35 @@
 import {h, Component} from 'maquette';
-import {createButton} from '../button/button';
 let styles = <any>require('./modal.css');
 
-let showModal = false;
-
-let toggleModal = () => {
-
-    showModal = !showModal;
-    console.log(showModal);
+export interface ModalConfig {
+    isOpen: Boolean;
+    title: string;
+    contents: Component[];
 }
 
-let buttonConfig = {
-    text: 'Use camera',
-    primary: false
-};
+export interface ModalBindings {
+    toggleModal: () => void; 
+}
 
+export let createModal = (config: ModalConfig, bindings: ModalBindings) => {
+    let {isOpen, title, contents} = config;
+    let {toggleModal} = bindings; 
 
-let showModalButton = createButton(buttonConfig, { onClick: toggleModal });
-
-export let createModal = (content: Component) => {
     return {
         renderMaquette: () => {
-            let modal = h('div', [
-                showModalButton.renderMaquette(),
-                h('div',
-                    {
-                        class: styles.modal,
-                        styles: {
-                            display: showModal ? 'block' : 'none'
-                        }
-                    }, [
-                        h('div', { class: styles.modalContent }, [
-                            h('div', { class: styles.close, onclick: toggleModal }, ['x']),
-                            content.renderMaquette()
-                        ])
+            if (isOpen) {
+               return  h('div', { class: styles.modal }, [
+                    h('div', { class: styles.modalContent }, [
+                        h('div', { class: styles.modalHeader }, [
+                            title,
+                            h('div', { class: styles.close, onclick: toggleModal}, ['X']),
+                        ]),
+                        contents.map(c => c.renderMaquette())
                     ])
-            ])
-            return modal;
+                ])
+            } else { 
+                return undefined; 
+            }
         }
     }
 }

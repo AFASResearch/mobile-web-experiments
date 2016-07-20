@@ -13,6 +13,7 @@ let styles = <any>require('./image-uploader.css');
 export let createImageUploader = () => {
 
   let getUserMediaIsSupported = true;
+  let modalIsOpen = false; 
 
   let canvas: HTMLCanvasElement,
     context: any,
@@ -20,7 +21,7 @@ export let createImageUploader = () => {
     videoObj: any,
     errBack: any;
 
-  let initCamera = () => {
+  let handleAfterCreateCamera = () => {
     var w = <any>window;
 
     // Grab elements, create settings, etc.
@@ -28,21 +29,21 @@ export let createImageUploader = () => {
     context = canvas.getContext("2d");
     video = <HTMLVideoElement>document.getElementById("video");
     videoObj = { "video": true };
-    errBack = function (error: any) {
+    errBack = (error: any) => {
       alert("Video capture error: " + error.code);
     };
 
     var n = <any>navigator;
-
+    
     // Put video listeners into place
     if (n.getUserMedia) { // Standard
       n.getUserMedia(videoObj, function (stream: any) {
-        video.src = stream;
+        video.src = URL.createObjectURL(stream);
         video.play();
       }, errBack);
     } else if (n.webkitGetUserMedia) { // WebKit-prefixed
       n.webkitGetUserMedia(videoObj, function (stream: any) {
-        video.src = w.webkitURL.createObjectURL(stream);
+        video.src = URL.createObjectURL(stream);
         video.play();
       }, errBack);
     }
@@ -69,24 +70,47 @@ export let createImageUploader = () => {
     }
   }
 
-  function createScreenShot() {
+  let createScreenShot = () => {
     context.drawImage(video, 0, 0, 320, 240);
+    console.log('screenshot created!');
   }
 
-  let snapShotButton = createButton({
-    text: 'Create Snapshot',
-    primary: false
-  }, { onClick: createScreenShot });
+  let toggleModal = () => { 
+    modalIsOpen = !modalIsOpen;
+  }
 
-  let modal = createModal(createLiveCamera(snapShotButton));
+  let openModalButton = createButton({
+    text: 'Open modal',
+    primary: false
+  }, { onClick: toggleModal });
+
+      let createScreenshotButton = createButton({ text: 'Create Snapshot', primary: false }, { onClick: createScreenShot }); 
 
   return {
     renderMaquette: () => {
-      return h('div', { class: "camera-container" }, [
-        getUserMediaIsSupported ? modal.renderMaquette() : '',
-        h('input', { type: "file", capture: 'camera', accept: 'image/*', id: 'takePictureField', onchange: getPicture }),
-        // after the DOM is loaded we will try to load the video in it
-        h('canvas', { id: "canvas", width: '320', height: '240', afterCreate: initCamera }),
+
+
+      let modal = createModal({
+        isOpen: modalIsOpen, 
+        title: "Create a snapshot", 
+        contents: [
+           createScreenshotButton,
+           createLiveCamera({},{ startCameraAfterCreate: handleAfterCreateCamera })
+          ]}, 
+        {toggleModal: toggleModal}); 
+
+      return h('div', [
+        openModalButton.renderMaquette(),
+        getUserMediaIsSupported ? modal.renderMaquette() : undefined, 
+
+        h('input', { type: "file", 
+                     capture: 'camera', 
+                     accept: 'image/*', 
+                     id: 'takePictureField', 
+                     onchange: getPicture 
+                   }),
+
+        h('canvas', { id: "canvas", width: '320', height: '240'}),
       ]);
     }
   }

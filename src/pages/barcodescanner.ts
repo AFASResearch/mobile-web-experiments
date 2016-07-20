@@ -9,16 +9,20 @@ import {DataService} from '../services/data-service';
 
 const Quagga = <any>require('quagga'); 
 
-import {h, Component} from 'maquette';
+import {Projector, h, Component} from 'maquette';
 
-export let createBarcodePage = (dataService: DataService, userService: UserService) => {
+export let createBarcodePage = (dataService: DataService, userService: UserService, projector: any) => {
+
+
+let detectedCode = 'nothing detected yet...';
 
 let startDecoding = () => { 
 
  Quagga.init({
     inputStream : {
       name : "Live",
-      type : "LiveStream"
+      type : "LiveStream",
+      target: '#barcodeScanViewHolder'
     },
     decoder : {
       readers : ["ean_reader"]
@@ -63,6 +67,8 @@ let startDecoding = () => {
         console.log(code);
         console.log("more technical details:");
         console.log(result);
+        detectedCode = code;
+        projector.scheduleRender();
     });
 }
 
@@ -102,19 +108,20 @@ let decodeImage = (imageURL: String) => {
     }
   }
 
+
   let page = createPage({
     title: 'Barcodescanning',
     dataService,
     body: [
-      createText({ htmlContent: 'scanning barcodes... ' }),
       {
         renderMaquette: () => {
-          return h('div', { class: "camera-container" }, [
+          return h('div', { class: "camera-container" }, [ 
+            h('h2', [detectedCode]),
             h('input', { type: "file", capture: 'camera', accept: 'image/*', id: 'takePictureField', onchange: getPicture }),
 
             // after the DOM is loaded we will try to load the video in it
-            h('div', { id: 'interactive', class: 'viewport', afterCreate: startDecoding})
-
+            h('div', { id: 'barcodeScanViewHolder', class: 'viewport', afterCreate: startDecoding}),
+           
           ]);
         }
       },

@@ -11,10 +11,6 @@ const MENU_ITEMS: { text: string, route: string }[] = [
     route: 'users'
   },
   {
-    text: 'Camera',
-    route: 'camera'
-  },
-  {
     text: 'Scan Barcodes',
     route: 'barcodescanner'
   }

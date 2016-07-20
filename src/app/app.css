@@ -44,11 +44,6 @@ canvas {
 
 video { 
   margin: 24px 8px 8px 8px;
+  border: 2px solid #ffff00;
   position: absolute;
 }
-
-#interactive {
-  position: absolute;
-      margin: 24px 8px 8px 8px;
-}
-
