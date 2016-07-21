@@ -8,6 +8,8 @@ import {createLiveCamera} from './live-camera';
 
 import {h, Component} from 'maquette';
 
+require('../styles/image-uploader.scss');
+
 
 export let createImageUploader = () => {
 
@@ -21,12 +23,12 @@ export let createImageUploader = () => {
     videoObj: any,
     errBack: any,
     n = <any>navigator,
-    mediaTrack: any; 
+    mediaTrack: any;
 
-    errBack = (error: any) => {
-      //getUserMediaIsSupported = false;
-      console.log(String(error)); 
-    };
+  errBack = (error: any) => {
+    //getUserMediaIsSupported = false;
+    console.log(String(error));
+  };
 
   let checkUserMediaSupport = () => {
     if (!(n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia)) {
@@ -65,7 +67,7 @@ export let createImageUploader = () => {
         video.play();
         mediaTrack = stream.getTracks()[0];
       }, errBack);
-    } 
+    }
   }
 
 

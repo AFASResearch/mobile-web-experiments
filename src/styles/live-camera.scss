@@ -1,6 +1,20 @@
-.liveCameraHolder {
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
+@import "variables";
+    
+canvas {
+    margin: 24px 8px 8px 8px;
+    border: 1px solid black;
     position: relative;
+}
+
+video { 
+    margin: 24px 8px 8px 8px;
+    border: 2px solid #ffff00;
+    position: relative;
+}
+
+//inside barcodescanner the overlay must lie over it
+.viewport { 
+    canvas, video {
+        position: absolute;
+    }
 }

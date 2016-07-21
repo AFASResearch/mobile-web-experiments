@@ -1,3 +1,5 @@
+@import "variables";
+
 .textField {
   display: flex;
   flex-direction: column;
@@ -6,11 +8,11 @@
 
 .label {
   margin-left: 8px;
-  color: #444444;
+  color: text-color-inverted;
 }
 
 .input {
-  border: solid 1px #444444;
+  border:$text-field-border;
   padding: 3px 7px;
   line-height: 24px;
   border-radius: 4px;
