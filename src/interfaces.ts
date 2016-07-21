@@ -4,7 +4,7 @@ export interface UserInfo {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  imageUrl: string;
+  image: string;
   company?: string;
   oauth?: {
   };

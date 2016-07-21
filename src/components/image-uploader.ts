@@ -3,11 +3,25 @@ import {createModal} from './modal';
 import {createTextField} from './text-field';
 import {createButton} from './button';
 import {createLiveCamera} from './live-camera';
+import {UserService} from '../services/user-service';
 import {h, Component, Projector} from 'maquette';
 require('../styles/image-uploader.scss');
 const Quagga = <any>require('quagga'); //library for scanning barcodes
 
-export let createImageUploader = (projector: Projector) => {
+export interface imageUploaderConfig { 
+    projector: Projector, 
+    userService: UserService, 
+    image: string
+}
+
+export interface imageUploaderBindings { }
+
+export let createImageUploader = (config: imageUploaderConfig, bindings: imageUploaderBindings) => {
+
+  let {projector, userService} = config;
+
+  let {id, firstName, lastName, phoneNumber, image, company} = userService.getUserInfo();
+
 
   let getUserMediaIsSupported = true;
   let modalIsOpen = false;
@@ -37,9 +51,7 @@ let createElements = () => {
   //this must happen only once
   if (!elementsCreated) {
     // Grab elements, create settings, etc.
-    canvas = <HTMLCanvasElement>document.getElementById("canvas");
-    context = canvas.getContext("2d");
-
+ createCanvas(); 
     // get video from the holder
     let parent = <any>document.getElementById('barcodeScanViewHolder');
     video = <HTMLVideoElement>parent.getElementsByTagName("video")[0];
@@ -49,23 +61,47 @@ let createElements = () => {
 }
 }
 
+let createCanvas = () => {
+   canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    context = canvas.getContext("2d");
+
+}
+
+  let doRegister = () => {
+    console.log(image); 
+      userService.updateUserInfo({
+        id,
+        firstName,
+        lastName,
+        phoneNumber,
+        company,
+        image
+      });
+    };
+
   let getPicture = (event: any) => {
+    createCanvas();
     if (event.target.files.length == 1 &&
       event.target.files[0].type.indexOf("image/") == 0) {
 
-      var image = new Image();
-      image.src = URL.createObjectURL(event.target.files[0]);
-      image.onload = function () {
-        context.drawImage(image, 0, 0, 320, 240);
+      var temp_image = new Image();
+      temp_image.src = URL.createObjectURL(event.target.files[0]);
+      temp_image.onload = function () {
+        context.drawImage(temp_image, 0, 0, 320, 240);
       }
+        image = canvas.toDataURL();
+        doRegister();
     }
+  
   }
-
 
   let createScreenShot = () => {
     createElements(); 
     context.drawImage(video, 0, 0, 320, 240);
+    image = canvas.toDataURL();
+    doRegister();
     toggleModal();
+    
   }
 
   let toggleModal = () => {
@@ -73,10 +109,13 @@ let createElements = () => {
     if (!modalIsOpen) {
      Quagga.stop()
     }
+   
   }
 
+
+
   let openModalButton = createButton({
-    text: 'Open modal',
+    text: 'Use webcam',
     primary: false
   }, { onClick: toggleModal });
 

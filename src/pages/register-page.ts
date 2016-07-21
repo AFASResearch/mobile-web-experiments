@@ -10,7 +10,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
   let lastName = '';
   let company = '';
   let phoneNumber = '';
-  let imageUrl = ''; 
+  let image: ''; 
 
   let doRegister = () => {
     userService.updateUserInfo({
@@ -19,7 +19,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       lastName,
       phoneNumber,
       company,
-      imageUrl
+      image
     });
   };
 
@@ -32,7 +32,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
-      createTextField({ label: 'profile picture URL' }, { getValue: () => imageUrl, setValue: (value) => { imageUrl = value; } }),
+    //  createTextField({ label: 'profile picture URL' }, { getValue: () => image, setValue: (value) => { image = value; } }),
       createButton({ text: 'Register', primary: true }, { onClick: doRegister })
     ]
   });
