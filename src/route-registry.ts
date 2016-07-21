@@ -1,5 +1,5 @@
 import {Projector} from 'maquette';
-import {Page} from './components/page/page';
+import {Page} from './components/page';
 import {createUserListPage} from './pages/user-list-page';
 import {createAccountPage} from './pages/account';
 import {createBarcodePage } from './pages/barcodescanner'
@@ -18,7 +18,7 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
         case 'users':
           return createUserListPage(dataService, projector);
         case 'account':
-          return createAccountPage(dataService, userService);
+          return createAccountPage(dataService, userService, projector);
         case 'barcodescanner':
           // return createUserListPage(dataService, projector);
           return createBarcodePage(dataService, userService, projector);

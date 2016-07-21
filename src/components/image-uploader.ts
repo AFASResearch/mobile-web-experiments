@@ -1,32 +1,26 @@
-//this component shows a canvas 
-
 import {createText} from './text';
 import {createModal} from './modal';
 import {createTextField} from './text-field';
 import {createButton} from './button';
 import {createLiveCamera} from './live-camera';
-
-import {h, Component} from 'maquette';
-
+import {h, Component, Projector} from 'maquette';
 require('../styles/image-uploader.scss');
+const Quagga = <any>require('quagga'); //library for scanning barcodes
 
-
-export let createImageUploader = () => {
+export let createImageUploader = (projector: Projector) => {
 
   let getUserMediaIsSupported = true;
   let modalIsOpen = false;
-
+  let elementsCreated = false;
 
   let canvas: HTMLCanvasElement,
     context: any,
     video: HTMLVideoElement,
     videoObj: any,
     errBack: any,
-    n = <any>navigator,
-    mediaTrack: any;
+    n = <any>navigator;
 
   errBack = (error: any) => {
-    //getUserMediaIsSupported = false;
     console.log(String(error));
   };
 
@@ -37,39 +31,23 @@ export let createImageUploader = () => {
   }
 
   checkUserMediaSupport();
-
-  let handleAfterCreateCamera = () => {
     var w = <any>window;
 
+let createElements = () => {
+  //this must happen only once
+  if (!elementsCreated) {
     // Grab elements, create settings, etc.
     canvas = <HTMLCanvasElement>document.getElementById("canvas");
     context = canvas.getContext("2d");
-    video = <HTMLVideoElement>document.getElementById("video");
+
+    // get video from the holder
+    let parent = <any>document.getElementById('barcodeScanViewHolder');
+    video = <HTMLVideoElement>parent.getElementsByTagName("video")[0];
     videoObj = { "video": true };
-
-    // Put video listeners into place
-    if (n.getUserMedia) { // Standard
-      n.getUserMedia(videoObj, function (stream: any) {
-        video.src = URL.createObjectURL(stream);
-        video.play();
-        mediaTrack = stream.getTracks()[0];
-      }, errBack);
-    } else if (n.webkitGetUserMedia) { // WebKit-prefixed
-      n.webkitGetUserMedia(videoObj, function (stream: any) {
-        video.src = URL.createObjectURL(stream);
-        video.play();
-        mediaTrack = stream.getTracks()[0];
-      }, errBack);
-    }
-    else if (n.mozGetUserMedia) { // Firefox-prefixed
-      n.mozGetUserMedia(videoObj, function (stream: any) {
-        video.src = window.URL.createObjectURL(stream);
-        video.play();
-        mediaTrack = stream.getTracks()[0];
-      }, errBack);
-    }
-  }
-
+  
+    elementsCreated = false;
+}
+}
 
   let getPicture = (event: any) => {
     if (event.target.files.length == 1 &&
@@ -77,22 +55,23 @@ export let createImageUploader = () => {
 
       var image = new Image();
       image.src = URL.createObjectURL(event.target.files[0]);
-
       image.onload = function () {
         context.drawImage(image, 0, 0, 320, 240);
       }
     }
   }
 
+
   let createScreenShot = () => {
+    createElements(); 
     context.drawImage(video, 0, 0, 320, 240);
-    console.log('screenshot created!');
+    toggleModal();
   }
 
   let toggleModal = () => {
     modalIsOpen = !modalIsOpen;
     if (!modalIsOpen) {
-      mediaTrack.stop();
+     Quagga.stop()
     }
   }
 
@@ -111,27 +90,28 @@ export let createImageUploader = () => {
         title: "Create a snapshot",
         contents: [
           createScreenshotButton,
-          createLiveCamera({}, { startCameraAfterCreate: handleAfterCreateCamera })
+          createLiveCamera({ projector: projector, BarcodeScanEnabled: true }, {})
         ]
       },
         { toggleModal: toggleModal });
 
-      return h('div', [
+      return h('div', {class: 'live-camera-holder'}, [
+        h('div', {class: 'image-uploader-buttons'}, [
         getUserMediaIsSupported ? [
           modal.renderMaquette(),
           openModalButton.renderMaquette()
-        ]
-          : undefined,
+        ] : undefined,
 
         h('input', {
+          class: "button",
           type: "file",
           capture: 'camera',
           accept: 'image/*',
           id: 'takePictureField',
           onchange: getPicture
-        }),
-
-        h('canvas', { id: "canvas", width: '320', height: '240' }),
+        })
+      ]),
+        h('canvas', { id: "canvas", width: '320', height: '240'}),
       ]);
     }
   }

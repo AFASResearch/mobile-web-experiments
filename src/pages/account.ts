@@ -5,8 +5,9 @@ import {createButton} from '../components/button';
 import {createImageUploader} from '../components/image-uploader';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
+import {Projector} from 'maquette';
 
-export let createAccountPage = (dataService: DataService, userService: UserService) => {
+export let createAccountPage = (dataService: DataService, userService: UserService, projector: Projector) => {
 
   let {id, firstName, lastName, phoneNumber, imageUrl, company} = userService.getUserInfo();
 
@@ -32,7 +33,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       createTextField({ label: 'phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
       createTextField({ label: 'profile picture URL' }, { getValue: () => imageUrl, setValue: (value) => { imageUrl = value; } }),
-      createImageUploader(),
+      createImageUploader(projector),
       createButton({ text: 'Update', primary: true }, { onClick: doUpdate })
     ]
   });
