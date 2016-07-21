@@ -1,8 +1,8 @@
 import {Projector, h} from 'maquette';
 import {DataService} from '../services/data-service';
 import {UserInfo} from '../interfaces';
-import {createPage} from '../components/page/page';
-import {createList} from '../components/list/list';
+import {createPage} from '../components/page';
+import {createList} from '../components/list';
 
 export let createUserListPage = (dataService: DataService, projector: Projector) => {
 

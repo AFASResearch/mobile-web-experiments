@@ -31,13 +31,13 @@ module.exports = {
         loader: 'ts-loader'
       },
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader?modules&sourceMap!postcss-loader'
+        test: /\.scss$/,
+        loaders: ["style", "css", "sass"]
       }
     ]
   },
-  postcss: function () {
-    return [autoprefixer({ browsers: ['iOS 8', 'last 1 version'] })];
+  sassLoader: {
+    includePaths: [path.resolve(__dirname, "./src/styles")]
   },
   plugins: [
     new HtmlWebpackPlugin({

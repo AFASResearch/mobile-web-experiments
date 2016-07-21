@@ -1,8 +1,8 @@
 import {Projector} from 'maquette';
-import {createList} from '../components/list/list';
+import {createList} from '../components/list';
 import {DataService} from '../services/data-service';
-import {createPage} from '../components/page/page';
-import {createMessageComposer} from '../components/message-composer/message-composer';
+import {createPage} from '../components/page';
+import {createMessageComposer} from '../components/message-composer';
 import {UserInfo, MessageInfo} from '../interfaces';
 import {nameOfUser, randomId} from '../utilities';
 

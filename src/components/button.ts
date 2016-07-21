@@ -1,5 +1,5 @@
 import {h, Component} from 'maquette';
-let styles = <any>require('./button.css');
+require('../styles/button.scss');
 
 export interface ButtonConfig {
   text: string;
@@ -19,7 +19,7 @@ export let createButton = (config: ButtonConfig, bindings: ButtonBindings): Comp
 
   return {
     renderMaquette: () => {
-      return h('button', { class: styles.button, classes: { [styles.primary]: config.primary }, onclick: handleClick }, [
+      return h('button', { class: "button", classes: { ["primary"]: config.primary }, onclick: handleClick }, [
         config.text
       ]);
     }

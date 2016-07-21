@@ -4,7 +4,7 @@ import Horizon = require('@horizon/client');
 import localforage = require('localforage');
 import {createProjector} from 'maquette';
 
-import {createApp} from './app/app';
+import {createApp} from './app';
 import {createRouter} from './services/router';
 import {createDataService} from './services/data-service';
 import {createRouteRegistry} from './route-registry';

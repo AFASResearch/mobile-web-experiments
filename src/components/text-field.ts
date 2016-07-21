@@ -1,5 +1,5 @@
 import {h} from 'maquette';
-let styles = <any>require('./text-field.css');
+require('../styles/text-field.scss');
 
 export interface TextFieldConfig {
   label: string;
@@ -19,9 +19,9 @@ export let createTextField = (config: TextFieldConfig, bindings: TextFieldBindin
 
   let textField = {
     renderMaquette: () => {
-      return h('label', { class: styles.textField, key: textField }, [
-        h('span', { class: styles.label }, [config.label]),
-        h('input', { class: styles.input, type: 'text', value: getValue(), oninput: handleInput })
+      return h('label', { class: "textField", key: textField }, [
+        h('span', { class: "label" }, [config.label]),
+        h('input', { class: "input", type: 'text', value: getValue(), oninput: handleInput })
       ]);
     }
   };

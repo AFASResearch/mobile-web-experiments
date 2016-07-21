@@ -1,7 +1,6 @@
 import {Component, VNode, h} from 'maquette';
-import {DataService} from '../../services/data-service';
-
-let styles = <any>require('./page.css');
+import {DataService} from '../services/data-service';
+require('../styles/page.scss');
 
 export interface PageConfig {
   title: string | (() => string);
@@ -27,13 +26,10 @@ export let createPage = (config: PageConfig): Page => {
   let page: Page = {
     destroy,
     renderHeader: () => {
-      return h('div', { class: styles.header }, [
-        // backButton
-        h('span', { class: styles.title }, [getTitle()])
-      ]);
+      return h('span', { class: "title" }, [getTitle()])
     },
     renderBody: () => {
-      return h('div', { class: styles.page, key: page }, [
+      return h('div', { class: "page", key: page }, [
         body.map(c => c.renderMaquette())
       ]);
     }

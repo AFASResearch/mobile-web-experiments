@@ -1,5 +1,5 @@
 import {h, VNode, Component} from 'maquette';
-let styles = <any>require('./list.css');
+require('../styles/list.scss');
 
 export interface ListColumn {
   key: string;
@@ -23,7 +23,7 @@ export let createList = (config: ListConfig, bindings: ListBindings<Object>): Co
   let list = {
     renderMaquette: () => {
       let items = getItems();
-      return h('div', { key: list, class: styles.list }, [
+      return h('div', { key: list, class: "list" }, [
         items ? [
           h('table', [
             h('thead', [

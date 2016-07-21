@@ -1,9 +1,9 @@
-import {createPage} from '../components/page/page';
-import {createText} from '../components/text/text';
-import {createModal} from '../components/modal/modal';
-import {createTextField} from '../components/text-field/text-field';
-import {createButton} from '../components/button/button';
-import {createLiveCamera} from '../components/live-camera/live-camera';
+import {createPage} from '../components/page';
+import {createText} from '../components/text';
+import {createModal} from '../components/modal';
+import {createTextField} from '../components/text-field';
+import {createButton} from '../components/button';
+import {createLiveCamera} from '../components/live-camera';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
 

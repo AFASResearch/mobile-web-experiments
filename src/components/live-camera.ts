@@ -1,6 +1,5 @@
 import {h, Component} from 'maquette';
-
-let styles = <any>require('./live-camera.css');
+require('../styles/live-camera.scss');
 
 export interface LiveCameraConfig {
 }
@@ -13,7 +12,7 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
 
     return {
         renderMaquette: () => {
-            return h('div', {class: styles.liveCameraHolder}, [
+            return h('div', {class: "liveCameraHolder"}, [
                 h('video', { id: "video", width: '320', height: '240', afterCreate: startCameraAfterCreate }),
             ])
         }

@@ -1,5 +1,5 @@
 import {h, Component} from 'maquette';
-let styles = <any>require('./modal.css');
+require('../styles/modal.scss');
 
 export interface ModalConfig {
     isOpen: Boolean;
@@ -18,11 +18,11 @@ export let createModal = (config: ModalConfig, bindings: ModalBindings) => {
     return {
         renderMaquette: () => {
             if (isOpen) {
-               return  h('div', { class: styles.modal }, [
-                    h('div', { class: styles.modalContent }, [
-                        h('div', { class: styles.modalHeader }, [
+               return  h('div', { class: "modal" }, [
+                    h('div', { class: "modalContent" }, [
+                        h('div', { class: "modalHeader" }, [
                             title,
-                            h('div', { class: styles.close, onclick: toggleModal}, ['X']),
+                            h('div', { class: "close", onclick: toggleModal}, ['X']),
                         ]),
                         contents.map(c => c.renderMaquette())
                     ])

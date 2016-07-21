@@ -1,7 +1,7 @@
-import {createPage} from '../components/page/page';
-import {createText} from '../components/text/text';
-import {createTextField} from '../components/text-field/text-field';
-import {createButton} from '../components/button/button';
+import {createPage} from '../components/page';
+import {createText} from '../components/text';
+import {createTextField} from '../components/text-field';
+import {createButton} from '../components/button';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
 

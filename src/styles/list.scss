@@ -1,0 +1,22 @@
+.list {
+  padding: 8px;
+  border-collapse: collapse;
+  width: 100%;
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.list tr {
+  border-bottom: 1px solid #444444;
+}
+
+.list th {
+  background-color: #CCCCCC;
+  color: #444444;
+  text-align: left;
+  padding: 8px;
+}
+
+.list td {
+  padding: 8px;
+}

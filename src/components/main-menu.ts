@@ -1,5 +1,5 @@
 import {h} from 'maquette';
-let styles = <any>require('./main-menu.css');
+require('../styles/main-menu.scss');
 
 const MENU_ITEMS: { text: string, route: string }[] = [
   {
@@ -41,18 +41,18 @@ export let createMainMenu = () => {
 
   return {
     renderMaquette: () => {
-      return h('div', { class: styles.mainMenu }, [
-        isOpen ? h('div', { key: 'overlay', class: styles.overlay, onclick: handleOverlayClick }) : undefined,
-        h('div', { key: 'touchArea', class: styles.touchArea, classes: { [styles.isOpen]: isOpen } }, [
+      return h('div', { class: "mainMenu" }, [
+        isOpen ? h('div', { key: 'overlay', class: "overlay", onclick: handleOverlayClick }) : undefined,
+        h('div', { key: 'touchArea', class: "touchArea", classes: { ["isOpen"]: isOpen } }, [
           isOpen ? [
-            h('div', { class: styles.menu }, [
-              MENU_ITEMS.map(item => h('div', { class: styles.item }, [
+            h('div', { class: "menu" }, [
+              MENU_ITEMS.map(item => h('div', { class: "item" }, [
                 h('a', { href: `#${item.route}`, onclick: handleItemClick }, [item.text])
               ]))
             ])
           ] : undefined
         ]),
-        h('div', { key: 'openButton', class: styles.openButton, onclick: handleMenuButtonClick }, ['☰'])
+        h('div', { key: 'openButton', class: "openButton", onclick: handleMenuButtonClick }, ['☰'])
       ]);
     }
   };

@@ -1,13 +1,12 @@
 //this component shows a canvas 
 
-import {createText} from '../text/text';
-import {createModal} from '../modal/modal';
-import {createTextField} from '../text-field/text-field';
-import {createButton} from '../button/button';
-import {createLiveCamera} from '../live-camera/live-camera';
+import {createText} from './text';
+import {createModal} from './modal';
+import {createTextField} from './text-field';
+import {createButton} from './button';
+import {createLiveCamera} from './live-camera';
 
 import {h, Component} from 'maquette';
-let styles = <any>require('./image-uploader.css');
 
 
 export let createImageUploader = () => {
