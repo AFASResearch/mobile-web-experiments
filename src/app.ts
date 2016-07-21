@@ -11,7 +11,7 @@ require("./styles/app.scss");
 
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
-  let registerPage = createRegisterPage(dataService, userService, randomId());
+  let registerPage = createRegisterPage(dataService, userService, projector, randomId());
   let mainMenu = createMainMenu();
 
   return {
