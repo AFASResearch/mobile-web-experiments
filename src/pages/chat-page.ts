@@ -1,4 +1,4 @@
-import {Projector} from 'maquette';
+import {Projector, h} from 'maquette';
 import {createList} from '../components/list';
 import {DataService} from '../services/data-service';
 import {createPage} from '../components/page';
@@ -26,11 +26,13 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
       messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
     });
 
-  let list = createList({ columns: [{ header: 'From', key: 'from' }, { header: 'Message', key: 'message' }] }, {
+  let list = createList({ columns: [{ header: 'Picture', key: 'image' }, { header: 'From', key: 'from' }, { header: 'Message', key: 'message' }] }, {
     getItems: () => messages,
     getKey: (message: MessageInfo) => message.id,
     renderCell: (item: MessageInfo, columnKey: string) => {
       switch (columnKey) {
+        case 'image': 
+          return h('img', { class: 'profile-picture', src: item.fromUserId === toUserId ? otherUser.image : user.image});
         case 'from':
           return item.fromUserId === toUserId ? otherUser.firstName : 'me';
         case 'message':
