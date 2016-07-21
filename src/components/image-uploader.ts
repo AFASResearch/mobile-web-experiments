@@ -10,17 +10,14 @@ const Quagga = <any>require('quagga'); //library for scanning barcodes
 
 export interface imageUploaderConfig { 
     projector: Projector, 
-    userService: UserService, 
-    image: string
-}
+    userService: UserService
+  }
 
 export interface imageUploaderBindings { }
 
 export let createImageUploader = (config: imageUploaderConfig, bindings: imageUploaderBindings) => {
 
   let {projector, userService} = config;
-
-  let {id, firstName, lastName, phoneNumber, image, company} = userService.getUserInfo();
 
 
   let getUserMediaIsSupported = true;
@@ -67,17 +64,6 @@ let createCanvas = () => {
 
 }
 
-  let doRegister = () => {
-    console.log(image); 
-      userService.updateUserInfo({
-        id,
-        firstName,
-        lastName,
-        phoneNumber,
-        company,
-        image
-      });
-    };
 
   let getPicture = (event: any) => {
     createCanvas();
@@ -89,8 +75,7 @@ let createCanvas = () => {
       temp_image.onload = function () {
         context.drawImage(temp_image, 0, 0, 320, 240);
       }
-        image = canvas.toDataURL();
-        doRegister();
+
     }
   
   }
@@ -98,10 +83,7 @@ let createCanvas = () => {
   let createScreenShot = () => {
     createElements(); 
     context.drawImage(video, 0, 0, 320, 240);
-    image = canvas.toDataURL();
-    doRegister();
     toggleModal();
-    
   }
 
   let toggleModal = () => {
@@ -109,10 +91,7 @@ let createCanvas = () => {
     if (!modalIsOpen) {
      Quagga.stop()
     }
-   
   }
-
-
 
   let openModalButton = createButton({
     text: 'Use webcam',
@@ -123,13 +102,12 @@ let createCanvas = () => {
 
   return {
     renderMaquette: () => {
-
       let modal = createModal({
         isOpen: modalIsOpen,
         title: "Create a snapshot",
         contents: [
           createScreenshotButton,
-          createLiveCamera({ projector: projector, BarcodeScanEnabled: true }, {})
+          createLiveCamera({ projector: projector, BarcodeScanEnabled: false }, {}) //we don't want to use barcodes when uploading images.
         ]
       },
         { toggleModal: toggleModal });

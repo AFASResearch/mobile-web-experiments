@@ -36,7 +36,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
-      createImageUploader({projector: projector, userService: userService, image: image}, {}),
+      createImageUploader({projector: projector, userService: userService}, {}),
       createButton({ text: 'Update', primary: true }, { onClick: doUpdate })
     ]
   });
