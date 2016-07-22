@@ -10,19 +10,20 @@ const Quagga = <any>require('quagga'); //library for scanning barcodes
 
 export interface imageUploaderConfig { 
     projector: Projector, 
-    userService: UserService
+    userService: UserService,
+    image: string
   }
 
 export interface imageUploaderBindings { }
 
 export let createImageUploader = (config: imageUploaderConfig, bindings: imageUploaderBindings) => {
 
-  let {projector, userService} = config;
-
+  let {projector, userService, image} = config;
 
   let getUserMediaIsSupported = true;
   let modalIsOpen = false;
   let elementsCreated = false;
+  let canvasCreated = false; 
 
   let canvas: HTMLCanvasElement,
     context: any,
@@ -48,19 +49,24 @@ let createElements = () => {
   //this must happen only once
   if (!elementsCreated) {
     // Grab elements, create settings, etc.
- createCanvas(); 
+     createCanvas(); 
     // get video from the holder
     let parent = <any>document.getElementById('barcodeScanViewHolder');
     video = <HTMLVideoElement>parent.getElementsByTagName("video")[0];
     videoObj = { "video": true };
   
-    elementsCreated = false;
+    elementsCreated = true;
 }
 }
 
 let createCanvas = () => {
+
+
+    if (!canvasCreated) {
    canvas = <HTMLCanvasElement>document.getElementById("canvas");
     context = canvas.getContext("2d");
+    canvasCreated = true; 
+    } 
 
 }
 
@@ -90,13 +96,21 @@ let createCanvas = () => {
     modalIsOpen = !modalIsOpen;
     if (!modalIsOpen) {
      Quagga.stop()
-    }
+    } 
   }
 
   let openModalButton = createButton({
     text: 'Use webcam',
     primary: false
   }, { onClick: toggleModal });
+
+let setInitialImageAfterCreate = () => {
+  createCanvas(); 
+
+  let img = new Image;
+img.src = image;
+  context.drawImage(img, 0, 0, 320, 240);
+}
 
   let createScreenshotButton = createButton({ text: 'Create Snapshot', primary: false }, { onClick: createScreenShot });
 
@@ -128,7 +142,7 @@ let createCanvas = () => {
           onchange: getPicture
         })
       ]),
-        h('canvas', { id: "canvas", width: '320', height: '240'}),
+        h('canvas', { id: "canvas", width: '320', height: '240', afterCreate: setInitialImageAfterCreate}),
       ]);
     }
   }

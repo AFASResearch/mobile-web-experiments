@@ -42,7 +42,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       createTextField({ label: 'Address' }, { getValue: () => address, setValue: (value) => { address = value; } }),
       createTextField({ label: 'City' }, { getValue: () => city, setValue: (value) => { city = value; } }),
       createTextField({ label: 'Country' }, { getValue: () => country, setValue: (value) => { country = value; } }),
-      createImageUploader({ projector: projector, userService: userService }, {}),
+      createImageUploader({ projector: projector, userService: userService, image: image }, {}),
       createButton({ text: 'Update', primary: true }, { onClick: doUpdate })
     ]
   });
