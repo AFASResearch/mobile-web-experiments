@@ -13,6 +13,9 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
   let company = '';
   let phoneNumber = '';
   let image = '';
+  let address = '';
+  let city = '';
+  let country = '';
 
   let doRegister = () => {
 
@@ -24,6 +27,9 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       firstName,
       lastName,
       phoneNumber,
+      address,
+      city,
+      country,
       company,
       image
     });
@@ -38,6 +44,9 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
+      createTextField({ label: 'Address' }, { getValue: () => address, setValue: (value) => { address = value; } }),
+      createTextField({ label: 'City' }, { getValue: () => city, setValue: (value) => { city = value; } }),
+      createTextField({ label: 'Country' }, { getValue: () => country, setValue: (value) => { country = value; } }),
       createImageUploader({ projector: projector, userService: userService }, {}),
       createButton({ text: 'Register', primary: true }, { onClick: doRegister })
     ]

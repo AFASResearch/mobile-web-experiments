@@ -1,9 +1,11 @@
-
 export interface UserInfo {
   id: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
+  address: string;
+  city: string; 
+  country: string;
   image: string;
   company?: string;
   oauth?: {

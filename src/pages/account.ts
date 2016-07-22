@@ -9,7 +9,7 @@ import {Projector} from 'maquette';
 
 export let createAccountPage = (dataService: DataService, userService: UserService, projector: Projector) => {
 
-  let {id, firstName, lastName, phoneNumber, image, company} = userService.getUserInfo();
+  let {id, firstName, lastName, phoneNumber, image, company, address, country, city} = userService.getUserInfo();
 
   let doUpdate = () => {
 
@@ -22,6 +22,9 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       lastName,
       phoneNumber,
       company,
+      address,
+      city,
+      country,
       image
     });
     document.location.hash = '#users';
@@ -36,6 +39,9 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
+      createTextField({ label: 'Address' }, { getValue: () => address, setValue: (value) => { address = value; } }),
+      createTextField({ label: 'City' }, { getValue: () => city, setValue: (value) => { city = value; } }),
+      createTextField({ label: 'Country' }, { getValue: () => country, setValue: (value) => { country = value; } }),
       createImageUploader({ projector: projector, userService: userService }, {}),
       createButton({ text: 'Update', primary: true }, { onClick: doUpdate })
     ]

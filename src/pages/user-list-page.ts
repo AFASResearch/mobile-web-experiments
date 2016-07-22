@@ -23,7 +23,8 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
         { header: 'First Name', key: 'firstName' },
         { header: 'Last Name', key: 'lastName' },
         { header: 'Phone number', key: 'phoneNumber' },
-        { header: 'Company', key: 'company' }
+        { header: 'Company', key: 'company' },
+        { header: 'Addres', key: 'address' }
       ]
     },
     {
@@ -32,10 +33,13 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
       renderCell: (item: UserInfo, columnKey: string) => {
         if (columnKey == 'image') {
           return h('img', { src: (item as any)[columnKey] ? (item as any)[columnKey] : 'images/default-profile-picture.png', class: "profile-picture" }, [(item as any)[columnKey]]);
-        } else if (columnKey != 'phoneNumber') {
-          return h('a', { href: `#chat/${item.id}` }, [(item as any)[columnKey]]);
-        } else {
+        } else if (columnKey == 'phoneNumber') {
           return h('a', { href: `tel:` + (item as any)[columnKey] }, [(item as any)[columnKey]]);
+        } else if (columnKey == 'address') {
+          console.log(item);
+          return h('a', { href: `http://maps.apple.com?q=` + (item as any)[columnKey] + '+' + (item as any)['city'] + '+' + (item as any)['country'] }, [(item as any)[columnKey]]);
+        } else {
+          return h('a', { href: `#chat/${item.id}` }, [(item as any)[columnKey]]);
         }
       }
     });
