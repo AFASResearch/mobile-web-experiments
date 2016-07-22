@@ -6,16 +6,18 @@ import {createList} from '../components/list';
 import {createText} from '../components/text';
 
 export let createFileUploadPage = (dataService: DataService, projector: Projector) => {
-
   return createPage({
     title: 'File upload',
     dataService,
     body: [
       createText({ htmlContent: "upload files..." }),
-      createText({ htmlContent: "some ideas would be: drag and drop, google drive file uploader, dropbox... etc." }),
       { renderMaquette: () => { 
-          return h('input', {type: 'file', name: 'file[]', multiple: true}, []) 
-        } 
+          return h('div', {id: 'dropzone'}, [
+          h('input', {type: 'file', name: 'file[]', multiple: true}, []),
+          h('form', {id:"my-awesome-dropzone", action: 'file/upload', class: "dropzone"}),
+          h('a', {download: 'pdf.pdf', href: "images/pdf.pdf", title: "imageName"}, [ 'download a fancy image' ]) 
+        ])
+      }
       }
     ]
   });
