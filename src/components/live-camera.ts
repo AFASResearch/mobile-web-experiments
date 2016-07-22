@@ -81,9 +81,7 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
 
         let parent = <any>document.getElementById('barcodeScanViewHolder');
         let imageCanvas = <HTMLCanvasElement>document.getElementById("uploadedImageCanvas");
-
         let drawBoxCanvas = <HTMLCanvasElement>parent.getElementsByClassName("drawingBuffer")[0];
-
         let imageContext = imageCanvas.getContext("2d");
         let boxContext = drawBoxCanvas.getContext("2d");
 
@@ -98,18 +96,14 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
                 locate: true, // try to locate the barcode in the image
                 src: temp_image.src 
             }, function (result: any) {
-
                     imageContext.canvas.height = boxContext.canvas.height;
                     imageContext.canvas.width = boxContext.canvas.width;
                     imageContext.drawImage(temp_image, 0, 0, drawBoxCanvas.width, drawBoxCanvas.height);
-                
                 if (result) { 
-
                     if (result.codeResult) {
                         console.log("result", result.codeResult.code);
                         detectedCode = result.codeResult.code;
                         projector.scheduleRender();
-
                     } else {
                         console.log("a box was detected, but no code detected");
                     }
@@ -118,7 +112,6 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
                     decodeImage(event); //recursion
                 }
             });
-            
         }
     }
 

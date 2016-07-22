@@ -13,6 +13,10 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
     body: [
       createText({ htmlContent: "upload files..." }),
       createText({ htmlContent: "some ideas would be: drag and drop, google drive file uploader, dropbox... etc." }),
+      { renderMaquette: () => { 
+          return h('input', {type: 'file', name: 'file[]', multiple: true}, []) 
+        } 
+      }
     ]
   });
 
