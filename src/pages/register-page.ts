@@ -12,12 +12,12 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
   let lastName = '';
   let company = '';
   let phoneNumber = '';
-  let image = ''; 
+  let image = '';
 
   let doRegister = () => {
 
-  let canvas = <HTMLCanvasElement>document.getElementById("canvas");
-   image = canvas.toDataURL(); 
+    let canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    image = canvas.toDataURL();
 
     userService.updateUserInfo({
       id,
@@ -38,7 +38,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
-      createImageUploader({projector: projector, userService: userService}, {}),
+      createImageUploader({ projector: projector, userService: userService }, {}),
       createButton({ text: 'Register', primary: true }, { onClick: doRegister })
     ]
   });

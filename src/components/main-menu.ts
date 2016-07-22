@@ -13,6 +13,10 @@ const MENU_ITEMS: { text: string, route: string }[] = [
   {
     text: 'Scan Barcodes',
     route: 'barcodescanner'
+  },
+  {
+    text: 'Upload files',
+    route: 'file-upload'
   }
 ];
 

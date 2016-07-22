@@ -19,7 +19,7 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
   let list = createList(
     {
       columns: [
-        { header: 'Profile picture', key: 'image'},
+        { header: 'Profile picture', key: 'image' },
         { header: 'First Name', key: 'firstName' },
         { header: 'Last Name', key: 'lastName' },
         { header: 'Phone number', key: 'phoneNumber' },
@@ -30,11 +30,11 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
       getItems: () => users,
       getKey: (user: UserInfo) => user.id,
       renderCell: (item: UserInfo, columnKey: string) => {
-        if (columnKey == 'image') { 
-          return h('img', { src: (item as any)[columnKey] ? (item as any)[columnKey] : 'images/default-profile-picture.png' , class: "profile-picture" }, [(item as any)[columnKey]]);
+        if (columnKey == 'image') {
+          return h('img', { src: (item as any)[columnKey] ? (item as any)[columnKey] : 'images/default-profile-picture.png', class: "profile-picture" }, [(item as any)[columnKey]]);
         } else if (columnKey != 'phoneNumber') {
           return h('a', { href: `#chat/${item.id}` }, [(item as any)[columnKey]]);
-        } else { 
+        } else {
           return h('a', { href: `tel:` + (item as any)[columnKey] }, [(item as any)[columnKey]]);
         }
       }
@@ -44,7 +44,7 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
     title: 'Users',
     dataService,
     body: [
-      createText({htmlContent: "Choose someone to chat with"}),
+      createText({ htmlContent: "Choose someone to chat with" }),
       list
     ],
     destroy: () => {

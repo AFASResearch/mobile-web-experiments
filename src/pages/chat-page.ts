@@ -31,8 +31,8 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     getKey: (message: MessageInfo) => message.id,
     renderCell: (item: MessageInfo, columnKey: string) => {
       switch (columnKey) {
-        case 'image': 
-          return h('img', { class: 'profile-picture', src: item.fromUserId === toUserId ? otherUser.image : user.image});
+        case 'image':
+          return h('img', { class: 'profile-picture', src: item.fromUserId === toUserId ? otherUser.image : user.image });
         case 'from':
           return item.fromUserId === toUserId ? otherUser.firstName : 'me';
         case 'message':

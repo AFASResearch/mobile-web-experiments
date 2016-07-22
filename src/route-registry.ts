@@ -6,6 +6,7 @@ import {createBarcodePage } from './pages/barcodescanner'
 import {createChatPage} from './pages/chat-page';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
+import {createFileUploadPage} from './pages/file-upload';
 
 export interface RouteRegistry {
   initializePage(route: string): Page;
@@ -20,8 +21,9 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
         case 'account':
           return createAccountPage(dataService, userService, projector);
         case 'barcodescanner':
-          // return createUserListPage(dataService, projector);
           return createBarcodePage(dataService, userService, projector);
+        case 'file-upload':
+          return createFileUploadPage(dataService, projector);
         default:
           let match = /chat\/(\w+)/.exec(route);
           if (match) {
