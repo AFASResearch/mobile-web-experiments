@@ -74,7 +74,6 @@ export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUp
       temp_image.onload = function () {
         context.drawImage(temp_image, 0, 0, 320, 240);
       };
-
     }
   };
 

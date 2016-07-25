@@ -9,7 +9,6 @@ import {createMainMenu} from './components/main-menu';
 
 require('./styles/app.scss');
 
-
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
   let registerPage = createRegisterPage(dataService, userService, projector, randomId());

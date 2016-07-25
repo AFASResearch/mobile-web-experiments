@@ -4,7 +4,7 @@ export interface UserInfo {
   lastName: string;
   phoneNumber: string;
   address: string;
-  city: string; 
+  city: string;
   country: string;
   image: string;
   company?: string;

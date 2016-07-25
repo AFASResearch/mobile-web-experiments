@@ -2,11 +2,16 @@ import {Projector, h} from 'maquette';
 import {createList} from '../components/list';
 import {DataService} from '../services/data-service';
 import {createPage} from '../components/page';
+import {createText} from '../components/text';
 import {createMessageComposer} from '../components/message-composer';
 import {UserInfo, MessageInfo} from '../interfaces';
 import {nameOfUser, randomId} from '../utilities';
+let jstz = <any>require('jstz');
 
 export let createChatPage = (dataService: DataService, user: UserInfo, toUserId: string, projector: Projector) => {
+
+  const timezone = jstz.determine();
+
   let otherUser: UserInfo;
   let messages: MessageInfo[];
   let chatRoomId = [user.id, toUserId].sort().join('-'); // format: lowestUserId-highestUserId
@@ -15,6 +20,24 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     otherUser = userInfo;
     projector.scheduleRender();
   });
+
+  let longitude: number;
+  let latitude: number;
+
+  let getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function showPosition(position) {
+        longitude = position.coords.longitude;
+        latitude = position.coords.latitude;
+
+        console.log("it works")
+        projector.scheduleRender();
+       });
+    } else {
+      console.log('Geolocation is not supported by this browser.');
+    }
+  };
+  getLocation();
 
   let messagesSubscription = dataService.horizon('directMessages')
     .findAll({ chatRoomId: chatRoomId })
@@ -41,6 +64,8 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     }
   });
 
+  let timeZoneText = createText({ htmlContent: 'Current timezone: ' + timezone.name() });
+
   let sendMessage = (text: string) => {
     let message: MessageInfo = {
       date: new Date(),
@@ -60,6 +85,16 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     title: () => `Chat with ${nameOfUser(otherUser)}`,
     dataService,
     body: [
+      { renderMaquette: () => {
+        let link = 'http://maps.apple.com/maps?z=12&t=m&q=loc:'
+            + latitude
+            + '+'
+            + longitude;
+
+        return h('a', {href: link}, [link]);
+      }
+    },
+      timeZoneText,
       list,
       messageComposer
     ],

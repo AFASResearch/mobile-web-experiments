@@ -14,6 +14,7 @@
     "dropzone": "^4.3.0",
     "horizon": "1.1.3",
     "html-webpack-plugin": "2.21.0",
+    "jstz": "^1.0.7",
     "localforage": "1.4.2",
     "maquette": "2.3.3",
     "node-sass": "^3.8.0",
