@@ -1,6 +1,4 @@
 import {h} from 'maquette';
-import {createButton} from './button';
-
 require('../styles/message-composer.scss');
 
 export interface MessageComposerBindings {
@@ -29,9 +27,9 @@ export let createMessageComposer = (bindings: MessageComposerBindings) => {
 
   return {
     renderMaquette: () => {
-      return h('div', { class: "messageComposer" }, [
-        h('input', { class: "input", value: textToSend, oninput: handleInput, onkeydown: handleKeyDown }),
-        h('button', { class: "send", onclick: handleSendClick }, ['Send']),
+      return h('div', { class: 'messageComposer' }, [
+        h('input', { class: 'input', value: textToSend, oninput: handleInput, onkeydown: handleKeyDown }),
+        h('button', { class: 'send', onclick: handleSendClick }, ['Send'])
       ]);
     }
   };

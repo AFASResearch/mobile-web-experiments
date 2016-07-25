@@ -13,7 +13,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
 
   let doUpdate = () => {
 
-    let canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    let canvas = <HTMLCanvasElement>document.getElementById('canvas');
     image = canvas.toDataURL();
 
     userService.updateUserInfo({

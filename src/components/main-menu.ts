@@ -45,18 +45,18 @@ export let createMainMenu = () => {
 
   return {
     renderMaquette: () => {
-      return h('div', { class: "mainMenu" }, [
-        isOpen ? h('div', { key: 'overlay', class: "overlay", onclick: handleOverlayClick }) : undefined,
-        h('div', { key: 'touchArea', class: "touchArea", classes: { ["isOpen"]: isOpen } }, [
+      return h('div', { class: 'mainMenu' }, [
+        isOpen ? h('div', { key: 'overlay', class: 'overlay', onclick: handleOverlayClick }) : undefined,
+        h('div', { key: 'touchArea', class: 'touchArea', classes: { ['isOpen']: isOpen } }, [
           isOpen ? [
-            h('div', { class: "menu" }, [
-              MENU_ITEMS.map(item => h('div', { class: "item" }, [
+            h('div', { class: 'menu' }, [
+              MENU_ITEMS.map(item => h('div', { class: 'item' }, [
                 h('a', { href: `#${item.route}`, onclick: handleItemClick }, [item.text])
               ]))
             ])
           ] : undefined
         ]),
-        h('div', { key: 'openButton', class: "openButton", onclick: handleMenuButtonClick }, ['☰'])
+        h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰'])
       ]);
     }
   };

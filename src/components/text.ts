@@ -9,7 +9,7 @@ export let createText = (config: TextConfig) => {
   let {htmlContent} = config;
   return {
     renderMaquette: () => {
-      return h('p', { class: "text", innerHTML: htmlContent });
+      return h('p', { class: 'text', innerHTML: htmlContent });
     }
   };
 };

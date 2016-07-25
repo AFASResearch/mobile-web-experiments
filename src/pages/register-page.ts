@@ -19,7 +19,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
 
   let doRegister = () => {
 
-    let canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    let canvas = <HTMLCanvasElement>document.getElementById('canvas');
     image = canvas.toDataURL();
 
     userService.updateUserInfo({
@@ -47,7 +47,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       createTextField({ label: 'Address' }, { getValue: () => address, setValue: (value) => { address = value; } }),
       createTextField({ label: 'City' }, { getValue: () => city, setValue: (value) => { city = value; } }),
       createTextField({ label: 'Country' }, { getValue: () => country, setValue: (value) => { country = value; } }),
-      createImageUploader({ projector: projector, userService: userService }, {}),
+      createImageUploader({ projector: projector, userService: userService, image: 'images/barcode.jpg' }, {}),
       createButton({ text: 'Register', primary: true }, { onClick: doRegister })
     ]
   });

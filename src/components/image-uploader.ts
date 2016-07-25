@@ -1,29 +1,27 @@
-import {createText} from './text';
 import {createModal} from './modal';
-import {createTextField} from './text-field';
 import {createButton} from './button';
 import {createLiveCamera} from './live-camera';
 import {UserService} from '../services/user-service';
-import {h, Component, Projector} from 'maquette';
+import {h, Projector} from 'maquette';
 require('../styles/image-uploader.scss');
-const Quagga = <any>require('quagga'); //library for scanning barcodes
+const Quagga = <any>require('quagga'); // library for scanning barcodes
 
-export interface imageUploaderConfig { 
-    projector: Projector, 
-    userService: UserService,
-    image: string
-  }
+export interface ImageUploaderConfig {
+  projector: Projector;
+  userService: UserService;
+  image: string;
+}
 
-export interface imageUploaderBindings { }
+export interface ImageUploaderBindings { }
 
-export let createImageUploader = (config: imageUploaderConfig, bindings: imageUploaderBindings) => {
+export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUploaderBindings) => {
 
-  let {projector, userService, image} = config;
+  let {projector, image} = config;
 
   let getUserMediaIsSupported = true;
   let modalIsOpen = false;
   let elementsCreated = false;
-  let canvasCreated = false; 
+  let canvasCreated = false;
 
   let canvas: HTMLCanvasElement,
     context: any,
@@ -40,110 +38,111 @@ export let createImageUploader = (config: imageUploaderConfig, bindings: imageUp
     if (!(n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia)) {
       getUserMediaIsSupported = false;
     }
-  }
+  };
 
   checkUserMediaSupport();
-    var w = <any>window;
 
-let createElements = () => {
-  //this must happen only once
-  if (!elementsCreated) {
-    // Grab elements, create settings, etc.
-     createCanvas(); 
-    // get video from the holder
-    let parent = <any>document.getElementById('barcodeScanViewHolder');
-    video = <HTMLVideoElement>parent.getElementsByTagName("video")[0];
-    videoObj = { "video": true };
-  
-    elementsCreated = true;
-}
-}
-
-let createCanvas = () => {
-
-
+  let createCanvas = () => {
     if (!canvasCreated) {
-   canvas = <HTMLCanvasElement>document.getElementById("canvas");
-    context = canvas.getContext("2d");
-    canvasCreated = true; 
-    } 
+      canvas = <HTMLCanvasElement>document.getElementById('canvas');
+      context = canvas.getContext('2d');
+      canvasCreated = true;
+    }
+  };
 
-}
+  let createElements = () => {
+    // this must happen only once
+    if (!elementsCreated) {
+      // Grab elements, create settings, etc.
+      createCanvas();
+      // get video from the holder
+      let parent = <any>document.getElementById('barcodeScanViewHolder');
+      video = <HTMLVideoElement>parent.getElementsByTagName('video')[0];
+      videoObj = { 'video' : true };
 
+      elementsCreated = true;
+    }
+  };
 
   let getPicture = (event: any) => {
     createCanvas();
-    if (event.target.files.length == 1 &&
-      event.target.files[0].type.indexOf("image/") == 0) {
+    if (event.target.files.length === 1 &&
+      event.target.files[0].type.indexOf('image/') === 0) {
 
-      var temp_image = new Image();
+      let temp_image = new Image();
       temp_image.src = URL.createObjectURL(event.target.files[0]);
       temp_image.onload = function () {
         context.drawImage(temp_image, 0, 0, 320, 240);
-      }
+      };
 
     }
-  
-  }
-
-  let createScreenShot = () => {
-    createElements(); 
-    context.drawImage(video, 0, 0, 320, 240);
-    toggleModal();
-  }
+  };
 
   let toggleModal = () => {
     modalIsOpen = !modalIsOpen;
     if (!modalIsOpen) {
-     Quagga.stop()
-    } 
-  }
+      Quagga.stop();
+    }
+  };
 
-  let openModalButton = createButton({
-    text: 'Use webcam',
-    primary: false
-  }, { onClick: toggleModal });
+  let createScreenShot = () => {
+    createElements();
+    context.drawImage(video, 0, 0, 320, 240);
+    toggleModal();
+  };
 
-let setInitialImageAfterCreate = () => {
-  createCanvas(); 
+  let openModalButton = createButton(
+    {
+      text: 'Use webcam',
+      primary: false
+    },
+    {
+      onClick: toggleModal
+    });
 
-  let img = new Image;
-img.src = image;
-  context.drawImage(img, 0, 0, 320, 240);
-}
+  let setInitialImageAfterCreate = () => {
+      createCanvas();
+
+      let img = new Image;
+      img.src = image;
+      context.drawImage(img, 0, 0, 320, 240);
+  };
 
   let createScreenshotButton = createButton({ text: 'Create Snapshot', primary: false }, { onClick: createScreenShot });
 
   return {
     renderMaquette: () => {
-      let modal = createModal({
+      let modal = createModal(
+      {
         isOpen: modalIsOpen,
-        title: "Create a snapshot",
+        title: 'Create a snapshot',
         contents: [
           createScreenshotButton,
-          createLiveCamera({ projector: projector, BarcodeScanEnabled: false }, {}) //we don't want to use barcodes when uploading images.
+          createLiveCamera({ projector: projector, BarcodeScanEnabled: false }, {}) // we don't want to use barcodes when uploading images.
         ]
       },
-        { toggleModal: toggleModal });
+      {
+        toggleModal: toggleModal
+      });
 
-      return h('div', {class: 'live-camera-holder'}, [
-        h('div', {class: 'image-uploader-buttons'}, [
-        getUserMediaIsSupported ? [
-          modal.renderMaquette(),
-          openModalButton.renderMaquette()
-        ] : undefined,
+      return h('div', { class: 'live-camera-holder' }, [
+        h('div', { class: 'image-uploader-buttons' }, [
+          getUserMediaIsSupported ? [
+            modal.renderMaquette(),
+            openModalButton.renderMaquette()
+          ] : undefined,
 
-        h('input', {
-          class: "button",
-          type: "file",
-          capture: 'camera',
-          accept: 'image/*',
-          id: 'takePictureField',
-          onchange: getPicture
-        })
-      ]),
-        h('canvas', { id: "canvas", width: '320', height: '240', afterCreate: setInitialImageAfterCreate}),
+          h('input', {
+            class: 'button',
+            type: 'file',
+            capture: 'camera',
+            accept: 'image/*',
+            id: 'takePictureField',
+            onchange: getPicture
+          })
+        ]),
+        h('canvas', { id: 'canvas', width: '320', height: '240', afterCreate: setInitialImageAfterCreate })
       ]);
     }
-  }
+  };
 };

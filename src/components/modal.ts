@@ -8,28 +8,28 @@ export interface ModalConfig {
 }
 
 export interface ModalBindings {
-    toggleModal: () => void; 
+    toggleModal: () => void;
 }
 
 export let createModal = (config: ModalConfig, bindings: ModalBindings) => {
     let {isOpen, title, contents} = config;
-    let {toggleModal} = bindings; 
+    let {toggleModal} = bindings;
 
     return {
         renderMaquette: () => {
             if (isOpen) {
-               return  h('div', { class: "modal" }, [
-                    h('div', { class: "modalContent" }, [
-                        h('div', { class: "modalHeader" }, [
+               return  h('div', { class: 'modal' }, [
+                    h('div', { class: 'modalContent' }, [
+                        h('div', { class: 'modalHeader' }, [
                             title,
-                            h('div', { class: "close", onclick: toggleModal}, ['X']),
+                            h('div', { class: 'close', onclick: toggleModal}, ['X'])
                         ]),
                         contents.map(c => c.renderMaquette())
                     ])
-                ])
-            } else { 
-                return undefined; 
+                ]);
+            } else {
+                return undefined;
             }
         }
-    }
-}
+    };
+};

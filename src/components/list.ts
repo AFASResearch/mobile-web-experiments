@@ -23,7 +23,7 @@ export let createList = (config: ListConfig, bindings: ListBindings<Object>): Co
   let list = {
     renderMaquette: () => {
       let items = getItems();
-      return h('div', { key: list, class: "list" }, [
+      return h('div', { key: list, class: 'list' }, [
         items ? [
           h('table', [
             h('thead', [

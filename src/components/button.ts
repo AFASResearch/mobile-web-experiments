@@ -19,7 +19,7 @@ export let createButton = (config: ButtonConfig, bindings: ButtonBindings): Comp
 
   return {
     renderMaquette: () => {
-      return h('button', { class: "button", classes: { ["primary"]: config.primary }, onclick: handleClick }, [
+      return h('button', { class: 'button', classes: { ['primary']: config.primary }, onclick: handleClick }, [
         config.text
       ]);
     }

@@ -7,7 +7,7 @@ import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
 import {createMainMenu} from './components/main-menu';
 
-require("./styles/app.scss");
+require('./styles/app.scss');
 
 
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
@@ -19,13 +19,13 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
     renderMaquette: () => {
       let currentPage = userService.getUserInfo() ? router.getCurrentPage() : registerPage;
 
-      return h('body', { class: "app" }, [
-        h('div', { class: "header" }, [
+      return h('body', { class: 'app' }, [
+        h('div', { class: 'header' }, [
           mainMenu.renderMaquette(),
           currentPage.renderHeader(),
-          h('div', { class: "status" }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
+          h('div', { class: 'status' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
         ]),
-        h('div', { key: currentPage, class: "body" }, [
+        h('div', { key: currentPage, class: 'body' }, [
           currentPage.renderBody()
         ])
       ]);
