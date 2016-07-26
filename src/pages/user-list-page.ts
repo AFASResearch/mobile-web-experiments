@@ -50,6 +50,10 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
         } else {
           return h('a', { href: `#chat/${item.id}` }, [(item as any)[columnKey]]);
         }
+      },
+      rowClicked: (item: UserInfo) => {
+        let w = <any>window;
+        w.location = `#chat/${item.id}` ;
       }
     });
 

@@ -29,8 +29,6 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
       navigator.geolocation.getCurrentPosition(function showPosition(position) {
         longitude = position.coords.longitude;
         latitude = position.coords.latitude;
-
-        console.log("it works")
         projector.scheduleRender();
        });
     } else {

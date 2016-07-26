@@ -5,13 +5,23 @@
   border-collapse: collapse;
   width: 100%;
   flex: 1 1 auto;
-  overflow: auto;
 
-  tr {
-    border: 1px solid #444444;
+  table {
+    border-collapse: collapse;
+    
   }
 
-  th {
+  tr {
+    border-bottom: 1px solid #dadada;
+    background: #FFF;
+    transition: background-color .3s ease-in-out;
+
+&:hover { 
+  background-color: #efefef; 
+  
+}
+
+      th {
     background-color: $transparent;
     color: $text-color-inverted;
     text-align: left;
@@ -21,10 +31,15 @@
   td {
     margin: 0;
     padding: 8px;
+    border: none;
 
-    a {
-      color: $text-color-inverted;
-    }
+  
   }
+  }
+
+  // tr:nth-child(even) {background: #efefef}
+  // tr:nth-child(odd) {background: #FFF}
+
+
 
 }
