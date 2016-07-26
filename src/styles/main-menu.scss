@@ -31,8 +31,10 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: calc(90vw + 10px);
+  width: calc(20vw + 10px);
   left: -90vw;
+  transition: all .5s ease-in-out;
+
 }
 
 .touchArea.isOpen {
@@ -41,9 +43,17 @@
 
 .menu {
   height: 100%;
-  width: calc(90vw - 2px);
-  box-shadow: 0 0 2px black;
+  width: calc(20vw - 2px);
+  box-shadow: 0 0 15px black;
   background-color: white;
+  font-weight: bold;
+  text-decoration: none;
+
+  a {
+    color: $text-color-inverted; 
+    text-decoration: none;
+  }
+
 }
 
 .item {

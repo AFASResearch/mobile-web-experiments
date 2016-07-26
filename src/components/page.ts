@@ -26,10 +26,10 @@ export let createPage = (config: PageConfig): Page => {
   let page: Page = {
     destroy,
     renderHeader: () => {
-      return h('span', { class: 'title' }, [getTitle()])
+      return h('span', { class: 'title' }, [getTitle()]);
     },
     renderBody: () => {
-      return h('div', { class: 'page', key: page }, [
+      return h('div', { class: 'card page', key: page }, [
         body.map(c => c.renderMaquette())
       ]);
     }

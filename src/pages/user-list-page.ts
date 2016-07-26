@@ -48,7 +48,7 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
             (item as any)['country'] },
             [(item as any)[columnKey]]);
         } else {
-          return h('a', { href: `#chat/${item.id}` }, [(item as any)[columnKey]]);
+          return h('span', [(item as any)[columnKey]]);
         }
       },
       rowClicked: (item: UserInfo) => {
@@ -61,7 +61,7 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
     title: 'Users',
     dataService,
     body: [
-      createText({ htmlContent: 'Choose someone to chat with' }),
+      createText({ htmlContent: '<h2>Choose someone to chat with</h2>' }),
       list
     ],
     destroy: () => {

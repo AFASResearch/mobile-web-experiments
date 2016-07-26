@@ -22,7 +22,6 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo>): 
   let {getItems, getKey, renderCell, rowClicked} = bindings;
   let {columns} = config;
 
-
   let handleClick = (evt: Event) => {
     let items = getItems();
     let target = evt.currentTarget as HTMLElement;

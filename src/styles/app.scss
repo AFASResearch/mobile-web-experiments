@@ -1,35 +1,35 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
-@import "variables";
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import 'variables';
 
 * {
   box-sizing: border-box;
 }
 
 .app {
-  height: 100vh;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   font-family: $font-main;
   font-size: $font-size-main;
+  height: 100vh;
   line-height: 16px;
   margin: 0;
+  overflow: hidden;
   padding: 0;
 }
 
 .header {
   background-color: $header-color;
-  font-weight: bold;
   color: $text-color;
-  line-height: 24px;
+  display: flex;
+  flex: 0 0 auto;
   font-family: $font-header;
   font-size: $font-size-header;
+  font-weight: bold;
+  height: $header-height;
+  line-height: 24px;
   padding: 8px 8px 8px 48px;
-  flex: 0 0 auto;
-  display: flex;
   position: fixed;
   width: 100%;
-  height: $header-height;
 
   .title {
     flex: 1;
@@ -38,12 +38,10 @@
 
 .body {
   background-color: $background-color;
-  display: flex;
-  flex-direction: column;
   flex: 1 1 auto;
+  flex-direction: column;
   margin-top: $header-height;
-    overflow-y: scroll;
-
+  overflow-y: scroll;
 }
 
 .profile-picture {
@@ -54,4 +52,12 @@
   object-fit: cover;
 }
 
-
+.card {
+  background: white;
+  border: 1px solid lightgray;
+  border-bottom: 4px solid #d3d3d3;
+  border-right: 2px solid lightgray;
+  margin: 20pt;
+  padding: 10pt;
+  width: inherit;
+}

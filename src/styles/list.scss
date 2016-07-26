@@ -1,14 +1,13 @@
 @import "variables";
 
 .list {
-  padding: 8px;
   border-collapse: collapse;
-  width: 100%;
   flex: 1 1 auto;
 
   table {
     border-collapse: collapse;
-    
+    position: relative;
+    width: 100%;
   }
 
   tr {

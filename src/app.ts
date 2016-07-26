@@ -20,11 +20,11 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
       return h('body', { class: 'app' }, [
         h('div', { class: 'header' }, [
-          mainMenu.renderMaquette(),
           currentPage.renderHeader(),
           h('div', { class: 'status' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
         ]),
         h('div', { key: currentPage, class: 'body' }, [
+          mainMenu.renderMaquette(),
           currentPage.renderBody()
         ])
       ]);
