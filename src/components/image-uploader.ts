@@ -15,7 +15,6 @@ export interface ImageUploaderConfig {
 export interface ImageUploaderBindings { }
 
 export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUploaderBindings) => {
-
   let {projector, image} = config;
 
   let getUserMediaIsSupported = true;

@@ -1,6 +1,7 @@
+// This component creates a view where a video view is shown. 
+
 import {h, Projector} from 'maquette';
 import {createButton} from './button';
-
 require('../styles/camera.scss');
 
 export interface CameraConfig {
@@ -14,13 +15,10 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
   let n = <any>navigator;
   let window = <any>Window;
   let videoElement: HTMLVideoElement;
-
   let videoSources: string[];
   let audioSources: string[];
-
   let currentVideoSourceIndex: number;
   let currentAudioSourceIndex: number;
-
   let multipleCamerasAvailable: boolean;
 
   n.getUserMedia = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
@@ -116,8 +114,8 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
 
   return {
     renderMaquette: () => {
-      return h('div', { class: 'container' }, [
-        multipleCamerasAvailable ? createButton({ text: 'Switch camera', primary: false }, { onClick: handleSwitchButtonClick }).renderMaquette() : undefined,
+      return h('div', { class: 'camera-holder' }, [
+        multipleCamerasAvailable ? h('button', {class: 'toggleWebcamButton', primary: false, onclick: handleSwitchButtonClick}, ['switch camera']) : undefined,
         h('video', { autoplay: true, afterCreate: createElementsAfterCreate })
       ]);
     }
