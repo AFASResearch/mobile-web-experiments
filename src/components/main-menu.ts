@@ -17,6 +17,10 @@ const MENU_ITEMS: { text: string, route: string }[] = [
   {
     text: 'Upload files',
     route: 'file-upload'
+  },
+  {
+    text: 'Multiple camera support',
+    route: 'camera'
   }
 ];
 

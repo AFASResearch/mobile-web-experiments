@@ -2,7 +2,9 @@ import {Projector} from 'maquette';
 import {Page} from './components/page';
 import {createUserListPage} from './pages/user-list-page';
 import {createAccountPage} from './pages/account';
-import {createBarcodePage } from './pages/barcodescanner'
+import {createBarcodePage } from './pages/barcodescanner';
+import {createMultiCamPage} from './pages/multicam';
+
 import {createChatPage} from './pages/chat-page';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
@@ -24,6 +26,8 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
           return createBarcodePage(dataService, userService, projector);
         case 'file-upload':
           return createFileUploadPage(dataService, projector);
+        case 'camera':
+          return createMultiCamPage(dataService, userService, projector);
         default:
           let match = /chat\/(\w+)/.exec(route);
           if (match) {
