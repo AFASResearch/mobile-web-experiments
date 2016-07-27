@@ -1,4 +1,7 @@
 import {h, Projector} from 'maquette';
+import {createButton} from './button';
+
+require('../styles/camera.scss');
 
 export interface CameraConfig {
   projector: Projector;
@@ -7,11 +10,19 @@ export interface CameraConfig {
 export interface CameraBindings { }
 
 export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
+  let {projector} = config;
   let n = <any>navigator;
   let window = <any>Window;
   let videoElement: HTMLVideoElement;
-  let audioSelect: HTMLSelectElement;
-  let videoSelect: HTMLSelectElement;
+
+  let videoSources: string[];
+  let audioSources: string[];
+
+  let currentVideoSourceIndex: number;
+  let currentAudioSourceIndex: number;
+
+  let multipleCamerasAvailable: boolean;
+
   n.getUserMedia = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
 
   let successCallback = (stream: any) => {
@@ -32,8 +43,8 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
       });
     }
 
-    let audioSource = audioSelect.value;
-    let videoSource = videoSelect.value;
+    let audioSource = audioSources[currentAudioSourceIndex];
+    let videoSource = videoSources[currentVideoSourceIndex];
     let constraints = {
       audio: {
         optional: [{
@@ -49,51 +60,65 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
     n.getUserMedia(constraints, successCallback, errorCallback);
   };
 
+  let gotSources = (sourceInfos: any) => {
+    for (let i = 0; i !== sourceInfos.length; ++i) {
+      let sourceInfo = sourceInfos[i];
+      if (sourceInfo.kind === 'audioinput') {
+        audioSources.push(sourceInfo.deviceId);
+      } else if (sourceInfo.kind === 'videoinput') {
+        videoSources.push(sourceInfo.deviceId);
+      } else {
+       // console.log('Some other kind of source: ', sourceInfo);
+      }
+    }
+    if (videoSources.length > 1 && !multipleCamerasAvailable) {
+      multipleCamerasAvailable = true;
+      projector.scheduleRender();
+    }
+  };
+
   let initializeDevices = () => {
     if (!n.mediaDevices || !n.mediaDevices.enumerateDevices) {
       console.log('enumerateDevices() not supported.');
       return;
     }
-
     n.mediaDevices.enumerateDevices()
       .then(function (devices: any) {
         gotSources(devices);
+         start();
       })
       .catch(function (err: Error) {
         console.error(err.name + ': ' + err.message);
       });
-    start();
+      console.log(videoSources);
+  };
+
+  let handleSwitchButtonClick = () => {
+    if ( multipleCamerasAvailable ) {
+      if (currentVideoSourceIndex < videoSources.length - 1) {
+        currentVideoSourceIndex++;
+      } else {
+        currentVideoSourceIndex = 0;
+      }
+      start();
+    }
   };
 
   let createElementsAfterCreate = () => {
     videoElement = <HTMLVideoElement>document.querySelector('video');
-    audioSelect = <HTMLSelectElement>document.querySelector('select#audioSelect');
-    videoSelect = <HTMLSelectElement>document.querySelector('select#videoSelect');
+    videoSources = [];
+    audioSources = [];
+    currentVideoSourceIndex = 0;
+    currentAudioSourceIndex = 0;
+    multipleCamerasAvailable = false;
     initializeDevices();
-  };
-
-  function gotSources(sourceInfos: any) {
-    for (let i = 0; i !== sourceInfos.length; ++i) {
-      let sourceInfo = sourceInfos[i];
-      let option = document.createElement('option');
-      option.value = sourceInfo.deviceId;
-      option.text = sourceInfo.label;
-      if (sourceInfo.kind === 'audioinput') {
-        audioSelect.appendChild(option);
-      } else if (sourceInfo.kind === 'videoinput') {
-        videoSelect.appendChild(option);
-      } else {
-        console.log('Some other kind of source: ', sourceInfo);
-      }
-    }
   };
 
   return {
     renderMaquette: () => {
       return h('div', { class: 'container' }, [
-        h('select', { id: 'videoSelect', onchange: start }),
-        h('select', { id: 'audioSelect', onchange: start }),
-        h('video', { afterCreate: createElementsAfterCreate })
+        multipleCamerasAvailable ? createButton({ text: 'Switch camera', primary: false }, { onClick: handleSwitchButtonClick }).renderMaquette() : undefined,
+        h('video', { autoplay: true, afterCreate: createElementsAfterCreate })
       ]);
     }
   };
