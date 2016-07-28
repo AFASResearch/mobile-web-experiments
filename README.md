@@ -9,4 +9,10 @@ webpack
 hz serve --dev --bind $IP --port $PORT
 ```
 
+for the cordova part, run  
+
+``` 
+cordova prepare
+```
+
 Good luck

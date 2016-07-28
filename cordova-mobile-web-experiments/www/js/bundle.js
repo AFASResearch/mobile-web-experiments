@@ -60,9 +60,9 @@
 	var router_1 = __webpack_require__(246);
 	var data_service_1 = __webpack_require__(247);
 	var route_registry_1 = __webpack_require__(248);
-	var user_service_1 = __webpack_require__(262);
+	var user_service_1 = __webpack_require__(266);
 	// Bootstrapping code
-	var horizon = Horizon({ host: 'localhost:8181' });
+	var horizon = Horizon({ host: 'nl1-lbs.afasgroep.nl:8181' });
 	var store = localforage.createInstance({ storeName: 'mobile-web-experiments' });
 	var horizonReady = false;
 	var userServiceReady = false;
@@ -15584,7 +15584,33 @@
 	var utilities_1 = __webpack_require__(240);
 	var main_menu_1 = __webpack_require__(241);
 	__webpack_require__(244);
+	//polyfill for object assign, since it is not supported by android.
+	if (typeof Object.assign != 'function') {
+	    Object.assign = function (target) {
+	        'use strict';
+	        if (target == null) {
+	            throw new TypeError('Cannot convert undefined or null to object');
+	        }
+	        target = Object(target);
+	        for (var index = 1; index < arguments.length; index++) {
+	            var source = arguments[index];
+	            if (source != null) {
+	                for (var key in source) {
+	                    if (Object.prototype.hasOwnProperty.call(source, key)) {
+	                        target[key] = source[key];
+	                    }
+	                }
+	            }
+	        }
+	        return target;
+	    };
+	}
 	exports.createApp = function (dataService, store, router, userService, projector) {
+	    document.addEventListener('deviceready', onDeviceReady, false);
+	    function onDeviceReady() {
+	        console.log(navigator.camera); // cordova creates the camera class
+	        alert('camera loaded');
+	    }
 	    var registerPage = register_page_1.createRegisterPage(dataService, userService, projector, utilities_1.randomId());
 	    var mainMenu = main_menu_1.createMainMenu();
 	    return {
@@ -16645,6 +16671,10 @@
 	    {
 	        text: 'Upload files',
 	        route: 'file-upload'
+	    },
+	    {
+	        text: 'Multiple camera support',
+	        route: 'camera'
 	    }
 	];
 	exports.createMainMenu = function () {
@@ -16815,8 +16845,9 @@
 	var user_list_page_1 = __webpack_require__(249);
 	var account_1 = __webpack_require__(253);
 	var barcodescanner_1 = __webpack_require__(254);
-	var chat_page_1 = __webpack_require__(255);
-	var file_upload_1 = __webpack_require__(261);
+	var multicam_1 = __webpack_require__(255);
+	var chat_page_1 = __webpack_require__(259);
+	var file_upload_1 = __webpack_require__(265);
 	exports.createRouteRegistry = function (dataService, projector, userService) {
 	    return {
 	        initializePage: function (route) {
@@ -16829,6 +16860,8 @@
 	                    return barcodescanner_1.createBarcodePage(dataService, userService, projector);
 	                case 'file-upload':
 	                    return file_upload_1.createFileUploadPage(dataService, projector);
+	                case 'camera':
+	                    return multicam_1.createMultiCamPage(dataService, userService, projector);
 	                default:
 	                    var match = /chat\/(\w+)/.exec(route);
 	                    if (match) {
@@ -17066,13 +17099,186 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var page_1 = __webpack_require__(216);
+	var camera_1 = __webpack_require__(256);
+	__webpack_require__(237);
+	exports.createMultiCamPage = function (dataService, userService, projector) {
+	    var page = page_1.createPage({
+	        title: 'Multicam testing',
+	        dataService: dataService,
+	        body: [
+	            camera_1.createCamera({ projector: projector }, {})
+	        ]
+	    });
+	    return page;
+	};
+
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// This component creates a view where a video view is shown. 
+	"use strict";
+	var maquette_1 = __webpack_require__(213);
+	__webpack_require__(257);
+	exports.createCamera = function (config, bindings) {
+	    var projector = config.projector;
+	    var n = navigator;
+	    var window = Window;
+	    var videoElement;
+	    var videoSources;
+	    var audioSources;
+	    var currentVideoSourceIndex;
+	    var currentAudioSourceIndex;
+	    var multipleCamerasAvailable;
+	    n.getUserMedia = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
+	    var successCallback = function (stream) {
+	        window.stream = stream; // make stream available to console
+	        videoElement.src = URL.createObjectURL(stream);
+	        videoElement.play();
+	    };
+	    var errorCallback = function (error) {
+	        console.log('navigator.getUserMedia error: ', error);
+	    };
+	    var start = function () {
+	        if (window.stream) {
+	            videoElement.src = null;
+	            window.stream.getTracks().forEach(function (track) {
+	                track.stop();
+	            });
+	        }
+	        var audioSource = audioSources[currentAudioSourceIndex];
+	        var videoSource = videoSources[currentVideoSourceIndex];
+	        var constraints = {
+	            audio: {
+	                optional: [{
+	                        sourceId: audioSource
+	                    }]
+	            },
+	            video: {
+	                optional: [{
+	                        sourceId: videoSource
+	                    }]
+	            }
+	        };
+	        n.getUserMedia(constraints, successCallback, errorCallback);
+	    };
+	    var gotSources = function (sourceInfos) {
+	        for (var i = 0; i !== sourceInfos.length; ++i) {
+	            var sourceInfo = sourceInfos[i];
+	            if (sourceInfo.kind === 'audioinput') {
+	                audioSources.push(sourceInfo.deviceId);
+	            }
+	            else if (sourceInfo.kind === 'videoinput') {
+	                videoSources.push(sourceInfo.deviceId);
+	            }
+	            else {
+	            }
+	        }
+	        if (videoSources.length > 1 && !multipleCamerasAvailable) {
+	            multipleCamerasAvailable = true;
+	            projector.scheduleRender();
+	        }
+	    };
+	    var initializeDevices = function () {
+	        if (!n.mediaDevices || !n.mediaDevices.enumerateDevices) {
+	            console.log('enumerateDevices() not supported.');
+	            return;
+	        }
+	        n.mediaDevices.enumerateDevices()
+	            .then(function (devices) {
+	            gotSources(devices);
+	            start();
+	        })
+	            .catch(function (err) {
+	            console.error(err.name + ': ' + err.message);
+	        });
+	        console.log(videoSources);
+	    };
+	    var handleSwitchButtonClick = function () {
+	        if (multipleCamerasAvailable) {
+	            if (currentVideoSourceIndex < videoSources.length - 1) {
+	                currentVideoSourceIndex++;
+	            }
+	            else {
+	                currentVideoSourceIndex = 0;
+	            }
+	            start();
+	        }
+	    };
+	    var createElementsAfterCreate = function () {
+	        videoElement = document.querySelector('video');
+	        videoSources = [];
+	        audioSources = [];
+	        currentVideoSourceIndex = 0;
+	        currentAudioSourceIndex = 0;
+	        multipleCamerasAvailable = false;
+	        initializeDevices();
+	    };
+	    return {
+	        renderMaquette: function () {
+	            return maquette_1.h('div', { class: 'camera-holder' }, [
+	                multipleCamerasAvailable ? maquette_1.h('button', { class: 'toggleWebcamButton', primary: false, onclick: handleSwitchButtonClick }, ['switch camera']) : undefined,
+	                maquette_1.h('video', { autoplay: true, afterCreate: createElementsAfterCreate })
+	            ]);
+	        }
+	    };
+	};
+
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(258);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(220)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./camera.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./camera.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(219)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "video {\n  width: 100%;\n  max-width: 640px;\n  margin-left: auto;\n  margin-right: auto;\n  margin-top: 10px;\n  border: none; }\n\n.camera-holder {\n  position: relative;\n  width: inherit;\n  height: inherit; }\n\n.toggleWebcamButton {\n  top: 30px;\n  left: 20px;\n  z-index: 1;\n  position: absolute; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var maquette_1 = __webpack_require__(213);
 	var list_1 = __webpack_require__(250);
 	var page_1 = __webpack_require__(216);
 	var text_1 = __webpack_require__(221);
-	var message_composer_1 = __webpack_require__(256);
+	var message_composer_1 = __webpack_require__(260);
 	var utilities_1 = __webpack_require__(240);
-	var jstz = __webpack_require__(259);
+	var jstz = __webpack_require__(263);
 	exports.createChatPage = function (dataService, user, toUserId, projector) {
 	    var timezone = jstz.determine();
 	    var otherUser;
@@ -17159,12 +17365,12 @@
 
 
 /***/ },
-/* 256 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var maquette_1 = __webpack_require__(213);
-	__webpack_require__(257);
+	__webpack_require__(261);
 	exports.createMessageComposer = function (bindings) {
 	    var textToSend = '';
 	    var handleKeyDown = function (evt) {
@@ -17194,13 +17400,13 @@
 
 
 /***/ },
-/* 257 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(258);
+	var content = __webpack_require__(262);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(220)(content, {});
@@ -17220,7 +17426,7 @@
 	}
 
 /***/ },
-/* 258 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(219)();
@@ -17234,14 +17440,14 @@
 
 
 /***/ },
-/* 259 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(260).jstz;
+	module.exports = __webpack_require__(264).jstz;
 
 
 /***/ },
-/* 260 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function (root) {/*global exports, Intl*/
@@ -18560,7 +18766,7 @@
 
 
 /***/ },
-/* 261 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -18586,7 +18792,7 @@
 
 
 /***/ },
-/* 262 */
+/* 266 */
 /***/ function(module, exports) {
 
 	"use strict";
