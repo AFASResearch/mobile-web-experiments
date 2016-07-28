@@ -5,4 +5,9 @@ build
 dist
 cordova-mobile-web-experiments/platforms/*
 cordova-mobile-web-experiments/hooks/*
-cordova-mobile-web-experiments/plugins/*
+
+cordova-mobile-web-experiments/plugins/* 
+!cordova-mobile-web-experiments/plugins/*/
+
+cordova-mobile-web-experiments/plugins/*/* 
+!cordova-mobile-web-experiments/plugins/*/plugin.xml
