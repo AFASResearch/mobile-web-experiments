@@ -15584,8 +15584,8 @@
 	var utilities_1 = __webpack_require__(240);
 	var main_menu_1 = __webpack_require__(241);
 	__webpack_require__(244);
-	//polyfill for object assign, since it is not supported by android.
-	if (typeof Object.assign != 'function') {
+	// polyfill for object assign, since it is not supported by android.
+	if (typeof Object.assign !== 'function') {
 	    Object.assign = function (target) {
 	        'use strict';
 	        if (target == null) {
@@ -16795,7 +16795,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);", ""]);
 	
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  padding: 10px; }\n", ""]);
 	
 	// exports
 
@@ -18780,7 +18780,13 @@
 	"use strict";
 	var maquette_1 = __webpack_require__(213);
 	var page_1 = __webpack_require__(216);
+	var text_field_1 = __webpack_require__(224);
+	var button_1 = __webpack_require__(227);
 	exports.createFileUploadPage = function (dataService, projector) {
+	    var newFileTitle = '';
+	    var newFileContent = '';
+	    var allEntries;
+	    var fileSystem;
 	    var onErrorLoadFs = function () {
 	        alert('onErrorLoadFs');
 	    };
@@ -18790,29 +18796,22 @@
 	    var onErrorReadFile = function () {
 	        alert('onErrorReadFile');
 	    };
-	    document.addEventListener('deviceready', onDeviceReady, false);
-	    // in this function cordova's global functions can be used.
-	    function onDeviceReady() {
-	        console.log('loading file access');
-	        console.log(cordova.file);
-	        console.log('File access loaded');
-	        window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs) {
-	            console.log('file system open: ' + fs.name);
-	            createFile(fs.root, "newTempFile.txt", false);
-	        }, onErrorLoadFs);
-	    }
-	    function createFile(dirEntry, fileName, isAppend) {
-	        // Creates a new file or returns the file if it already exists.
-	        dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
-	            writeFile(fileEntry, null, isAppend);
-	        }, onErrorCreateFile);
-	    }
+	    var gotList = function (entries) {
+	        allEntries = entries;
+	        entries.forEach(function (entry) {
+	            console.log(entry);
+	        });
+	        projector.scheduleRender();
+	    };
+	    var getEntries = function (filesystem) {
+	        var reader = filesystem.root.createReader();
+	        reader.readEntries(gotList, onErrorReadFile);
+	    };
 	    var readFile = function (fileEntry) {
 	        fileEntry.file(function (file) {
 	            var reader = new FileReader();
 	            reader.onloadend = function () {
-	                console.log("Successful file read: " + this.result);
-	                // displayFileData(fileEntry.fullPath + ": " + this.result);
+	                console.log('Successful file read: ' + this.result);
 	            };
 	            reader.readAsText(file);
 	        }, onErrorReadFile);
@@ -18821,7 +18820,6 @@
 	        // Create a FileWriter object for our FileEntry (log.txt).
 	        fileEntry.createWriter(function (fileWriter) {
 	            fileWriter.onwriteend = function () {
-	                console.log('Successful file read...');
 	                readFile(fileEntry);
 	            };
 	            fileWriter.onerror = function (e) {
@@ -18836,24 +18834,49 @@
 	                    console.log("file doesn't exist!");
 	                }
 	            }
-	            // If data object is not passed in,
-	            // create a new Blob instead.
+	            // If data object is not passed in, create a new Blob instead.
 	            if (!dataObj) {
-	                dataObj = new Blob(['some file data'], { type: 'text/plain' });
+	                dataObj = new Blob([newFileContent], { type: 'text/plain' });
 	            }
 	            fileWriter.write(dataObj);
 	        });
 	    };
+	    var createFile = function (dirEntry, fileName, isAppend) {
+	        // Creates a new file or returns the file if it already exists.
+	        dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
+	            writeFile(fileEntry, null, isAppend);
+	        }, onErrorCreateFile);
+	    };
+	    // in this function cordova's global functions can be used.
+	    var onDeviceReady = function () {
+	        allEntries = [];
+	        window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs) {
+	            fileSystem = fs;
+	            getEntries(fileSystem);
+	        }, onErrorLoadFs);
+	    };
+	    document.addEventListener('deviceready', onDeviceReady, false);
+	    // Create new txt file (on button click)
+	    var createNewFile = function () {
+	        console.log('name = ' + newFileTitle + ' - content = ' + newFileContent);
+	        console.log('file system open: ' + fileSystem.name);
+	        createFile(fileSystem.root, newFileTitle + '.txt', false);
+	        getEntries(fileSystem);
+	    };
 	    return page_1.createPage({
-	        title: 'File upload',
+	        title: 'File upload / file reading',
 	        dataService: dataService,
 	        body: [
+	            text_field_1.createTextField({ label: 'title' }, { getValue: function () { return newFileTitle; }, setValue: function (value) { newFileTitle = value; } }),
+	            text_field_1.createTextField({ label: 'content' }, { getValue: function () { return newFileContent; }, setValue: function (value) { newFileContent = value; } }),
+	            button_1.createButton({ text: 'Create the file', primary: true }, { onClick: createNewFile }),
 	            {
 	                renderMaquette: function () {
-	                    return maquette_1.h('div', { id: 'dropzone' }, [
-	                        maquette_1.h('input', { type: 'file', name: 'file[]', multiple: true }, []),
-	                        maquette_1.h('form', { id: 'my-awesome-dropzone', action: 'file/upload', class: 'dropzone' }),
-	                        maquette_1.h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image'])
+	                    return maquette_1.h('div', [
+	                        //  h('input', { type: 'file', name: 'file[]', multiple: true }, []),
+	                        // h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
+	                        // could be problematic when files have the same name
+	                        allEntries ? maquette_1.h('div', [allEntries.map(function (entry) { return maquette_1.h('p', { class: 'attachment', key: entry.name }, [entry.name]); })]) : maquette_1.h('div', ['loading files...'])
 	                    ]);
 	                }
 	            }
