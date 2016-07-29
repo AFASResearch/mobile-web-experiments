@@ -15606,11 +15606,19 @@
 	    };
 	}
 	exports.createApp = function (dataService, store, router, userService, projector) {
-	    document.addEventListener('deviceready', onDeviceReady, false);
-	    function onDeviceReady() {
-	        console.log(navigator.camera); // cordova creates the camera class
-	        alert('camera loaded');
-	    }
+	    // document.addEventListener('deviceready', onDeviceReady, false);
+	    // // in this function cordova's global functions can be used.
+	    // function onDeviceReady() {
+	    //     console.log('loading camera');
+	    //     console.log(navigator.camera);
+	    //     console.log('camera loaded');
+	    //     console.log('loading filetransfer');
+	    //     console.log(FileTransfer);
+	    //     console.log('FileTransfer loaded');
+	    //     console.log('loading file access');
+	    //     console.log(cordova.file);
+	    //     console.log('File access loaded');
+	    // }
 	    var registerPage = register_page_1.createRegisterPage(dataService, userService, projector, utilities_1.randomId());
 	    var mainMenu = main_menu_1.createMainMenu();
 	    return {
@@ -18773,6 +18781,69 @@
 	var maquette_1 = __webpack_require__(213);
 	var page_1 = __webpack_require__(216);
 	exports.createFileUploadPage = function (dataService, projector) {
+	    var onErrorLoadFs = function () {
+	        alert('onErrorLoadFs');
+	    };
+	    var onErrorCreateFile = function () {
+	        alert('onerrorcreatefile');
+	    };
+	    var onErrorReadFile = function () {
+	        alert('onErrorReadFile');
+	    };
+	    document.addEventListener('deviceready', onDeviceReady, false);
+	    // in this function cordova's global functions can be used.
+	    function onDeviceReady() {
+	        console.log('loading file access');
+	        console.log(cordova.file);
+	        console.log('File access loaded');
+	        window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs) {
+	            console.log('file system open: ' + fs.name);
+	            createFile(fs.root, "newTempFile.txt", false);
+	        }, onErrorLoadFs);
+	    }
+	    function createFile(dirEntry, fileName, isAppend) {
+	        // Creates a new file or returns the file if it already exists.
+	        dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
+	            writeFile(fileEntry, null, isAppend);
+	        }, onErrorCreateFile);
+	    }
+	    var readFile = function (fileEntry) {
+	        fileEntry.file(function (file) {
+	            var reader = new FileReader();
+	            reader.onloadend = function () {
+	                console.log("Successful file read: " + this.result);
+	                // displayFileData(fileEntry.fullPath + ": " + this.result);
+	            };
+	            reader.readAsText(file);
+	        }, onErrorReadFile);
+	    };
+	    var writeFile = function (fileEntry, dataObj, isAppend) {
+	        // Create a FileWriter object for our FileEntry (log.txt).
+	        fileEntry.createWriter(function (fileWriter) {
+	            fileWriter.onwriteend = function () {
+	                console.log('Successful file read...');
+	                readFile(fileEntry);
+	            };
+	            fileWriter.onerror = function (e) {
+	                console.log('Failed file read: ' + e.toString());
+	            };
+	            // If we are appending data to file, go to the end of the file.
+	            if (isAppend) {
+	                try {
+	                    fileWriter.seek(fileWriter.length);
+	                }
+	                catch (e) {
+	                    console.log("file doesn't exist!");
+	                }
+	            }
+	            // If data object is not passed in,
+	            // create a new Blob instead.
+	            if (!dataObj) {
+	                dataObj = new Blob(['some file data'], { type: 'text/plain' });
+	            }
+	            fileWriter.write(dataObj);
+	        });
+	    };
 	    return page_1.createPage({
 	        title: 'File upload',
 	        dataService: dataService,

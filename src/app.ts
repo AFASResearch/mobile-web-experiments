@@ -8,19 +8,21 @@ import {DataService} from './services/data-service';
 import {createMainMenu} from './components/main-menu';
 require('./styles/app.scss');
 
-//polyfill for object assign, since it is not supported by android.
-if (typeof Object.assign != 'function') {
-  Object.assign = function(target) {
+declare let Object: any;
+
+// polyfill for object assign, since it is not supported by android.
+if (typeof Object.assign !== 'function') {
+  Object.assign = function(target: any) {
     'use strict';
     if (target == null) {
       throw new TypeError('Cannot convert undefined or null to object');
     }
 
     target = Object(target);
-    for (var index = 1; index < arguments.length; index++) {
-      var source = arguments[index];
+    for (let index = 1; index < arguments.length; index++) {
+      let source = arguments[index];
       if (source != null) {
-        for (var key in source) {
+        for (let key in source) {
           if (Object.prototype.hasOwnProperty.call(source, key)) {
             target[key] = source[key];
           }
@@ -31,16 +33,23 @@ if (typeof Object.assign != 'function') {
   };
 }
 
-
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
-document.addEventListener('deviceready', onDeviceReady, false);
+// document.addEventListener('deviceready', onDeviceReady, false);
+// // in this function cordova's global functions can be used.
+// function onDeviceReady() {
+//     console.log('loading camera');
+//     console.log(navigator.camera);
+//     console.log('camera loaded');
 
+//     console.log('loading filetransfer');
+//     console.log(FileTransfer);
+//     console.log('FileTransfer loaded');
 
-function onDeviceReady() {
-    console.log(navigator.camera); // cordova creates the camera class
-    alert('camera loaded');
-}
+//     console.log('loading file access');
+//     console.log(cordova.file);
+//     console.log('File access loaded');
+// }
 
   let registerPage = createRegisterPage(dataService, userService, projector, randomId());
   let mainMenu = createMainMenu();
