@@ -79,4 +79,17 @@
 .attachment { 
     border: 1px solid #cacaca;
     padding: 10px;
+    display: flex;
+    margin-top: 10px;
+
+    p {
+      flex: 1;
+      line-height: 0;
+    }
+
+    .button { 
+      background-color: red;
+      margin: 0;
+    }
+
 }

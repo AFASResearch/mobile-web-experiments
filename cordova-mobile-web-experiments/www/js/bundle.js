@@ -16795,7 +16795,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);", ""]);
 	
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  padding: 10px; }\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  padding: 10px;\n  display: flex;\n  margin-top: 10px; }\n  .attachment p {\n    flex: 1;\n    line-height: 0; }\n  .attachment .button {\n    background-color: red;\n    margin: 0; }\n", ""]);
 	
 	// exports
 
@@ -18787,26 +18787,32 @@
 	    var newFileContent = '';
 	    var allEntries;
 	    var fileSystem;
-	    var onErrorLoadFs = function () {
-	        alert('onErrorLoadFs');
-	    };
-	    var onErrorCreateFile = function () {
-	        alert('onerrorcreatefile');
-	    };
-	    var onErrorReadFile = function () {
-	        alert('onErrorReadFile');
-	    };
-	    var gotList = function (entries) {
-	        allEntries = entries;
-	        entries.forEach(function (entry) {
-	            console.log(entry);
-	        });
-	        projector.scheduleRender();
-	    };
+	    // do alerts as error callback
+	    var onErrorLoadFs = function () { alert('onErrorLoadFs'); };
+	    var onErrorCreateFile = function () { alert('onerrorcreatefile'); };
+	    var onErrorReadFile = function () { alert('onErrorReadFile'); };
+	    // get the folders in the filesystem
 	    var getEntries = function (filesystem) {
 	        var reader = filesystem.root.createReader();
-	        reader.readEntries(gotList, onErrorReadFile);
+	        reader.readEntries(function (entries) {
+	            allEntries = entries;
+	            projector.scheduleRender();
+	        }, onErrorReadFile);
 	    };
+	    var deleteFile = function (evt) {
+	        var target = evt.currentTarget;
+	        var fileName = target.getAttribute('data-fileName');
+	        console.log('removing file');
+	        fileSystem.root.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
+	            fileEntry.remove(function () {
+	                console.log('File removed!');
+	                getEntries(fileSystem);
+	            }, function () {
+	                console.log('error deleting the file ');
+	            });
+	        });
+	    };
+	    // read the content from a file
 	    var readFile = function (fileEntry) {
 	        fileEntry.file(function (file) {
 	            var reader = new FileReader();
@@ -18816,7 +18822,8 @@
 	            reader.readAsText(file);
 	        }, onErrorReadFile);
 	    };
-	    var writeFile = function (fileEntry, dataObj, isAppend) {
+	    // write content to a file
+	    var writeFile = function (fileEntry, dataObj) {
 	        // Create a FileWriter object for our FileEntry (log.txt).
 	        fileEntry.createWriter(function (fileWriter) {
 	            fileWriter.onwriteend = function () {
@@ -18825,27 +18832,13 @@
 	            fileWriter.onerror = function (e) {
 	                console.log('Failed file read: ' + e.toString());
 	            };
-	            // If we are appending data to file, go to the end of the file.
-	            if (isAppend) {
-	                try {
-	                    fileWriter.seek(fileWriter.length);
-	                }
-	                catch (e) {
-	                    console.log("file doesn't exist!");
-	                }
-	            }
 	            // If data object is not passed in, create a new Blob instead.
 	            if (!dataObj) {
 	                dataObj = new Blob([newFileContent], { type: 'text/plain' });
 	            }
 	            fileWriter.write(dataObj);
 	        });
-	    };
-	    var createFile = function (dirEntry, fileName, isAppend) {
-	        // Creates a new file or returns the file if it already exists.
-	        dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
-	            writeFile(fileEntry, null, isAppend);
-	        }, onErrorCreateFile);
+	        getEntries(fileSystem);
 	    };
 	    // in this function cordova's global functions can be used.
 	    var onDeviceReady = function () {
@@ -18858,10 +18851,9 @@
 	    document.addEventListener('deviceready', onDeviceReady, false);
 	    // Create new txt file (on button click)
 	    var createNewFile = function () {
-	        console.log('name = ' + newFileTitle + ' - content = ' + newFileContent);
-	        console.log('file system open: ' + fileSystem.name);
-	        createFile(fileSystem.root, newFileTitle + '.txt', false);
-	        getEntries(fileSystem);
+	        fileSystem.root.getFile(newFileTitle, { create: true, exclusive: false }, function (fileEntry) {
+	            writeFile(fileEntry, null);
+	        }, onErrorCreateFile);
 	    };
 	    return page_1.createPage({
 	        title: 'File upload / file reading',
@@ -18873,10 +18865,14 @@
 	            {
 	                renderMaquette: function () {
 	                    return maquette_1.h('div', [
-	                        //  h('input', { type: 'file', name: 'file[]', multiple: true }, []),
+	                        // h('input', { type: 'file', name: 'file[]', multiple: true }, []),
 	                        // h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
-	                        // could be problematic when files have the same name
-	                        allEntries ? maquette_1.h('div', [allEntries.map(function (entry) { return maquette_1.h('p', { class: 'attachment', key: entry.name }, [entry.name]); })]) : maquette_1.h('div', ['loading files...'])
+	                        allEntries ? maquette_1.h('div', [allEntries.map(function (entry) { return [
+	                                maquette_1.h('div', { class: 'attachment', key: entry.name }, [
+	                                    maquette_1.h('p', { key: entry.name }, [entry.name]),
+	                                    maquette_1.h('button', { class: 'button', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])])]; })
+	                        ])
+	                            : maquette_1.h('div', ['loading files...'])
 	                    ]);
 	                }
 	            }
