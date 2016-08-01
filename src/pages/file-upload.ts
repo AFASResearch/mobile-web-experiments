@@ -7,6 +7,7 @@ import {createButton} from '../components/button';
 
 declare let cordova: any;
 declare let window: any;
+declare let FileTransfer: any;
 
 export let createFileUploadPage = (dataService: DataService, projector: Projector) => {
 
@@ -81,10 +82,11 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
   // in this function cordova's global functions can be used.
   let onDeviceReady = () => {
     allEntries = [];
+    console.log(FileTransfer);
     window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs: any) {
       fileSystem = fs;
       getEntries(fileSystem);
-    }, onErrorLoadFs);
+    }, onErrorLoadFs); 
   };
   document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -94,6 +96,49 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
       writeFile(fileEntry, null);
     }, onErrorCreateFile);
   };
+
+
+  let openFile = (evt: Event) => {
+    let target = evt.currentTarget as HTMLElement;
+    let fileName = target.getAttribute('data-fileName');
+
+    fileSystem.root.getFile(fileName, { create: true, exclusive: false }, (fileEntry: any) => {
+
+   fileEntry.file(function (file: any) {
+      let reader = new FileReader();
+      reader.onloadend = function () {
+        alert('Successful file read: ' + this.result);
+      };
+      reader.readAsText(file);
+    }, onErrorReadFile);
+
+    });
+  };
+
+  // !! Assumes variable fileURL contains a valid URL to a path on the device,
+//    for example, cdvfile://localhost/persistent/path/to/downloads/
+
+// let fileTransfer = new FileTransfer();
+// let uri = encodeURI("http://some.server.com/download.php");
+
+// fileTransfer.download(
+//     uri,
+//     fileURL,
+//     function(entry) {
+//         console.log("download complete: " + entry.toURL());
+//     },
+//     function(error) {
+//         console.log("download error source " + error.source);
+//         console.log("download error target " + error.target);
+//         console.log("upload error code" + error.code);
+//     },
+//     false,
+//     {
+//         headers: {
+//             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+//         }
+//     }
+// );
 
   return createPage({
     title: 'File upload / file reading',
@@ -119,7 +164,8 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
             allEntries ? h('div', [allEntries.map((entry) => [
               h('div', { class: 'attachment', key: entry.name }, [
                 h('p', { key: entry.name }, [entry.name]),
-                h('button', { class: 'button', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
+                h('button', { class: 'button primary', onclick: openFile, key: entry.name, 'data-fileName': entry.name }, ['show/download'])
+                h('button', { class: 'button danger', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
               ])
             ])
             ])

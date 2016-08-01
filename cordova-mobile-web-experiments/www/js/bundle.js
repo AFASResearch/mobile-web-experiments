@@ -15613,20 +15613,19 @@
 	    cordova.plugins.notification.local.schedule({
 	        id: 10,
 	        title: 'Meeting in 15 minutes!',
-	        text: 'Jour fixe Produktionsbesprechung',
+	        text: 'test een notificatie vanuit cordova',
 	        data: { meetingId: '#123FG8' }
 	    });
 	    // Join BBM Meeting when user has clicked on the notification 
-	    cordova.plugins.notification.local.on("click", function (notification) {
+	    cordova.plugins.notification.local.on('click', function (notification) {
 	        if (notification.id === 10) {
-	            // joinMeeting(notification.data.meetingId);
-	            console.log('notification has been clicked');
 	        }
 	    });
 	    // Notification has reached its trigger time (Tomorrow at 8:45 AM)
-	    cordova.plugins.notification.local.on("trigger", function (notification) {
-	        if (notification.id !== 10)
+	    cordova.plugins.notification.local.on('trigger', function (notification) {
+	        if (notification.id !== 10) {
 	            return;
+	        }
 	        // After 10 minutes update notification's title 
 	        setTimeout(function () {
 	            cordova.plugins.notification.local.update({
@@ -16813,7 +16812,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);", ""]);
 	
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  background-color: #f5f5f5;\n  padding: 10px;\n  display: flex;\n  margin-top: 10px; }\n  .attachment p {\n    flex: 1;\n    line-height: 0; }\n  .attachment .button {\n    background-color: red;\n    margin: 0; }\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  background-color: #f5f5f5;\n  padding: 10px;\n  display: flex;\n  margin-top: 10px; }\n  .attachment p {\n    flex: 1;\n    line-height: 0; }\n  .attachment .button {\n    margin: 0; }\n  .attachment .danger {\n    background-color: red; }\n", ""]);
 	
 	// exports
 
@@ -18859,6 +18858,7 @@
 	    // in this function cordova's global functions can be used.
 	    var onDeviceReady = function () {
 	        allEntries = [];
+	        console.log(FileTransfer);
 	        window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs) {
 	            fileSystem = fs;
 	            getEntries(fileSystem);
@@ -18871,6 +18871,41 @@
 	            writeFile(fileEntry, null);
 	        }, onErrorCreateFile);
 	    };
+	    var openFile = function (evt) {
+	        var target = evt.currentTarget;
+	        var fileName = target.getAttribute('data-fileName');
+	        fileSystem.root.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
+	            fileEntry.file(function (file) {
+	                var reader = new FileReader();
+	                reader.onloadend = function () {
+	                    alert('Successful file read: ' + this.result);
+	                };
+	                reader.readAsText(file);
+	            }, onErrorReadFile);
+	        });
+	    };
+	    // !! Assumes variable fileURL contains a valid URL to a path on the device,
+	    //    for example, cdvfile://localhost/persistent/path/to/downloads/
+	    // let fileTransfer = new FileTransfer();
+	    // let uri = encodeURI("http://some.server.com/download.php");
+	    // fileTransfer.download(
+	    //     uri,
+	    //     fileURL,
+	    //     function(entry) {
+	    //         console.log("download complete: " + entry.toURL());
+	    //     },
+	    //     function(error) {
+	    //         console.log("download error source " + error.source);
+	    //         console.log("download error target " + error.target);
+	    //         console.log("upload error code" + error.code);
+	    //     },
+	    //     false,
+	    //     {
+	    //         headers: {
+	    //             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+	    //         }
+	    //     }
+	    // );
 	    return page_1.createPage({
 	        title: 'File upload / file reading',
 	        dataService: dataService,
@@ -18895,7 +18930,8 @@
 	                        allEntries ? maquette_1.h('div', [allEntries.map(function (entry) { return [
 	                                maquette_1.h('div', { class: 'attachment', key: entry.name }, [
 	                                    maquette_1.h('p', { key: entry.name }, [entry.name]),
-	                                    maquette_1.h('button', { class: 'button', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
+	                                    maquette_1.h('button', { class: 'button primary', onclick: openFile, key: entry.name, 'data-fileName': entry.name }, ['show/download']),
+	                                    maquette_1.h('button', { class: 'button danger', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
 	                                ])
 	                            ]; })
 	                        ])

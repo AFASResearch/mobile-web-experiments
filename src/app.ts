@@ -39,28 +39,27 @@ if (typeof Object.assign !== 'function') {
  document.addEventListener('deviceready', function () {
    alert('device is ready');
 
-
     // Schedule notification for tomorrow to remember about the meeting
     cordova.plugins.notification.local.schedule({
         id: 10,
         title: 'Meeting in 15 minutes!',
-        text: 'Jour fixe Produktionsbesprechung',
+        text: 'test een notificatie vanuit cordova',
         data: { meetingId: '#123FG8' }
     });
 
     // Join BBM Meeting when user has clicked on the notification 
-    cordova.plugins.notification.local.on("click", function (notification: any) {
+    cordova.plugins.notification.local.on('click', function (notification: any) {
         if (notification.id === 10) {
            // joinMeeting(notification.data.meetingId);
-           console.log('notification has been clicked');
+           // console.log('notification has been clicked');
         }
     });
 
     // Notification has reached its trigger time (Tomorrow at 8:45 AM)
-    cordova.plugins.notification.local.on("trigger", function (notification: any) {
-        if (notification.id !== 10)
+    cordova.plugins.notification.local.on('trigger', function (notification: any) {
+        if (notification.id !== 10) {
             return;
-
+        }
         // After 10 minutes update notification's title 
         setTimeout(function () {
             cordova.plugins.notification.local.update({
