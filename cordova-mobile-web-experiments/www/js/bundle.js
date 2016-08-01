@@ -15605,7 +15605,10 @@
 	        return target;
 	    };
 	}
+	// // plugin currently has an error with building for Android...
+	// // https://github.com/katzer/cordova-plugin-local-notifications
 	document.addEventListener('deviceready', function () {
+	    alert('device is ready');
 	    // Schedule notification for tomorrow to remember about the meeting
 	    cordova.plugins.notification.local.schedule({
 	        id: 10,

@@ -27,5 +27,5 @@
     <plugin name="cordova-plugin-camera" spec="~2.2.0" />
     <plugin name="cordova-plugin-file" spec="~4.2.0" />
     <plugin name="cordova-plugin-file-transfer" spec="~1.5.1" />
-    <plugin name="de.appplant.cordova.plugin.local-notification" spec="~0.8.2-dev" />
+    <plugin name="de.appplant.cordova.plugin.local-notification" spec="https://github.com/katzer/cordova-plugin-local-notifications" />
 </widget>

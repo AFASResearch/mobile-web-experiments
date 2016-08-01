@@ -10,6 +10,7 @@ require('./styles/app.scss');
 
 declare let Object: any;
 declare let cordova: any;
+declare let localNotification: any;
 
 // polyfill for object assign, since it is not supported by android.
 if (typeof Object.assign !== 'function') {
@@ -33,7 +34,12 @@ if (typeof Object.assign !== 'function') {
   };
 }
 
-document.addEventListener('deviceready', function () {
+// // plugin currently has an error with building for Android...
+// // https://github.com/katzer/cordova-plugin-local-notifications
+ document.addEventListener('deviceready', function () {
+   alert('device is ready');
+
+
     // Schedule notification for tomorrow to remember about the meeting
     cordova.plugins.notification.local.schedule({
         id: 10,
@@ -63,7 +69,7 @@ document.addEventListener('deviceready', function () {
             });
         }, 600000);
     });
-}, false);
+ }, false);
 
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
