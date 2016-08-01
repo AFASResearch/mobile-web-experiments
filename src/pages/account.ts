@@ -1,5 +1,4 @@
 import {createPage} from '../components/page';
-import {createText} from '../components/text';
 import {createTextField} from '../components/text-field';
 import {createButton} from '../components/button';
 import {createImageUploader} from '../components/image-uploader';
@@ -34,7 +33,6 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
     title: 'Account',
     dataService,
     body: [
-      createText({ htmlContent: 'About me' }),
       createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value; } }),
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),

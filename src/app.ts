@@ -17,7 +17,6 @@ if (typeof Object.assign !== 'function') {
     if (target == null) {
       throw new TypeError('Cannot convert undefined or null to object');
     }
-
     target = Object(target);
     for (let index = 1; index < arguments.length; index++) {
       let source = arguments[index];
@@ -34,22 +33,6 @@ if (typeof Object.assign !== 'function') {
 }
 
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
-
-// document.addEventListener('deviceready', onDeviceReady, false);
-// // in this function cordova's global functions can be used.
-// function onDeviceReady() {
-//     console.log('loading camera');
-//     console.log(navigator.camera);
-//     console.log('camera loaded');
-
-//     console.log('loading filetransfer');
-//     console.log(FileTransfer);
-//     console.log('FileTransfer loaded');
-
-//     console.log('loading file access');
-//     console.log(cordova.file);
-//     console.log('File access loaded');
-// }
 
   let registerPage = createRegisterPage(dataService, userService, projector, randomId());
   let mainMenu = createMainMenu();

@@ -2,7 +2,7 @@ import {Projector, h} from 'maquette';
 import {DataService} from '../services/data-service';
 import {createPage} from '../components/page';
 import {createTextField} from '../components/text-field';
-
+import {createText} from '../components/text';
 import {createButton} from '../components/button';
 
 declare let cordova: any;
@@ -35,8 +35,7 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
     let target = evt.currentTarget as HTMLElement;
     let fileName = target.getAttribute('data-fileName');
 
-    console.log('removing file');
-  fileSystem.root.getFile(fileName, { create: true, exclusive: false }, (fileEntry: any) => {
+    fileSystem.root.getFile(fileName, { create: true, exclusive: false }, (fileEntry: any) => {
 
     fileEntry.remove(() => {
       console.log('File removed!');
@@ -100,19 +99,29 @@ return createPage({
   title: 'File upload / file reading',
   dataService,
   body: [
+     createText({ htmlContent: '<h2>All browsers/devices</h2>' }),
+     {
+      renderMaquette: () => {
+        return h('div', [
+           h('input', { type: 'file', name: 'file[]', multiple: true }, []),
+           h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
+           h('hr')
+        ]);
+      }
+    },
+    createText({ htmlContent: '<h2>Cordova</h2>' }),
     createTextField({ label: 'title' }, { getValue: () => newFileTitle, setValue: (value) => { newFileTitle = value; } }),
     createTextField({ label: 'content' }, { getValue: () => newFileContent, setValue: (value) => { newFileContent = value; } }),
     createButton({ text: 'Create the file', primary: true }, { onClick: createNewFile }),
     {
       renderMaquette: () => {
         return h('div', [
-          // h('input', { type: 'file', name: 'file[]', multiple: true }, []),
-          // h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
           allEntries ? h('div', [allEntries.map((entry) => [
             h('div', { class: 'attachment', key: entry.name}, [
-           h('p', { key: entry.name }, [entry.name]),
-          h('button', { class: 'button', onclick: deleteFile,  key: entry.name, 'data-fileName': entry.name }, ['delete'])]
-        )])
+              h('p', { key: entry.name }, [entry.name]),
+              h('button', { class: 'button', onclick: deleteFile,  key: entry.name, 'data-fileName': entry.name }, ['delete'])
+              ])
+            ])
         ])
         : h('div', ['loading files...'])
         ]);

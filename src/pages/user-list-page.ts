@@ -68,5 +68,4 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
       subscription.unsubscribe();
     }
   });
-
 };

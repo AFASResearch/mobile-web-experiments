@@ -66,18 +66,19 @@
   display: block;
 
   input { 
-      display: block;
-      width: 100%;
-        border:$text-field-border;
-  padding: 3px 7px;
-  line-height: 24px;
-  border-radius: 4px;
-  margin-top: 10px;
+    display: block;
+    width: 100%;
+    border:$text-field-border;
+    padding: 3px 7px;
+    line-height: 24px;
+    border-radius: 4px;
+    margin-top: 10px;
   }
 }
 
 .attachment { 
     border: 1px solid #cacaca;
+    background-color: #f5f5f5;
     padding: 10px;
     display: flex;
     margin-top: 10px;

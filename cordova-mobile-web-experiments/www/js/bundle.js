@@ -15606,19 +15606,6 @@
 	    };
 	}
 	exports.createApp = function (dataService, store, router, userService, projector) {
-	    // document.addEventListener('deviceready', onDeviceReady, false);
-	    // // in this function cordova's global functions can be used.
-	    // function onDeviceReady() {
-	    //     console.log('loading camera');
-	    //     console.log(navigator.camera);
-	    //     console.log('camera loaded');
-	    //     console.log('loading filetransfer');
-	    //     console.log(FileTransfer);
-	    //     console.log('FileTransfer loaded');
-	    //     console.log('loading file access');
-	    //     console.log(cordova.file);
-	    //     console.log('File access loaded');
-	    // }
 	    var registerPage = register_page_1.createRegisterPage(dataService, userService, projector, utilities_1.randomId());
 	    var mainMenu = main_menu_1.createMainMenu();
 	    return {
@@ -16795,7 +16782,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);", ""]);
 	
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  padding: 10px;\n  display: flex;\n  margin-top: 10px; }\n  .attachment p {\n    flex: 1;\n    line-height: 0; }\n  .attachment .button {\n    background-color: red;\n    margin: 0; }\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  background-color: #f5f5f5;\n  padding: 10px;\n  display: flex;\n  margin-top: 10px; }\n  .attachment p {\n    flex: 1;\n    line-height: 0; }\n  .attachment .button {\n    background-color: orangered;\n    margin: 0; }\n", ""]);
 	
 	// exports
 
