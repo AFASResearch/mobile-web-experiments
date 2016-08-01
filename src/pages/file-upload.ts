@@ -86,7 +86,7 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
     window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs: any) {
       fileSystem = fs;
       getEntries(fileSystem);
-    }, onErrorLoadFs); 
+    }, onErrorLoadFs);
   };
   document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -97,48 +97,66 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
     }, onErrorCreateFile);
   };
 
-
   let openFile = (evt: Event) => {
     let target = evt.currentTarget as HTMLElement;
     let fileName = target.getAttribute('data-fileName');
 
     fileSystem.root.getFile(fileName, { create: true, exclusive: false }, (fileEntry: any) => {
 
-   fileEntry.file(function (file: any) {
-      let reader = new FileReader();
-      reader.onloadend = function () {
-        alert('Successful file read: ' + this.result);
-      };
-      reader.readAsText(file);
-    }, onErrorReadFile);
+      fileEntry.file(function (file: any) {
+        let reader = new FileReader();
+        reader.onloadend = function () {
+          alert('Successful file read: ' + this.result);
+        };
+        reader.readAsText(file);
+      }, onErrorReadFile);
+
+    });
+  };
+
+  let editFile = (evt: Event) => {
+    let target = evt.currentTarget as HTMLElement;
+    let fileName = target.getAttribute('data-fileName');
+
+    newFileTitle = fileName;
+
+    fileSystem.root.getFile(fileName, { create: true, exclusive: false }, (fileEntry: any) => {
+      fileEntry.file(function (file: any) {
+        let reader = new FileReader();
+        reader.onloadend = function () {
+          newFileContent = this.result;
+          projector.scheduleRender();
+        };
+        reader.readAsText(file);
+      }, onErrorReadFile);
 
     });
   };
 
   // !! Assumes variable fileURL contains a valid URL to a path on the device,
-//    for example, cdvfile://localhost/persistent/path/to/downloads/
+  //    for example, cdvfile://localhost/persistent/path/to/downloads/
 
-// let fileTransfer = new FileTransfer();
-// let uri = encodeURI("http://some.server.com/download.php");
+  // let fileTransfer = new FileTransfer();
+  // let uri = encodeURI("http://some.server.com/download.php");
 
-// fileTransfer.download(
-//     uri,
-//     fileURL,
-//     function(entry) {
-//         console.log("download complete: " + entry.toURL());
-//     },
-//     function(error) {
-//         console.log("download error source " + error.source);
-//         console.log("download error target " + error.target);
-//         console.log("upload error code" + error.code);
-//     },
-//     false,
-//     {
-//         headers: {
-//             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-//         }
-//     }
-// );
+  // fileTransfer.download(
+  //     uri,
+  //     fileURL,
+  //     function(entry) {
+  //         console.log("download complete: " + entry.toURL());
+  //     },
+  //     function(error) {
+  //         console.log("download error source " + error.source);
+  //         console.log("download error target " + error.target);
+  //         console.log("upload error code" + error.code);
+  //     },
+  //     false,
+  //     {
+  //         headers: {
+  //             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+  //         }
+  //     }
+  // );
 
   return createPage({
     title: 'File upload / file reading',
@@ -164,8 +182,9 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
             allEntries ? h('div', [allEntries.map((entry) => [
               h('div', { class: 'attachment', key: entry.name }, [
                 h('p', { key: entry.name }, [entry.name]),
-                h('button', { class: 'button primary', onclick: openFile, key: entry.name, 'data-fileName': entry.name }, ['show/download'])
-                h('button', { class: 'button danger', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
+                h('button', { class: 'button invertedPrimary', onclick: editFile, key: entry.name, 'data-fileName': entry.name }, ['edit']),
+                h('button', { class: 'button invertedPrimary', onclick: openFile, key: entry.name, 'data-fileName': entry.name }, ['show/download']),
+                h('button', { class: 'button invertedDanger', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
               ])
             ])
             ])

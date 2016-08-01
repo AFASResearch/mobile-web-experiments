@@ -16262,7 +16262,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".button {\n  margin: 24px 8px 8px 8px;\n  border: 1px solid #cacaca;\n  border-radius: 4px;\n  text-align: center;\n  background-color: LightSlateGrey;\n  color: white;\n  padding: 4px;\n  line-height: 24px;\n  font-size: 14px;\n  width: inherit;\n  font-weight: bold;\n  height: 35px; }\n\n.primary {\n  background-color: LimeGreen; }\n", ""]);
+	exports.push([module.id, ".button {\n  margin: 24px 8px 8px 8px;\n  border: 1px solid #cacaca;\n  border-radius: 4px;\n  text-align: center;\n  background-color: LightSlateGrey;\n  color: white;\n  padding: 4px;\n  line-height: 24px;\n  font-size: 14px;\n  width: inherit;\n  font-weight: bold;\n  height: 35px; }\n\n.primary {\n  background-color: LimeGreen; }\n\n.invertedPrimary {\n  border: 1px solid green;\n  background: none;\n  color: green;\n  font-weight: 500; }\n\n.invertedDanger {\n  border: 1px solid red;\n  background: none;\n  color: red;\n  font-weight: 500; }\n", ""]);
 	
 	// exports
 
@@ -16812,7 +16812,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);", ""]);
 	
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  background-color: #f5f5f5;\n  padding: 10px;\n  display: flex;\n  margin-top: 10px; }\n  .attachment p {\n    flex: 1;\n    line-height: 0; }\n  .attachment .button {\n    margin: 0; }\n  .attachment .danger {\n    background-color: red; }\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  background-color: #f5f5f5;\n  padding: 10px;\n  display: flex;\n  margin-top: 10px; }\n  .attachment p {\n    flex: 1;\n    line-height: 0; }\n  .attachment .button {\n    margin-top: 0;\n    margin-bottom: 0; }\n", ""]);
 	
 	// exports
 
@@ -18847,10 +18847,7 @@
 	            fileWriter.onerror = function (e) {
 	                console.log('Failed file read: ' + e.toString());
 	            };
-	            // If data object is not passed in, create a new Blob instead.
-	            if (!dataObj) {
-	                dataObj = new Blob([newFileContent], { type: 'text/plain' });
-	            }
+	            dataObj = new Blob([newFileContent], { type: 'text/plain' });
 	            fileWriter.write(dataObj);
 	        });
 	        getEntries(fileSystem);
@@ -18879,6 +18876,21 @@
 	                var reader = new FileReader();
 	                reader.onloadend = function () {
 	                    alert('Successful file read: ' + this.result);
+	                };
+	                reader.readAsText(file);
+	            }, onErrorReadFile);
+	        });
+	    };
+	    var editFile = function (evt) {
+	        var target = evt.currentTarget;
+	        var fileName = target.getAttribute('data-fileName');
+	        newFileTitle = fileName;
+	        fileSystem.root.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
+	            fileEntry.file(function (file) {
+	                var reader = new FileReader();
+	                reader.onloadend = function () {
+	                    newFileContent = this.result;
+	                    projector.scheduleRender();
 	                };
 	                reader.readAsText(file);
 	            }, onErrorReadFile);
@@ -18930,8 +18942,9 @@
 	                        allEntries ? maquette_1.h('div', [allEntries.map(function (entry) { return [
 	                                maquette_1.h('div', { class: 'attachment', key: entry.name }, [
 	                                    maquette_1.h('p', { key: entry.name }, [entry.name]),
-	                                    maquette_1.h('button', { class: 'button primary', onclick: openFile, key: entry.name, 'data-fileName': entry.name }, ['show/download']),
-	                                    maquette_1.h('button', { class: 'button danger', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
+	                                    maquette_1.h('button', { class: 'button invertedPrimary', onclick: editFile, key: entry.name, 'data-fileName': entry.name }, ['edit']),
+	                                    maquette_1.h('button', { class: 'button invertedPrimary', onclick: openFile, key: entry.name, 'data-fileName': entry.name }, ['show/download']),
+	                                    maquette_1.h('button', { class: 'button invertedDanger', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
 	                                ])
 	                            ]; })
 	                        ])
