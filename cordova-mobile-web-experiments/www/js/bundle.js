@@ -15605,6 +15605,34 @@
 	        return target;
 	    };
 	}
+	document.addEventListener('deviceready', function () {
+	    // Schedule notification for tomorrow to remember about the meeting
+	    cordova.plugins.notification.local.schedule({
+	        id: 10,
+	        title: 'Meeting in 15 minutes!',
+	        text: 'Jour fixe Produktionsbesprechung',
+	        data: { meetingId: '#123FG8' }
+	    });
+	    // Join BBM Meeting when user has clicked on the notification 
+	    cordova.plugins.notification.local.on("click", function (notification) {
+	        if (notification.id === 10) {
+	            // joinMeeting(notification.data.meetingId);
+	            console.log('notification has been clicked');
+	        }
+	    });
+	    // Notification has reached its trigger time (Tomorrow at 8:45 AM)
+	    cordova.plugins.notification.local.on("trigger", function (notification) {
+	        if (notification.id !== 10)
+	            return;
+	        // After 10 minutes update notification's title 
+	        setTimeout(function () {
+	            cordova.plugins.notification.local.update({
+	                id: 10,
+	                title: 'Meeting in 5 minutes!'
+	            });
+	        }, 600000);
+	    });
+	}, false);
 	exports.createApp = function (dataService, store, router, userService, projector) {
 	    var registerPage = register_page_1.createRegisterPage(dataService, userService, projector, utilities_1.randomId());
 	    var mainMenu = main_menu_1.createMainMenu();
@@ -16782,7 +16810,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);", ""]);
 	
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  background-color: #f5f5f5;\n  padding: 10px;\n  display: flex;\n  margin-top: 10px; }\n  .attachment p {\n    flex: 1;\n    line-height: 0; }\n  .attachment .button {\n    background-color: orangered;\n    margin: 0; }\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box; }\n\n.app {\n  display: flex;\n  flex-direction: column;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 14px;\n  height: 100vh;\n  line-height: 16px;\n  margin: 0;\n  overflow: hidden;\n  padding: 0; }\n\n.header {\n  background-color: #333;\n  color: white;\n  display: flex;\n  flex: 0 0 auto;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  height: 40px;\n  line-height: 24px;\n  padding: 8px 8px 8px 48px;\n  position: fixed;\n  width: 100%; }\n  .header .title {\n    flex: 1; }\n\n.body {\n  background-color: #ececec;\n  flex: 1 1 auto;\n  flex-direction: column;\n  margin-top: 40px;\n  overflow-y: scroll; }\n\n.profile-picture {\n  height: 50px;\n  width: 50px;\n  border-radius: 50%;\n  border: 1px solid #cacaca;\n  object-fit: cover; }\n\n.card {\n  background: white;\n  border: 1px solid lightgray;\n  border-bottom: 4px solid #d3d3d3;\n  border-right: 2px solid lightgray;\n  margin: 20pt;\n  padding: 10pt;\n  width: inherit; }\n\n.newFileContent {\n  display: block; }\n  .newFileContent input {\n    display: block;\n    width: 100%;\n    border: 1px solid #cacaca;\n    padding: 3px 7px;\n    line-height: 24px;\n    border-radius: 4px;\n    margin-top: 10px; }\n\n.attachment {\n  border: 1px solid #cacaca;\n  background-color: #f5f5f5;\n  padding: 10px;\n  display: flex;\n  margin-top: 10px; }\n  .attachment p {\n    flex: 1;\n    line-height: 0; }\n  .attachment .button {\n    background-color: red;\n    margin: 0; }\n", ""]);
 	
 	// exports
 
@@ -17027,7 +17055,6 @@
 
 	"use strict";
 	var page_1 = __webpack_require__(216);
-	var text_1 = __webpack_require__(221);
 	var text_field_1 = __webpack_require__(224);
 	var button_1 = __webpack_require__(227);
 	var image_uploader_1 = __webpack_require__(230);
@@ -17053,7 +17080,6 @@
 	        title: 'Account',
 	        dataService: dataService,
 	        body: [
-	            text_1.createText({ htmlContent: 'About me' }),
 	            text_field_1.createTextField({ label: 'First name' }, { getValue: function () { return firstName; }, setValue: function (value) { firstName = value; } }),
 	            text_field_1.createTextField({ label: 'Last name' }, { getValue: function () { return lastName; }, setValue: function (value) { lastName = value; } }),
 	            text_field_1.createTextField({ label: 'phone number' }, { getValue: function () { return phoneNumber; }, setValue: function (value) { phoneNumber = value; } }),
@@ -18768,6 +18794,7 @@
 	var maquette_1 = __webpack_require__(213);
 	var page_1 = __webpack_require__(216);
 	var text_field_1 = __webpack_require__(224);
+	var text_1 = __webpack_require__(221);
 	var button_1 = __webpack_require__(227);
 	exports.createFileUploadPage = function (dataService, projector) {
 	    var newFileTitle = '';
@@ -18789,7 +18816,6 @@
 	    var deleteFile = function (evt) {
 	        var target = evt.currentTarget;
 	        var fileName = target.getAttribute('data-fileName');
-	        console.log('removing file');
 	        fileSystem.root.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
 	            fileEntry.remove(function () {
 	                console.log('File removed!');
@@ -18846,18 +18872,29 @@
 	        title: 'File upload / file reading',
 	        dataService: dataService,
 	        body: [
+	            text_1.createText({ htmlContent: '<h2>All browsers/devices</h2>' }),
+	            {
+	                renderMaquette: function () {
+	                    return maquette_1.h('div', [
+	                        maquette_1.h('input', { type: 'file', name: 'file[]', multiple: true }, []),
+	                        maquette_1.h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
+	                        maquette_1.h('hr')
+	                    ]);
+	                }
+	            },
+	            text_1.createText({ htmlContent: '<h2>[Cordova] add new file </h2>' }),
 	            text_field_1.createTextField({ label: 'title' }, { getValue: function () { return newFileTitle; }, setValue: function (value) { newFileTitle = value; } }),
 	            text_field_1.createTextField({ label: 'content' }, { getValue: function () { return newFileContent; }, setValue: function (value) { newFileContent = value; } }),
 	            button_1.createButton({ text: 'Create the file', primary: true }, { onClick: createNewFile }),
 	            {
 	                renderMaquette: function () {
 	                    return maquette_1.h('div', [
-	                        // h('input', { type: 'file', name: 'file[]', multiple: true }, []),
-	                        // h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
 	                        allEntries ? maquette_1.h('div', [allEntries.map(function (entry) { return [
 	                                maquette_1.h('div', { class: 'attachment', key: entry.name }, [
 	                                    maquette_1.h('p', { key: entry.name }, [entry.name]),
-	                                    maquette_1.h('button', { class: 'button', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])])]; })
+	                                    maquette_1.h('button', { class: 'button', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
+	                                ])
+	                            ]; })
 	                        ])
 	                            : maquette_1.h('div', ['loading files...'])
 	                    ]);
