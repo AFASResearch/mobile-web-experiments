@@ -8,7 +8,6 @@ import {createText} from '../components/text';
 export let createUserListPage = (dataService: DataService, projector: Projector) => {
 
   let users: UserInfo[] = undefined;
-
   let usersCollection = dataService.horizon('users');
 
   let subscription = usersCollection.order('lastName').watch().subscribe((allUsers: UserInfo[]) => {
@@ -31,7 +30,6 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
       getItems: () => users,
       getKey: (user: UserInfo) => user.id,
       renderRow: (item: UserInfo) => {
-        console.log(item);
         return h('div', {class: 'row'},
         [ h('img', {class: 'profile-picture', src: item.image}),
           h('b', [item.firstName, ' ', item.lastName])

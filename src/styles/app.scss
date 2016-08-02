@@ -50,14 +50,15 @@
   border-radius: 50%;
   border: $table-border;
   object-fit: cover;
+  margin-right: 10px;
 }
 
 .card {
   background: white;
   border: 1px solid lightgray;
-  border-bottom: 4px solid #d3d3d3;
-  border-right: 2px solid lightgray;
-  margin: 20pt;
+  //border-bottom: 4px solid #d3d3d3;
+ // border-right: 2px solid lightgray;
+  margin: 0;
   padding: 10pt;
   width: inherit;
 }

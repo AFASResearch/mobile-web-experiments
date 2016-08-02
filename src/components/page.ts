@@ -29,7 +29,7 @@ export let createPage = (config: PageConfig): Page => {
       return h('span', { class: 'title' }, [getTitle()]);
     },
     renderBody: () => {
-      return h('div', { class: 'card page', key: page }, [
+      return h('div', { class: 'page', key: page }, [
         body.map(c => c.renderMaquette())
       ]);
     }

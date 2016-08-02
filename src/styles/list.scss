@@ -37,19 +37,13 @@
     margin: 0;
     padding: 8px;
     border: none;
-
-  
   }
-  }
-
+}
   // tr:nth-child(even) {background: #efefef}
   // tr:nth-child(odd) {background: #FFF}
-
-
-
 }
 
 .messagecontainer {
-      display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }

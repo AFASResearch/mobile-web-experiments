@@ -30,7 +30,7 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
         longitude = position.coords.longitude;
         latitude = position.coords.latitude;
         projector.scheduleRender();
-       });
+      });
     } else {
       console.log('Geolocation is not supported by this browser.');
     }
@@ -51,16 +51,16 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     getItems: () => messages,
     getKey: (message: MessageInfo) => message.id,
     renderRow: (item: MessageInfo) => {
-      console.log(item);
-      return h('div', {class: 'row'}, [
-        h('img', {class: 'profile-picture', src: item.fromUserId === toUserId ? otherUser.image : user.image}),
-        h('div', {class: 'messagecontainer'}, [
+      return h('div', { class: 'row' }, [
+        h('img', { class: 'profile-picture', src: item.fromUserId === toUserId ? otherUser.image : user.image }),
+        h('div', { class: 'messagecontainer' }, [
           h('b', [item.fromUserId === toUserId ? otherUser.firstName : 'me']),
-          h('span', [item.text])
+          h('span', [item.text]),
+          h('small', [item.date.toISOString().slice(0, 10)])
         ])
       ]);
     }
-});
+  });
 
   let timeZoneText = createText({ htmlContent: 'Current timezone: ' + timezone.name() });
 
@@ -83,15 +83,21 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     title: () => `Chat with ${nameOfUser(otherUser)}`,
     dataService,
     body: [
-      { renderMaquette: () => {
-        let link = 'http://maps.apple.com/maps?z=12&t=m&q=loc:'
-            + latitude
-            + '+'
-            + longitude;
-
-        return h('a', {href: link}, [link]);
-      }
-    },
+      {
+        renderMaquette: () => {
+          // code for retrieving current location
+          // let link = `http://maps.apple.com/maps?z=12&t=m&q=loc:${latitude}+${longitude}`;
+          // return h('a', {href: link}, [link]);
+          return h('div', otherUser ? [
+            h('h1', ['Chat with ' + nameOfUser(otherUser)]),
+            h('h2', ['company: ', otherUser.company]),
+            h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['phone: ', otherUser.phoneNumber]),
+            h('a', { key: 2, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
+            [`${otherUser.address},${otherUser.city},${otherUser.country}`])
+          ] : undefined
+          );
+        }
+      },
       timeZoneText,
       list,
       messageComposer
