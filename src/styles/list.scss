@@ -4,16 +4,22 @@
   border-collapse: collapse;
   flex: 1 1 auto;
 
+  .container {
+    display: flex;
+  }
+
   table {
     border-collapse: collapse;
     position: relative;
     width: 100%;
   }
 
-  tr {
+  .row {
+    display: flex;
     border-bottom: 1px solid #dadada;
     background: #FFF;
     transition: background-color .3s ease-in-out;
+    padding: 8px;
 
 &:hover { 
   background-color: #efefef; 
@@ -41,4 +47,9 @@
 
 
 
+}
+
+.messagecontainer {
+      display: flex;
+    flex-direction: column;
 }

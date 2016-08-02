@@ -1,5 +1,5 @@
 import {h, VNode, Component} from 'maquette';
-import {UserInfo} from '../interfaces';
+import {UserInfo, MessageInfo} from '../interfaces';
 require('../styles/list.scss');
 
 export interface ListColumn {
@@ -14,12 +14,13 @@ export interface ListConfig {
 export interface ListBindings<Item> {
   getItems: () => Item[];
   getKey: (item: Item) => string | number;
-  renderCell: (item: Item, columnKey: string) => VNode | string;
-  rowClicked: (item: Item) => void;
+  // renderCell: (item: Item, columnKey: string) => VNode | string;
+  renderRow: (item: Item) => VNode | string;
+  rowClicked?: (item: Item) => void;
 }
 
-export let createList = (config: ListConfig, bindings: ListBindings<UserInfo>): Component => {
-  let {getItems, getKey, renderCell, rowClicked} = bindings;
+export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | MessageInfo>): Component => {
+  let {getItems, getKey, renderRow, rowClicked} = bindings;
   let {columns} = config;
 
   let handleClick = (evt: Event) => {
@@ -35,16 +36,12 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo>): 
       let items = getItems();
       return h('div', { key: list, class: 'list' }, [
         items ? [
-          h('table', [
-            h('thead', [
-              h('tr', columns.map(c => h('th', [c.header])))
-            ]),
-            h('tbody', items.map(item =>
-                h('tr', { key: getKey(item), onclick: handleClick, 'data-itemId': item.id }, [
-                  columns.map(c => h('td', [renderCell(item, c.key)]))
+            h('container', items.map(item =>
+                h('row', { key: getKey(item), onclick: handleClick, 'data-itemId': item.id }, [
+                  renderRow(item)
+                  // columns.map(c => h('p', [renderCell(item, c.key)]))
                 ])
             ))
-          ])
         ] : [
             h('span', ['Loading...'])
           ]

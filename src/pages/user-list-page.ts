@@ -30,26 +30,12 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
     {
       getItems: () => users,
       getKey: (user: UserInfo) => user.id,
-      renderCell: (item: UserInfo, columnKey: string) => {
-        if (columnKey === 'image') {
-          return h('img', {
-            src: (item as any)[columnKey] ?
-              (item as any)[columnKey] :
-              'images/default-profile-picture.png', class: 'profile-picture' },
-              [(item as any)[columnKey]]);
-        } else if (columnKey === 'phoneNumber') {
-          return h('a', { href: `tel:` + (item as any)[columnKey] }, [(item as any)[columnKey]]);
-        } else if (columnKey === 'address') {
-          return h('a', { href: `http://maps.apple.com?q=` +
-            (item as any)[columnKey] +
-            '+' +
-            (item as any)['city'] +
-            '+' +
-            (item as any)['country'] },
-            [(item as any)[columnKey]]);
-        } else {
-          return h('span', [(item as any)[columnKey]]);
-        }
+      renderRow: (item: UserInfo) => {
+        console.log(item);
+        return h('div', {class: 'row'},
+        [ h('img', {class: 'profile-picture', src: item.image}),
+          h('b', [item.firstName, ' ', item.lastName])
+        ]);
       },
       rowClicked: (item: UserInfo) => {
         let w = <any>window;

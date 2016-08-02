@@ -50,17 +50,17 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
   let list = createList({ columns: [{ header: 'Picture', key: 'image' }, { header: 'From', key: 'from' }, { header: 'Message', key: 'message' }] }, {
     getItems: () => messages,
     getKey: (message: MessageInfo) => message.id,
-    renderCell: (item: MessageInfo, columnKey: string) => {
-      switch (columnKey) {
-        case 'image':
-          return h('img', { class: 'profile-picture', src: item.fromUserId === toUserId ? otherUser.image : user.image });
-        case 'from':
-          return item.fromUserId === toUserId ? otherUser.firstName : 'me';
-        case 'message':
-          return item.text;
-      }
+    renderRow: (item: MessageInfo) => {
+      console.log(item);
+      return h('div', {class: 'row'}, [
+        h('img', {class: 'profile-picture', src: item.fromUserId === toUserId ? otherUser.image : user.image}),
+        h('div', {class: 'messagecontainer'}, [
+          h('b', [item.fromUserId === toUserId ? otherUser.firstName : 'me']),
+          h('span', [item.text])
+        ])
+      ]);
     }
-  });
+});
 
   let timeZoneText = createText({ htmlContent: 'Current timezone: ' + timezone.name() });
 
