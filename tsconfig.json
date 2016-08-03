@@ -21,7 +21,6 @@
         "src/components/image-uploader.ts",
         "src/components/list.ts",
         "src/components/live-camera.ts",
-        "src/components/location-info.ts",
         "src/components/main-menu.ts",
         "src/components/message-composer.ts",
         "src/components/modal.ts",
@@ -42,6 +41,7 @@
         "src/route-registry.ts",
         "src/service-worker-registration.ts",
         "src/services/data-service.ts",
+        "src/services/location-service.ts",
         "src/services/router.ts",
         "src/services/user-service.ts",
         "src/utilities.ts"

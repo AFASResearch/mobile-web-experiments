@@ -1,11 +1,3 @@
-import {h, Projector} from 'maquette';
-
-export interface LocationInfoConfig {
-  projector: Projector;
-}
-
-export interface LocationInfoBindings {}
-
 let longitude: number;
 let latitude: number;
 
@@ -17,11 +9,11 @@ let estimatedLocation = {
 }
 
 export let getLocationData = () => {
-      return new Promise((resolve, reject) => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function showPosition(position) {
-            longitude = position.coords.longitude;
-            latitude = position.coords.latitude;
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function showPosition(position) {
+        longitude = position.coords.longitude;
+        latitude = position.coords.latitude;
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCUM178OdXcUp5HYd7OYHQ3Glj8vbeTymM`);
