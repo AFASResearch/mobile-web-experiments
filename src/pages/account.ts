@@ -1,9 +1,11 @@
 import {createPage} from '../components/page';
 import {createTextField} from '../components/text-field';
+import {createText} from '../components/text';
 import {createButton} from '../components/button';
 import {createImageUploader} from '../components/image-uploader';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
+import {createLocationInfo} from '../components/location-info';
 import {Projector} from 'maquette';
 
 export let createAccountPage = (dataService: DataService, userService: UserService, projector: Projector) => {
@@ -29,6 +31,9 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
     document.location.hash = '#users';
   };
 
+  // code for retrieving current location
+  let link = '';
+
   let page = createPage({
     title: 'Account',
     dataService,
@@ -37,6 +42,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
+      createLocationInfo({projector: projector}, {}),
       createTextField({ label: 'Address' }, { getValue: () => address, setValue: (value) => { address = value; } }),
       createTextField({ label: 'City' }, { getValue: () => city, setValue: (value) => { city = value; } }),
       createTextField({ label: 'Country' }, { getValue: () => country, setValue: (value) => { country = value; } }),

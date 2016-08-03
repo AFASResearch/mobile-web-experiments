@@ -11,8 +11,8 @@ import {createRouteRegistry} from './route-registry';
 import {createUserService} from './services/user-service';
 
 // Bootstrapping code
-
-let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
+let horizon = Horizon();
+//let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
 let store = (localforage as any as LocalForage).createInstance({ storeName: 'mobile-web-experiments' });
 
 let horizonReady = false;

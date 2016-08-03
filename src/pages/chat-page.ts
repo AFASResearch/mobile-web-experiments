@@ -21,22 +21,6 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     projector.scheduleRender();
   });
 
-  let longitude: number;
-  let latitude: number;
-
-  let getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function showPosition(position) {
-        longitude = position.coords.longitude;
-        latitude = position.coords.latitude;
-        projector.scheduleRender();
-      });
-    } else {
-      console.log('Geolocation is not supported by this browser.');
-    }
-  };
-  getLocation();
-
   let messagesSubscription = dataService.horizon('directMessages')
     .findAll({ chatRoomId: chatRoomId })
     .order('timestamp', 'descending')
@@ -85,14 +69,12 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     body: [
       {
         renderMaquette: () => {
-          // code for retrieving current location
-          // let link = `http://maps.apple.com/maps?z=12&t=m&q=loc:${latitude}+${longitude}`;
-          // return h('a', {href: link}, [link]);
+
           return h('div', otherUser ? [
             h('h1', ['Chat with ' + nameOfUser(otherUser)]),
             h('h2', ['company: ', otherUser.company]),
-            h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['phone: ', otherUser.phoneNumber]),
-            h('a', { key: 2, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
+            h('a', { key: otherUser.phoneNumber, href: `tel: ${otherUser.phoneNumber}` }, ['phone: ', otherUser.phoneNumber]),
+            h('a', { key: otherUser.address, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
             [`${otherUser.address},${otherUser.city},${otherUser.country}`])
           ] : undefined
           );
