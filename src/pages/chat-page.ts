@@ -70,12 +70,11 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     body: [
       {
         renderMaquette: () => {
-
           return h('div', otherUser ? [
             h('h1', ['Chat with ' + nameOfUser(otherUser)]),
             h('h2', ['company: ', otherUser.company]),
-            h('a', { key: otherUser.phoneNumber, href: `tel: ${otherUser.phoneNumber}` }, ['phone: ', otherUser.phoneNumber]),
-            h('a', { key: otherUser.address, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
+            h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['phone: ', otherUser.phoneNumber]),
+            h('a', { key: 2, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
             [`${otherUser.address},${otherUser.city},${otherUser.country}`])
           ] : undefined
           );

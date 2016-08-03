@@ -11,7 +11,6 @@ export interface ButtonBindings {
 }
 
 export let createButton = (config: ButtonConfig, bindings: ButtonBindings): Component => {
-
   let handleClick = (evt: Event) => {
     evt.preventDefault();
     bindings.onClick();

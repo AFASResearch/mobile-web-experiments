@@ -1,3 +1,6 @@
+/* this page shows an overview of all users in the database.
+When they are click you will be redirect to a chat page */
+
 import {Projector, h} from 'maquette';
 import {DataService} from '../services/data-service';
 import {UserInfo} from '../interfaces';
@@ -32,20 +35,20 @@ export let createUserListPage = (dataService: DataService, projector: Projector)
       renderRow: (item: UserInfo) => {
         return h('div', {class: 'row'},
         [ h('img', {class: 'profile-picture', src: item.image}),
-          h('b', [item.firstName, ' ', item.lastName])
-        ]);
-      },
-      rowClicked: (item: UserInfo) => {
-        let w = <any>window;
-        w.location = `#chat/${item.id}` ;
-      }
-    });
+        h('b', [item.firstName, ' ', item.lastName])
+      ]);
+    },
+    rowClicked: (item: UserInfo) => {
+      let w = <any>window;
+      w.location = `#chat/${item.id}` ;
+    }
+  });
 
   return createPage({
     title: 'Users',
     dataService,
     body: [
-      createText({ htmlContent: '<h2>Choose someone to chat with</h2>' }),
+      createText({ htmlContent: 'Choose someone to chat with' }),
       list
     ],
     destroy: () => {

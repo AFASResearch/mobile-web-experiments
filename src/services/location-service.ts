@@ -1,3 +1,6 @@
+/* this service gives a promise with an 'estimatedlocation' object,
+which contains the most likely estimation of the street etc where the user is */
+
 let longitude: number;
 let latitude: number;
 
@@ -9,7 +12,7 @@ let estimatedLocation = {
 }
 
 export let getLocationData = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve: any, reject: any): any => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function showPosition(position) {
         longitude = position.coords.longitude;
@@ -21,8 +24,8 @@ export let getLocationData = () => {
         xhr.onload = function () {
           if (this.status >= 200 && this.status < 300) {
 
+            // here the data is extracted from the JSON in the xhr response
             let addressComponents = xhr.response.results[0].address_components;
-
             addressComponents.forEach((addresComponent: any) => {
               if (addresComponent.types.indexOf('country') !== -1) {
                 estimatedLocation.country = addresComponent.long_name;
@@ -34,7 +37,6 @@ export let getLocationData = () => {
                 estimatedLocation.city = addresComponent.long_name;
               }
             });
-
             resolve(estimatedLocation);
           } else {
             reject({

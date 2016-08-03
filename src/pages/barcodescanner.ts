@@ -6,12 +6,12 @@ require('quagga');
 
 export let createBarcodePage = (dataService: DataService, userService: UserService, projector: any) => {
 
-    let page = createPage({
-        title: 'Barcodescanning',
-        dataService,
-        body: [
-            createLiveCamera({ projector: projector, BarcodeScanEnabled: true }, {})
-        ]
-    });
-    return page;
+  let page = createPage({
+    title: 'Barcodescanning',
+    dataService,
+    body: [
+      createLiveCamera({ projector: projector, BarcodeScanEnabled: true }, {})
+    ]
+  });
+  return page;
 };

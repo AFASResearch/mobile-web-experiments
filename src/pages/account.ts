@@ -12,7 +12,6 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
   let {id, firstName, lastName, phoneNumber, image, company, address, country, city} = userService.getUserInfo();
 
   let doUpdate = () => {
-
     let canvas = <HTMLCanvasElement>document.getElementById('canvas');
     image = canvas.toDataURL();
 
@@ -29,8 +28,6 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
     });
     document.location.hash = '#users';
   };
-
-  let link = '';
 
   let page = createPage({
     title: 'Account',

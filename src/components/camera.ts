@@ -1,4 +1,4 @@
-// This component creates a view where a video view is shown. 
+// This component creates a view where a video view is shown.
 
 import {h, Projector} from 'maquette';
 import {createButton} from './button';
@@ -66,7 +66,7 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
       } else if (sourceInfo.kind === 'videoinput') {
         videoSources.push(sourceInfo.deviceId);
       } else {
-       // console.log('Some other kind of source: ', sourceInfo);
+        // console.log('Some other kind of source: ', sourceInfo);
       }
     }
     if (videoSources.length > 1 && !multipleCamerasAvailable) {
@@ -81,14 +81,14 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
       return;
     }
     n.mediaDevices.enumerateDevices()
-      .then(function (devices: any) {
-        gotSources(devices);
-         start();
-      })
-      .catch(function (err: Error) {
-        console.error(err.name + ': ' + err.message);
-      });
-      console.log(videoSources);
+    .then(function (devices: any) {
+      gotSources(devices);
+      start();
+    })
+    .catch(function (err: Error) {
+      console.error(err.name + ': ' + err.message);
+    });
+    console.log(videoSources);
   };
 
   let handleSwitchButtonClick = () => {
