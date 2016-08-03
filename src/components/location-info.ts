@@ -1,5 +1,4 @@
 import {h, Projector} from 'maquette';
-let jstz = <any>require('jstz');
 
 export interface LocationInfoConfig {
   projector: Projector;
@@ -7,73 +6,59 @@ export interface LocationInfoConfig {
 
 export interface LocationInfoBindings {}
 
-export let createLocationInfo = (config: LocationInfoConfig, bindings: LocationInfoBindings) => {
-  let {projector} = config;
-  let {} = bindings;
+let longitude: number;
+let latitude: number;
 
-  const timezone = jstz.determine();
+let estimatedLocation = {
+  street: '',
+  streetnumber: 1,
+  country: '',
+  city: '',
+}
 
-  let longitude: number;
-  let latitude: number;
+export let getLocationData = () => {
+      return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function showPosition(position) {
+            longitude = position.coords.longitude;
+            latitude = position.coords.latitude;
 
-  let estimatedStreet: string;
-  let estimatedStreetNumber: string;
-  let estimatedCountry: string;
-  let estimatedCity: string;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCUM178OdXcUp5HYd7OYHQ3Glj8vbeTymM`);
+        xhr.responseType = "json";
+        xhr.onload = function () {
+          if (this.status >= 200 && this.status < 300) {
 
-  let getJSON = (url: string, callback: any) => {
-    let xhr = new XMLHttpRequest();
-    xhr.open("get", url, true);
-    xhr.responseType = "json";
-    xhr.onload = function() {
-      let status = xhr.status;
-      if (status == 200) {
-        callback(null, xhr.response);
-      } else {
-        callback(status);
-      }
-    };
-    xhr.send();
-};
+            let addressComponents = xhr.response.results[0].address_components;
 
-  let getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function showPosition(position) {
-        longitude = position.coords.longitude;
-        latitude = position.coords.latitude;
-
-        /* currently using maps API from Google, using a private key from Lukas Bos,
-         which CAN NOT be used for commercial purposes. */
-        getJSON(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCUM178OdXcUp5HYd7OYHQ3Glj8vbeTymM`,
-        function(err: Error, data: any) {
-          if (err != null) {
-            console.error("Something went wrong: " + err);
-          } else {
-            let addressComponents = data.results[0].address_components;
             addressComponents.forEach((addresComponent: any) => {
-            if (addresComponent.types.indexOf('country') !== -1) {
-               estimatedCountry = addresComponent.long_name;
-             } else if (addresComponent.types.indexOf('route') !== -1){
-                estimatedStreet = addresComponent.long_name;
-             } else if (addresComponent.types.indexOf('street_number') !== -1){
-                estimatedStreetNumber = addresComponent.long_name;
-             } else if (addresComponent.types.indexOf('locality') !== -1){
-                estimatedCity = addresComponent.long_name;
-             }
-           });
-           projector.scheduleRender();
-          }
-        });
-      });
-    } else {
-      console.log('Geolocation is not supported by this browser.');
-    }
-  };
-  getLocation();
+              if (addresComponent.types.indexOf('country') !== -1) {
+                estimatedLocation.country = addresComponent.long_name;
+              } else if (addresComponent.types.indexOf('route') !== -1){
+                estimatedLocation.street = addresComponent.long_name;
+              } else if (addresComponent.types.indexOf('street_number') !== -1){
+                estimatedLocation.streetnumber = addresComponent.long_name;
+              } else if (addresComponent.types.indexOf('locality') !== -1){
+                estimatedLocation.city = addresComponent.long_name;
+              }
+            });
 
-  return {
-    renderMaquette: () => {
-      return h('p', [`we think you are living in ${estimatedCountry} in the city ${estimatedCity} at ${estimatedStreet} ${estimatedStreetNumber}`]);
+            resolve(estimatedLocation);
+          } else {
+            reject({
+              status: this.status,
+              statusText: xhr.statusText
+            });
+          }
+        };
+        xhr.onerror = function () {
+          reject({
+            status: this.status,
+            statusText: xhr.statusText
+          });
+        };
+        xhr.send();
+      });
     }
-  };
-};
+  });
+}
