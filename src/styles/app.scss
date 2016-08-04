@@ -110,3 +110,14 @@
   flex: 1;
   display: block;
 }
+
+.voicecontrollinputholder{
+  display: flex;
+
+  button{
+  margin: 0;}
+
+  input {
+  flex: 1;
+}
+}

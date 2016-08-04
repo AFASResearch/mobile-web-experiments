@@ -27,6 +27,7 @@
         "src/components/page.ts",
         "src/components/text-field.ts",
         "src/components/text.ts",
+        "src/components/voice-controlled-text-field.ts",
         "src/extensions.d.ts",
         "src/Horizon.d.ts",
         "src/interfaces.ts",

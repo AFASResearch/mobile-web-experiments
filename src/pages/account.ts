@@ -1,6 +1,7 @@
 import {createPage} from '../components/page';
 import {createTextField} from '../components/text-field';
 import {createText} from '../components/text';
+import {createVoiceControlledTextField} from '../components/voice-controlled-text-field';
 import {createButton} from '../components/button';
 import {createImageUploader} from '../components/image-uploader';
 import {UserService} from '../services/user-service';
@@ -33,6 +34,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
     title: 'Account',
     dataService,
     body: [
+      createVoiceControlledTextField({label: 'VOICE CONTROL', projector: projector}, { getValue: () => country, setValue: (value) => { country = value; }}),
       createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value; } }),
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
