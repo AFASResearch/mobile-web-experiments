@@ -47,7 +47,7 @@ if (typeof Object.assign !== 'function') {
         data: { meetingId: '#123FG8' }
     });
 
-    // Join BBM Meeting when user has clicked on the notification 
+    // Join BBM Meeting when user has clicked on the notification
     cordova.plugins.notification.local.on('click', function (notification: any) {
         if (notification.id === 10) {
            // joinMeeting(notification.data.meetingId);
@@ -60,7 +60,7 @@ if (typeof Object.assign !== 'function') {
         if (notification.id !== 10) {
             return;
         }
-        // After 10 minutes update notification's title 
+        // After 10 minutes update notification's title
         setTimeout(function () {
             cordova.plugins.notification.local.update({
                 id: 10,

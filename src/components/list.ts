@@ -8,7 +8,6 @@ export interface ListColumn {
 }
 
 export interface ListConfig {
-  columns: ListColumn[];
 }
 
 export interface ListBindings<Item> {
@@ -34,14 +33,14 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | M
       let items = getItems();
       return h('div', { key: list, class: 'list' }, [
         items ? [
-            h('div', {class: 'card'}, items.map(item =>
-                h('div', { key: getKey(item), onclick: handleClick, 'data-itemId': item.id }, [
-                  renderRow(item)
-                ])
-            ))
+          h('div', {class: 'card'}, items.map(item =>
+            h('div', { key: getKey(item), onclick: handleClick, 'data-itemId': item.id }, [
+              renderRow(item)
+            ])
+          ))
         ] : [
-            h('span', ['Loading...'])
-          ]
+          h('span', ['Loading...'])
+        ]
       ]);
     }
   };

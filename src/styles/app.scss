@@ -58,7 +58,9 @@
   border: 1px solid lightgray;
   //border-bottom: 4px solid #d3d3d3;
  // border-right: 2px solid lightgray;
+ border-radius: 5px;
   margin: 0;
+  margin-bottom: 10px;
   padding: 10pt;
   width: inherit;
 }
@@ -66,7 +68,7 @@
 .newFileContent {
   display: block;
 
-  input { 
+  input {
     display: block;
     width: 100%;
     border:$text-field-border;
@@ -77,7 +79,7 @@
   }
 }
 
-.attachment { 
+.attachment {
     border: 1px solid #cacaca;
     background-color: #f5f5f5;
     padding: 10px;
@@ -89,9 +91,22 @@
       line-height: 0;
     }
 
-    .button { 
+    .button {
       margin-top: 0;
       margin-bottom: 0;
     }
 }
 
+.contact-card {
+  display:flex;
+
+  img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.contact-card-content {
+  flex: 1;
+  display: block;
+}

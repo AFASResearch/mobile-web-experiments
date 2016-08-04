@@ -31,7 +31,7 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
       messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
     });
 
-  let list = createList({ columns: [{ header: 'Picture', key: 'image' }, { header: 'From', key: 'from' }, { header: 'Message', key: 'message' }] }, {
+  let list = createList({}, {
     getItems: () => messages,
     getKey: (message: MessageInfo) => message.id,
     renderRow: (item: MessageInfo) => {
@@ -62,25 +62,27 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
   };
 
   let messageComposer = createMessageComposer({ sendMessage });
-
-
   return createPage({
     title: () => `Chat with ${nameOfUser(otherUser)}`,
     dataService,
     body: [
+      timeZoneText,
       {
         renderMaquette: () => {
-          return h('div', otherUser ? [
-            h('h1', ['Chat with ' + nameOfUser(otherUser)]),
-            h('h2', ['company: ', otherUser.company]),
-            h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['phone: ', otherUser.phoneNumber]),
-            h('a', { key: 2, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
-            [`${otherUser.address},${otherUser.city},${otherUser.country}`])
-          ] : undefined
-          );
+          return h('div', {class: 'card contact-card'}, otherUser ? [
+            h('img', {class: 'profile-picture', height: 200, src: otherUser.image}, []),
+            h('div', {class: 'contact-card-content'}, [
+              h('h1', ['Chat with ' + `${otherUser.firstName} ${otherUser.lastName}`]),
+              h('h2', ['company: ', otherUser.company]),
+              h('ul', [
+                h('li',[   h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['Phone: ', otherUser.phoneNumber])  ]),
+              h('li',[   h('a', { key: 2, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
+                [`Location: ${otherUser.address}, ${otherUser.city}, ${otherUser.country}`]) ]),
+              ])
+              ])
+          ] : h('div', ['nothing found']) );
         }
       },
-      timeZoneText,
       list,
       messageComposer
     ],
