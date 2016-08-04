@@ -57,8 +57,8 @@
   background: white;
   border: 1px solid lightgray;
   //border-bottom: 4px solid #d3d3d3;
- // border-right: 2px solid lightgray;
- border-radius: 5px;
+  // border-right: 2px solid lightgray;
+  border-radius: 5px;
   margin: 0;
   margin-bottom: 10px;
   padding: 10pt;
@@ -80,21 +80,21 @@
 }
 
 .attachment {
-    border: 1px solid #cacaca;
-    background-color: #f5f5f5;
-    padding: 10px;
-    display: flex;
-    margin-top: 10px;
+  border: 1px solid #cacaca;
+  background-color: #f5f5f5;
+  padding: 10px;
+  display: flex;
+  margin-top: 10px;
 
-    p {
-      flex: 1;
-      line-height: 0;
-    }
+  p {
+    flex: 1;
+    line-height: 0;
+  }
 
-    .button {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
+  .button {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 .contact-card {

@@ -26,34 +26,30 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
   });
 
   let downloadContact = (evt: Event) => {
-    console.log('trying to download contact...');
-
-
 
     //set properties
     vCard.firstName = otherUser.firstName;
     vCard.lastName = otherUser.lastName;
     vCard.organization = otherUser.company;
-    vCard.photo.attachFromUrl('https://avatars2.githubusercontent.com/u/5659221?v=3&s=460', 'JPEG');
-    vCard.workPhone = otherUser.phoneNumber;
 
-    //save to file THIS FUNCTION CANNOT BE USED IN BROWSER
-    //   vCard.saveToFile('./eric-nesser.vcf');
+    //set address information
+    vCard.homeAddress.label = 'Home Address';
+    vCard.homeAddress.street = otherUser.address;
+    vCard.homeAddress.city = otherUser.city;
+    vCard.homeAddress.countryRegion = otherUser.country;
 
+    //THIS FUNCTION CANNOT BE USED IN BROWSER
+    // vCard.saveToFile('./eric-nesser.vcf');
+
+    // this piece of code creates a link (<a>) and emulates click on it.
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/vcard;charset=utf-16B,' + encodeURIComponent(vCard.getFormattedString()));
     element.setAttribute('download', `${otherUser.firstName}.vcf`);
-
     element.style.display = 'none';
     document.body.appendChild(element);
-
     element.click();
-
     document.body.removeChild(element);
-
-
   }
-
 
   let messagesSubscription = dataService.horizon('directMessages')
   .findAll({ chatRoomId: chatRoomId })
