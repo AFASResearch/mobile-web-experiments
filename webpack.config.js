@@ -23,6 +23,9 @@ module.exports = {
   // Source maps support ('inline-source-map' also works)
   devtool: 'source-map',
 
+  node: {
+    fs: "empty"
+  },
   // Add the loader for .ts files.
   module: {
     loaders: [
@@ -45,7 +48,7 @@ module.exports = {
       template: 'index.ejs'
     }),
     new CopyWebpackPlugin([
-      // {output}/file.txt 
+      // {output}/file.txt
       { from: 'public' }
     ]),
     new SWPrecacheWebpackPlugin({

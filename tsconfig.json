@@ -18,7 +18,6 @@
         "src/app.ts",
         "src/components/button.ts",
         "src/components/camera.ts",
-        "src/components/contact-info.ts",
         "src/components/image-uploader.ts",
         "src/components/list.ts",
         "src/components/live-camera.ts",

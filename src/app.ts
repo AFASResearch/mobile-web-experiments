@@ -1,5 +1,4 @@
 import {h, Projector} from 'maquette';
-
 import {createRegisterPage} from './pages/register-page';
 import {randomId} from './utilities';
 import {Router} from './services/router';

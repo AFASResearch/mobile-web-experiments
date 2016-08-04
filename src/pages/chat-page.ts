@@ -7,6 +7,10 @@ import {createMessageComposer} from '../components/message-composer';
 import {UserInfo, MessageInfo} from '../interfaces';
 import {nameOfUser, randomId} from '../utilities';
 let jstz = <any>require('jstz');
+let vCard = <any>require('vcards-js');
+
+//create a new vCard
+vCard = vCard();
 
 export let createChatPage = (dataService: DataService, user: UserInfo, toUserId: string, projector: Projector) => {
 
@@ -21,15 +25,45 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     projector.scheduleRender();
   });
 
+  let downloadContact = (evt: Event) => {
+    console.log('trying to download contact...');
+
+
+
+    //set properties
+    vCard.firstName = otherUser.firstName;
+    vCard.lastName = otherUser.lastName;
+    vCard.organization = otherUser.company;
+    vCard.photo.attachFromUrl('https://avatars2.githubusercontent.com/u/5659221?v=3&s=460', 'JPEG');
+    vCard.workPhone = otherUser.phoneNumber;
+
+    //save to file THIS FUNCTION CANNOT BE USED IN BROWSER
+    //   vCard.saveToFile('./eric-nesser.vcf');
+
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/vcard;charset=utf-16B,' + encodeURIComponent(vCard.getFormattedString()));
+    element.setAttribute('download', `${otherUser.firstName}.vcf`);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+
+
+  }
+
+
   let messagesSubscription = dataService.horizon('directMessages')
-    .findAll({ chatRoomId: chatRoomId })
-    .order('timestamp', 'descending')
-    .limit(500)
-    .watch()
-    .subscribe((msgs: MessageInfo[]) => {
-      projector.scheduleRender();
-      messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
-    });
+  .findAll({ chatRoomId: chatRoomId })
+  .order('timestamp', 'descending')
+  .limit(500)
+  .watch()
+  .subscribe((msgs: MessageInfo[]) => {
+    projector.scheduleRender();
+    messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
+  });
 
   let list = createList({}, {
     getItems: () => messages,
@@ -76,10 +110,11 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
               h('h2', ['company: ', otherUser.company]),
               h('ul', [
                 h('li',[   h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['Phone: ', otherUser.phoneNumber])  ]),
-              h('li',[   h('a', { key: 2, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
+                h('li',[   h('a', { key: 2, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
                 [`Location: ${otherUser.address}, ${otherUser.city}, ${otherUser.country}`]) ]),
               ])
-              ])
+            ]),
+            h('button', {class: 'button', onclick: downloadContact}, ['download contact information'])
           ] : h('div', ['nothing found']) );
         }
       },

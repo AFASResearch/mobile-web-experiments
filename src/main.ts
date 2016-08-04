@@ -13,7 +13,7 @@ import {createUserService} from './services/user-service';
 // Bootstrapping code
 let horizon = Horizon();
 //let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
-let store = (localforage as any as LocalForage).createInstance({ storeName: 'mobile-web-experiments' });
+let store = (localforage as any as localforage).createInstance({ storeName: 'mobile-web-experiments' });
 
 let horizonReady = false;
 let userServiceReady = false;
