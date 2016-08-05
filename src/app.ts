@@ -33,7 +33,6 @@ if (typeof Object.assign !== 'function') {
   };
 }
 
-// plugin currently has an error with building for Android...
 // https://github.com/katzer/cordova-plugin-local-notifications
  document.addEventListener('deviceready', function () {
    alert('device is ready');

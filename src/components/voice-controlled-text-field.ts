@@ -1,9 +1,14 @@
+/*
+This component returns a text-field, but also with a button to start voice control.
+*/
+
+
 import {Projector, h} from 'maquette';
 require('../styles/text-field.scss');
 
 export interface VoiceControlledTextFieldConfig {
   label: string;
-  prefilled?:  boolean;
+  prefilled?: boolean;
   projector: Projector;
 }
 
@@ -20,30 +25,15 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
   let isListening = false;
   let startStopButtonText = 'start listening';
 
-  let stopListening = () => {
-    recognition.stop();
-    startStopButtonText = 'start listening';
-    isListening = false;
-    projector.scheduleRender();
-  }
-
-  let startListening = () => { config
-    recognition.start();
-    startStopButtonText = 'stop listening';
-    isListening = true;
-    projector.scheduleRender();
-  }
-
   if (!('webkitSpeechRecognition' in window)) {
     //Speech API not supported here…
     console.log('speech api is not supported :(')
-  } else { //Let’s do some cool stuff :)
+  } else {
     var recognition = new webkitSpeechRecognition(); //That is the object that will manage our whole recognition process.
     recognition.continuous = true;   //Suitable for dictation.
     recognition.interimResults = true;  //If we want to start receiving results even if they are not final.
-    //Define some more additional parameters for the recognition:
     recognition.lang = "nl_NL";
-    recognition.maxAlternatives = 1; //Since from our experience, the highest result is really the best...
+    recognition.maxAlternatives = 1; //the highest result is the best.
 
     recognition.onstart = function() {
       // here we could do things when the recognition has started. i.e. animations.
@@ -60,19 +50,31 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
         return;
       }
 
-      for (var i = event.resultIndex; i < event.results.length; ++i) {
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
           // Final results; here is the place to do useful things with the results.
-          console.log("final results: " + event.results[i][0].transcript);
           recognizedSpeech = event.results[i][0].transcript;
         } else {
           // i.e. interim. You can use these results to give the user near real time experience.
-          console.log("interim results: " + event.results[i][0].transcript);
           recognizedSpeech = event.results[i][0].transcript;
         }
       }
       projector.scheduleRender();
     };
+  }
+
+  let stopListening = () => {
+    recognition.stop();
+    startStopButtonText = 'start listening';
+    isListening = false;
+    projector.scheduleRender();
+  }
+
+  let startListening = () => { config
+    recognition.start();
+    startStopButtonText = 'stop listening';
+    isListening = true;
+    projector.scheduleRender();
   }
 
   let startOrStopListening = () => {

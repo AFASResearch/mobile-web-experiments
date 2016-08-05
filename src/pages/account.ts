@@ -1,3 +1,8 @@
+/*
+This page shows an overview of the user itself,
+The user info can be edited here.
+*/
+
 import {createPage} from '../components/page';
 import {createTextField} from '../components/text-field';
 import {createText} from '../components/text';

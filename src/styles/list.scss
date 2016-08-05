@@ -21,26 +21,24 @@
     transition: background-color .3s ease-in-out;
     padding: 8px;
 
-&:hover { 
-  background-color: #efefef; 
-  
-}
+    &:hover {
+      background-color: #efefef;
 
-      th {
-    background-color: $transparent;
-    color: $text-color-inverted;
-    text-align: left;
-    padding: 8px;
-  }
+    }
 
-  td {
-    margin: 0;
-    padding: 8px;
-    border: none;
+    th {
+      background-color: $transparent;
+      color: $text-color-inverted;
+      text-align: left;
+      padding: 8px;
+    }
+
+    td {
+      margin: 0;
+      padding: 8px;
+      border: none;
+    }
   }
-}
-  // tr:nth-child(even) {background: #efefef}
-  // tr:nth-child(odd) {background: #FFF}
 }
 
 .messagecontainer {

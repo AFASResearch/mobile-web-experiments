@@ -1,3 +1,7 @@
+/*
+New users will be redirected to this page and can fill in their credentials and upload/create a picture of themselves.
+*/
+
 import {createPage} from '../components/page';
 import {createText} from '../components/text';
 import {createTextField} from '../components/text-field';
@@ -57,7 +61,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       createTextField({ label: 'Address', prefilled: true}, { getValue: () => address, setValue: (value) => { address = value; }}),
       createTextField({ label: 'City', prefilled: true}, { getValue: () => city, setValue: (value) => { city = value }}),
       createTextField({ label: 'Country', prefilled: true}, { getValue: () => country, setValue: (value) => { country = value; }}),
-      
+
       createImageUploader({ projector: projector, userService: userService, image: 'images/barcode.jpg' }, {}),
       createButton({ text: 'Register', primary: true }, { onClick: doRegister })
     ]

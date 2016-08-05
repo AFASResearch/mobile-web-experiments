@@ -1,6 +1,7 @@
 /*
 this component returns a videoview,
-and optionally an additional canvas and textview in which the code of a barcode is shown.
+and optionally an additional canvas and textview in which the code of a barcode can be shown.
+This component uses the Quagga.js Library for scanning the barcodes.
 */
 
 import {h, Projector} from 'maquette';

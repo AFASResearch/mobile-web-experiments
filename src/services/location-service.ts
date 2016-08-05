@@ -1,5 +1,7 @@
-/* this service gives a promise with an 'estimatedlocation' object,
-which contains the most likely estimation of the street etc where the user is */
+/*
+This service gives a promise with an 'estimatedlocation' object,
+which contains the most likely estimation of the street etc where the user is.
+*/
 
 let longitude: number;
 let latitude: number;
@@ -26,6 +28,8 @@ export let getLocationData = () => {
 
             // here the data is extracted from the JSON in the xhr response
             let addressComponents = xhr.response.results[0].address_components;
+
+            //array.indexOf returns -1 if the item is undefined. 
             addressComponents.forEach((addresComponent: any) => {
               if (addresComponent.types.indexOf('country') !== -1) {
                 estimatedLocation.country = addresComponent.long_name;

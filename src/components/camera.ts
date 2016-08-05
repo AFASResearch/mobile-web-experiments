@@ -1,4 +1,8 @@
-// This component creates a view where a video view is shown.
+/*
+This component creates a view where a video view is shown.
+It also has support for multiple camera's, and will show a toggle button when multiple camera's are available.
+This component uses getUserMedia and thus requires HTTPS to work. (localhost is also seen as secure)
+*/
 
 import {h, Projector} from 'maquette';
 import {createButton} from './button';
