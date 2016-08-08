@@ -1,5 +1,5 @@
 /*
-This component returns a text-field, but also with a button to start voice control.
+* This component returns a text-field, but also with a button to start voice control.
 */
 
 import {Projector, h} from 'maquette';
@@ -25,7 +25,6 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
   let recognizedSpeech = '';
   let isListening = false;
   let startStopButtonText = 'start listening';
-
   let handleInput = () => {
     let inputField = <HTMLInputElement>document.getElementsByClassName('input')[0];
     setValue(inputField.value);
