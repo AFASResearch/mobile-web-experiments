@@ -9,11 +9,12 @@ import {nameOfUser, randomId} from '../utilities';
 let jstz = <any>require('jstz');
 let vCard = <any>require('vcards-js');
 
-//create a new vCard
+// create a new vCard
 vCard = vCard();
 
 export let createChatPage = (dataService: DataService, user: UserInfo, toUserId: string, projector: Projector) => {
 
+  // timezone library
   const timezone = jstz.determine();
 
   let otherUser: UserInfo;
@@ -27,29 +28,29 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
 
   let downloadContact = (evt: Event) => {
 
-    //set properties
+    // Set properties
     vCard.firstName = otherUser.firstName;
     vCard.lastName = otherUser.lastName;
     vCard.organization = otherUser.company;
 
-    //set address information
+    // Set address information
     vCard.homeAddress.label = 'Home Address';
     vCard.homeAddress.street = otherUser.address;
     vCard.homeAddress.city = otherUser.city;
     vCard.homeAddress.countryRegion = otherUser.country;
 
-    //THIS FUNCTION CANNOT BE USED IN BROWSER
-    // vCard.saveToFile('./eric-nesser.vcf');
+    // THIS FUNCTION CANNOT BE USED IN BROWSER
+    // vCard.saveToFile('./file-name.vcf');
 
     // this piece of code creates a link (<a>) and emulates click on it.
-    var element = document.createElement('a');
+    let element = document.createElement('a');
     element.setAttribute('href', 'data:text/vcard;charset=utf-16B,' + encodeURIComponent(vCard.getFormattedString()));
     element.setAttribute('download', `${otherUser.firstName}.vcf`);
     element.style.display = 'none';
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-  }
+  };
 
   let messagesSubscription = dataService.horizon('directMessages')
   .findAll({ chatRoomId: chatRoomId })
@@ -105,9 +106,9 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
               h('h1', ['Chat with ' + `${otherUser.firstName} ${otherUser.lastName}`]),
               h('h2', ['company: ', otherUser.company]),
               h('ul', [
-                h('li',[   h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['Phone:', otherUser.phoneNumber])  ]),
-                h('li',[   h('a', { key: 2, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
-                [`Location: ${otherUser.address}, ${otherUser.city}, ${otherUser.country}`]) ]),
+                h('li', [ h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['Phone:', otherUser.phoneNumber]) ]),
+                h('li', [ h('a', { key: 2, href: `https://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
+                [`Location: ${otherUser.address}, ${otherUser.city}, ${otherUser.country}`]) ])
               ])
             ]),
             h('button', {class: 'button', onclick: downloadContact}, ['download contact information'])

@@ -4,6 +4,8 @@ import {createPage} from '../components/page';
 import {createTextField} from '../components/text-field';
 import {createText} from '../components/text';
 import {createButton} from '../components/button';
+require('../styles/file-upload.scss');
+let $ = <any>require('jquery');
 
 declare let cordova: any;
 declare let window: any;
@@ -131,30 +133,86 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
     });
   };
 
-  // !! Assumes variable fileURL contains a valid URL to a path on the device,
+  // !! Assumes letiable fileURL contains a valid URL to a path on the device,
   //    for example, cdvfile://localhost/persistent/path/to/downloads/
 
   // let fileTransfer = new FileTransfer();
-  // let uri = encodeURI("http://some.server.com/download.php");
+  // let uri = encodeURI('http://some.server.com/download.php');
 
   // fileTransfer.download(
   //     uri,
   //     fileURL,
   //     function(entry) {
-  //         console.log("download complete: " + entry.toURL());
+  //         console.log('download complete: ' + entry.toURL());
   //     },
   //     function(error) {
-  //         console.log("download error source " + error.source);
-  //         console.log("download error target " + error.target);
-  //         console.log("upload error code" + error.code);
+  //         console.log('download error source ' + error.source);
+  //         console.log('download error target ' + error.target);
+  //         console.log('upload error code' + error.code);
   //     },
   //     false,
   //     {
   //         headers: {
-  //             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+  //             'Authorization': 'Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=='
   //         }
   //     }
   // );
+
+  let dragDropFunctions = () => {
+
+    let dropZoneId = 'drop-zone';
+    let buttonId = 'clickHere';
+    let mouseOverClass = 'mouse-over';
+    let dropZone = $('#' + dropZoneId);
+
+    let ooleft = dropZone.offset().left;
+    let ooright = dropZone.outerWidth() + ooleft;
+
+    let ootop = dropZone.offset().top;
+    let oobottom = dropZone.outerHeight() + ootop;
+
+    let inputFile = dropZone.find('input');
+
+    document.getElementById(dropZoneId).addEventListener('dragover', function (e: any) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.addClass(mouseOverClass);
+        let x = e.pageX;
+        let y = e.pageY;
+
+        console.log(x, y);
+
+        if (!(x < ooleft || x > ooright || y < ootop || y > oobottom)) {
+            inputFile.offset({ top: y - 15, left: x - 100 });
+        } else {
+            inputFile.offset({ top: -400, left: -400 });
+        }
+
+    }, true);
+
+    if (buttonId !== '') {
+        let clickZone = $('#' + buttonId);
+
+        let oleft = clickZone.offset().left;
+        let oright = clickZone.outerWidth() + oleft;
+        let otop = clickZone.offset().top;
+        let obottom = clickZone.outerHeight() + otop;
+
+        clickZone.mousemove(function (e: any) {
+            let x = e.pageX;
+            let y = e.pageY;
+            if (!(x < oleft || x > oright || y < otop || y > obottom)) {
+                inputFile.offset({ top: y - 15, left: x - 160 });
+            } else {
+                inputFile.offset({ top: -400, left: -400 });
+            }
+        });
+    }
+
+    document.getElementById(dropZoneId).addEventListener('drop', function (e) {
+        dropZone.removeClass(mouseOverClass);
+    }, true);
+  };
 
   return createPage({
     title: 'File upload / file reading',
@@ -164,8 +222,15 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
       {
         renderMaquette: () => {
           return h('div', [
-            h('input', { type: 'file', name: 'file[]', multiple: true }, []),
+            h('input', { type: 'file', name: 'file[]', multiple: true}, []),
             h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
+            h('div', {id: 'drop-zone', afterCreate: dragDropFunctions}, [
+              'drop files here',
+              h('div', {id: 'clickHere'}, [
+                'or click here',
+                h('input', {type: 'file', name: 'file', id: 'file'})
+              ])
+              ]),
             h('hr')
           ]);
         }
