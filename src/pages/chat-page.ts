@@ -105,7 +105,7 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
               h('h1', ['Chat with ' + `${otherUser.firstName} ${otherUser.lastName}`]),
               h('h2', ['company: ', otherUser.company]),
               h('ul', [
-                h('li',[   h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['Phone: ', otherUser.phoneNumber])  ]),
+                h('li',[   h('a', { key: 1, href: `tel: ${otherUser.phoneNumber}` }, ['Phone:', otherUser.phoneNumber])  ]),
                 h('li',[   h('a', { key: 2, href: `http://maps.apple.com?q=${otherUser.address},${otherUser.city},${otherUser.country}`},
                 [`Location: ${otherUser.address}, ${otherUser.city}, ${otherUser.country}`]) ]),
               ])
