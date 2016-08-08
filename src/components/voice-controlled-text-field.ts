@@ -6,6 +6,8 @@ This component returns a text-field, but also with a button to start voice contr
 import {Projector, h} from 'maquette';
 require('../styles/text-field.scss');
 
+declare let webkitSpeechRecognition: any;
+
 export interface VoiceControlledTextFieldConfig {
   label: string;
   prefilled?: boolean;
@@ -24,6 +26,12 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
   let recognizedSpeech = '';
   let isListening = false;
   let startStopButtonText = 'start listening';
+
+  let handleInput = () => {
+    let inputField = <HTMLInputElement>document.getElementsByClassName('input')[0];
+    setValue(inputField.value);
+    prefilled = false;
+  };
 
   if (!('webkitSpeechRecognition' in window)) {
     //Speech API not supported here…
@@ -51,6 +59,9 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
       }
 
       for (let i = event.resultIndex; i < event.results.length; ++i) {
+
+        handleInput();
+
         if (event.results[i].isFinal) {
           // Final results; here is the place to do useful things with the results.
           recognizedSpeech = event.results[i][0].transcript;
@@ -86,17 +97,12 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
     isListening = !isListening;
   }
 
-  // let handleInput = (evt: Event) => {
-  //   setValue((evt.target as HTMLInputElement).value);
-  //   prefilled = false;
-  // };
-
   let textField = {
     renderMaquette: () => {
       return h('label', { class: 'textField', key: textField }, [
         h('span', { class: 'label' }, [label]),
         h('div', {class: 'voicecontrollinputholder'}, [
-          h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text', value: recognizedSpeech}),
+          h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text', value: recognizedSpeech, oninput: handleInput}),
           isListening ? h('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Cochlea_wave_animated.gif'}) : undefined,
           h('button', { class: 'button', onclick: startOrStopListening }, [startStopButtonText])
         ])

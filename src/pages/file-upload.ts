@@ -110,7 +110,6 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
         };
         reader.readAsText(file);
       }, onErrorReadFile);
-
     });
   };
 
@@ -129,7 +128,6 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
         };
         reader.readAsText(file);
       }, onErrorReadFile);
-
     });
   };
 
