@@ -158,60 +158,33 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
   //     }
   // );
 
-  let dragDropFunctions = () => {
+  let initDragDropFunctionsAfterCreate = () => {
 
-    let dropZoneId = 'drop-zone';
-    let buttonId = 'clickHere';
-    let mouseOverClass = 'mouse-over';
-    let dropZone = $('#' + dropZoneId);
+  var dropZone = document.getElementById('dropZone');
 
-    let ooleft = dropZone.offset().left;
-    let ooright = dropZone.outerWidth() + ooleft;
-
-    let ootop = dropZone.offset().top;
-    let oobottom = dropZone.outerHeight() + ootop;
-
-    let inputFile = dropZone.find('input');
-
-    document.getElementById(dropZoneId).addEventListener('dragover', function (e: any) {
-        e.preventDefault();
+    // Optional.   Show the copy icon when dragging over.  Seems to only work for chrome.
+    dropZone.addEventListener('dragover', function(e) {
         e.stopPropagation();
-        dropZone.addClass(mouseOverClass);
-        let x = e.pageX;
-        let y = e.pageY;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+    });
 
-        console.log(x, y);
+    // Get file data on drop
+    dropZone.addEventListener('drop', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var files = e.dataTransfer.files; // Array of all files
+        for (var i=0, file:any; file=files[i]; i++) {
+            if (file.type.match(/image.*/)) {
+                var reader = new FileReader();
+                reader.onload = function(e2) { // finished reading file data.
+                    var img = document.createElement('img');
+                    img.src= e2.target.result;
+                    document.body.appendChild(img);
+                }
+                reader.readAsDataURL(file); // start reading the file data.
+    }   }   });
 
-        if (!(x < ooleft || x > ooright || y < ootop || y > oobottom)) {
-            inputFile.offset({ top: y - 15, left: x - 100 });
-        } else {
-            inputFile.offset({ top: -400, left: -400 });
-        }
-
-    }, true);
-
-    if (buttonId !== '') {
-        let clickZone = $('#' + buttonId);
-
-        let oleft = clickZone.offset().left;
-        let oright = clickZone.outerWidth() + oleft;
-        let otop = clickZone.offset().top;
-        let obottom = clickZone.outerHeight() + otop;
-
-        clickZone.mousemove(function (e: any) {
-            let x = e.pageX;
-            let y = e.pageY;
-            if (!(x < oleft || x > oright || y < otop || y > obottom)) {
-                inputFile.offset({ top: y - 15, left: x - 160 });
-            } else {
-                inputFile.offset({ top: -400, left: -400 });
-            }
-        });
-    }
-
-    document.getElementById(dropZoneId).addEventListener('drop', function (e) {
-        dropZone.removeClass(mouseOverClass);
-    }, true);
   };
 
   return createPage({
@@ -224,13 +197,7 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
           return h('div', [
             h('input', { type: 'file', name: 'file[]', multiple: true}, []),
             h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
-            h('div', {id: 'drop-zone', afterCreate: dragDropFunctions}, [
-              'drop files here',
-              h('div', {id: 'clickHere'}, [
-                'or click here',
-                h('input', {type: 'file', name: 'file', id: 'file'})
-              ])
-              ]),
+            h('div', {id: 'dropZone', afterCreate: initDragDropFunctionsAfterCreate}, []),
             h('hr')
           ]);
         }
