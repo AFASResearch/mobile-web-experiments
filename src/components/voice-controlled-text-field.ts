@@ -53,13 +53,13 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
 
     recognition.onresult = function(event: any) { //the event holds the results
       if (typeof(event.results) === 'undefined') { //Something is wrong…
-        recognition.stop();
-        startStopButtonText = 'start listening';
+        stopListening();
         return;
       }
 
       for (let i = event.resultIndex; i < event.results.length; ++i) {
 
+        // there is a result so we can already store that
         handleInput();
 
         if (event.results[i].isFinal) {
@@ -77,18 +77,17 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
   let stopListening = () => {
     recognition.stop();
     startStopButtonText = 'start listening';
-    isListening = false;
     projector.scheduleRender();
   }
 
   let startListening = () => { config
     recognition.start();
     startStopButtonText = 'stop listening';
-    isListening = true;
     projector.scheduleRender();
   }
 
   let startOrStopListening = () => {
+    console.log(isListening);
     if (isListening) {
       stopListening();
     } else {
@@ -102,7 +101,7 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
       return h('label', { class: 'textField', key: textField }, [
         h('span', { class: 'label' }, [label]),
         h('div', {class: 'voicecontrollinputholder'}, [
-          h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text', value: recognizedSpeech, oninput: handleInput}),
+          h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text', value: isListening ? recognizedSpeech : getValue(), oninput: handleInput}),
           isListening ? h('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Cochlea_wave_animated.gif'}) : undefined,
           h('button', { class: 'button', onclick: startOrStopListening }, [startStopButtonText])
         ])
