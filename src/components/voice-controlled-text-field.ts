@@ -2,7 +2,6 @@
 This component returns a text-field, but also with a button to start voice control.
 */
 
-
 import {Projector, h} from 'maquette';
 require('../styles/text-field.scss');
 
@@ -34,14 +33,17 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
   };
 
   if (!('webkitSpeechRecognition' in window)) {
-    //Speech API not supported here…
-    console.log('speech api is not supported :(')
+    // Speech API not supported here…
+    console.log('speech api is not supported.');
+
+    // ensure that islistening is always false.
+    isListening = false;
   } else {
-    var recognition = new webkitSpeechRecognition(); //That is the object that will manage our whole recognition process.
-    recognition.continuous = true;   //Suitable for dictation.
-    recognition.interimResults = true;  //If we want to start receiving results even if they are not final.
-    recognition.lang = "nl_NL";
-    recognition.maxAlternatives = 1; //the highest result is the best.
+    var recognition = new webkitSpeechRecognition(); // That is the object that will manage our whole recognition process.
+    recognition.continuous = true;   // Suitable for dictation.
+    recognition.interimResults = true;  // If we want to start receiving results even if they are not final.
+    recognition.lang = 'nl_NL';
+    recognition.maxAlternatives = 1; // the highest result is the best.
 
     recognition.onstart = function() {
       // here we could do things when the recognition has started. i.e. animations.
@@ -51,8 +53,8 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
       stopListening();
     };
 
-    recognition.onresult = function(event: any) { //the event holds the results
-      if (typeof(event.results) === 'undefined') { //Something is wrong…
+    recognition.onresult = function(event: any) { // the event holds the results
+      if (typeof(event.results) === 'undefined') {
         stopListening();
         return;
       }
@@ -78,13 +80,13 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
     recognition.stop();
     startStopButtonText = 'start listening';
     projector.scheduleRender();
-  }
+  };
 
-  let startListening = () => { config
+  let startListening = () => {
     recognition.start();
     startStopButtonText = 'stop listening';
     projector.scheduleRender();
-  }
+  };
 
   let startOrStopListening = () => {
     console.log(isListening);
@@ -94,14 +96,15 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
       startListening();
     }
     isListening = !isListening;
-  }
+  };
 
   let textField = {
     renderMaquette: () => {
       return h('label', { class: 'textField', key: textField }, [
         h('span', { class: 'label' }, [label]),
         h('div', {class: 'voicecontrollinputholder'}, [
-          h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text', value: isListening ? recognizedSpeech : getValue(), oninput: handleInput}),
+          h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text',
+          value: isListening ? recognizedSpeech : getValue(), oninput: handleInput}),
           isListening ? h('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Cochlea_wave_animated.gif'}) : undefined,
           h('button', { class: 'button', onclick: startOrStopListening }, [startStopButtonText])
         ])

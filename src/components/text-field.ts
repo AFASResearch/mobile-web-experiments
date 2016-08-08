@@ -20,7 +20,6 @@ export let createTextField = (config: TextFieldConfig, bindings: TextFieldBindin
     prefilled = false;
   };
 
-
   let textField = {
     renderMaquette: () => {
       return h('label', { class: 'textField', key: textField }, [
