@@ -5,7 +5,6 @@ import {createTextField} from '../components/text-field';
 import {createText} from '../components/text';
 import {createButton} from '../components/button';
 require('../styles/file-upload.scss');
-let $ = <any>require('jquery');
 
 declare let cordova: any;
 declare let window: any;
@@ -180,11 +179,12 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
                 reader.onload = function(e2) { // finished reading file data.
                     var img = document.createElement('img');
                     img.src= e2.target.result;
-                    document.body.appendChild(img);
+                    dropZone.appendChild(img);
                 }
                 reader.readAsDataURL(file); // start reading the file data.
-    }   }   });
-
+                }   
+            }   
+        });
   };
 
   return createPage({
