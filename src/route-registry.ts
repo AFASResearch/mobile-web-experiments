@@ -19,7 +19,7 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
     initializePage: (route: string): Page => {
       switch (route) {
         case 'users':
-          return createUserListPage(dataService, projector);
+          return createUserListPage(dataService, userService.getUserInfo(), projector);
         case 'account':
           return createAccountPage(dataService, userService, projector);
         case 'barcodescanner':
@@ -34,7 +34,7 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
             return createChatPage(dataService, userService.getUserInfo(), match[1], projector);
           }
           // Nothing matches, default page:
-          return createUserListPage(dataService, projector);
+          return createUserListPage(dataService, userService.getUserInfo(), projector);
       }
     }
   };
