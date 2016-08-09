@@ -4,7 +4,6 @@ import {createPage} from '../components/page';
 import {createTextField} from '../components/text-field';
 import {createText} from '../components/text';
 import {createButton} from '../components/button';
-require('../styles/file-upload.scss');
 
 declare let cordova: any;
 declare let window: any;
@@ -134,10 +133,8 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
 
   // !! Assumes letiable fileURL contains a valid URL to a path on the device,
   //    for example, cdvfile://localhost/persistent/path/to/downloads/
-
   // let fileTransfer = new FileTransfer();
   // let uri = encodeURI('http://some.server.com/download.php');
-
   // fileTransfer.download(
   //     uri,
   //     fileURL,
@@ -159,32 +156,35 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
 
   let initDragDropFunctionsAfterCreate = () => {
 
-  var dropZone = document.getElementById('dropZone');
+    // http://www.html5rocks.com/en/tutorials/file/dndfiles/
+    let dropZone = document.getElementById('dropZone');
 
     // Optional.   Show the copy icon when dragging over.  Seems to only work for chrome.
     dropZone.addEventListener('dragover', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'copy';
+      e.stopPropagation();
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
     });
 
     // Get file data on drop
-    dropZone.addEventListener('drop', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var files = e.dataTransfer.files; // Array of all files
-        for (var i=0, file:any; file=files[i]; i++) {
-            if (file.type.match(/image.*/)) {
-                var reader = new FileReader();
-                reader.onload = function(e2) { // finished reading file data.
-                    var img = document.createElement('img');
-                    img.src= e2.target.result;
-                    dropZone.appendChild(img);
-                }
-                reader.readAsDataURL(file); // start reading the file data.
-                }   
-            }   
-        });
+    dropZone.addEventListener('drop', function(e: any) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      let files = e.dataTransfer.files; // Array of all files
+      for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        if (file.type.match(/image.*/)) {
+          let reader = new FileReader();
+          reader.onload = function(e2: any) { // finished reading file data.
+            let img = document.createElement('img');
+            img.src = e2.target.result;
+            dropZone.appendChild(img);
+          };
+          reader.readAsDataURL(file); // start reading the file data.
+        }
+      }
+    });
   };
 
   return createPage({
@@ -197,7 +197,7 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
           return h('div', [
             h('input', { type: 'file', name: 'file[]', multiple: true}, []),
             h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
-            h('div', {id: 'dropZone', afterCreate: initDragDropFunctionsAfterCreate}, []),
+            h('div', {id: 'dropZone', afterCreate: initDragDropFunctionsAfterCreate}, ['drop a file here']),
             h('hr')
           ]);
         }
@@ -217,11 +217,11 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
                 h('button', { class: 'button invertedDanger', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
               ])
             ])
-            ])
-              : h('div', ['loading files...'])
-          ]);
-        }
+          ])
+          : h('div', ['loading files...'])
+        ]);
       }
-    ]
-  });
+    }
+  ]
+});
 };
