@@ -4,6 +4,7 @@ import {createPage} from '../components/page';
 import {createTextField} from '../components/text-field';
 import {createText} from '../components/text';
 import {createButton} from '../components/button';
+import {createDragDropFileUpload} from '../components/drag-drop-file-upload';
 
 declare let cordova: any;
 declare let window: any;
@@ -154,50 +155,16 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
   //     }
   // );
 
-  let initDragDropFunctionsAfterCreate = () => {
-
-    // http://www.html5rocks.com/en/tutorials/file/dndfiles/
-    let dropZone = document.getElementById('dropZone');
-
-    // Optional.   Show the copy icon when dragging over.  Seems to only work for chrome.
-    dropZone.addEventListener('dragover', function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'copy';
-    });
-
-    // Get file data on drop
-    dropZone.addEventListener('drop', function(e: any) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      let files = e.dataTransfer.files; // Array of all files
-      for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-        if (file.type.match(/image.*/)) {
-          let reader = new FileReader();
-          reader.onload = function(e2: any) { // finished reading file data.
-            let img = document.createElement('img');
-            img.src = e2.target.result;
-            dropZone.appendChild(img);
-          };
-          reader.readAsDataURL(file); // start reading the file data.
-        }
-      }
-    });
-  };
-
   return createPage({
     title: 'File upload / file reading',
     dataService,
     body: [
       createText({ htmlContent: '<h2>All browsers/devices</h2>' }),
+      createDragDropFileUpload({}, {}),
       {
         renderMaquette: () => {
           return h('div', [
-            h('input', { type: 'file', name: 'file[]', multiple: true}, []),
             h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
-            h('div', {id: 'dropZone', afterCreate: initDragDropFunctionsAfterCreate}, ['drop a file here']),
             h('hr')
           ]);
         }
