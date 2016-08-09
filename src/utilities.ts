@@ -1,4 +1,5 @@
 import {UserInfo} from './interfaces';
+let moment = <any>require('moment');
 
 export let randomId = () => Math.random().toString(36).substr(2);
 
@@ -10,5 +11,5 @@ export let nameOfUser = (user: UserInfo) => {
 };
 
 export let getFormattedDate = (date: Date) => {
-  return date.toISOString().slice(0, 10);
+  return moment(date).format('YYYY-MM-DD HH:mm');
 };
