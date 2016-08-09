@@ -74,11 +74,18 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
   return {
     renderMaquette: () => {
-      let currentPage = userService.getUserInfo() ? router.getCurrentPage() : registerPage;
+
+      let user = userService.getUserInfo();
+
+      let currentPage = user ? router.getCurrentPage() : registerPage;
 
       return h('body', { class: 'app' }, [
         h('div', { class: 'header' }, [
           currentPage.renderHeader(),
+          h('div', { class: 'currentuser-holder' }, [user ? [
+            h('img', {src: user.image, class: 'profile-picture', height: 20}),
+            h('span', {class: 'navbar-username'}, [user.firstName + ' ' + user.lastName])
+          ] : undefined]),
           h('div', { class: 'status' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
         ]),
         h('div', { key: currentPage, class: 'body' }, [

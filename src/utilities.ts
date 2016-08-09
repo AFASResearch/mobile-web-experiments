@@ -8,3 +8,7 @@ export let nameOfUser = (user: UserInfo) => {
   }
   return `${user.firstName} ${user.lastName}`;
 };
+
+export let getFormattedDate = (date: Date) => {
+  return date.toISOString().slice(0, 10);
+};

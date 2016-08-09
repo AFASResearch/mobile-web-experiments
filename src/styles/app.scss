@@ -32,7 +32,7 @@
   width: 100%;
 
   .title {
-    flex: 1;
+
   }
 }
 
@@ -121,3 +121,31 @@
       flex: 1;
     }
   }
+
+.currentuser-holder {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+
+  img {
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    align-self: center;
+  }
+}
+
+.messagecontainer {
+width: 100%;
+}
+
+.messageTitleContainer {
+display: flex;
+
+i {
+  flex: 1;
+  width: 100%;
+  text-align: right;
+}
+}

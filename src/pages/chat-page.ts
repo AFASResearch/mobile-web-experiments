@@ -5,7 +5,7 @@ import {createPage} from '../components/page';
 import {createText} from '../components/text';
 import {createMessageComposer} from '../components/message-composer';
 import {UserInfo, MessageInfo} from '../interfaces';
-import {nameOfUser, randomId} from '../utilities';
+import {nameOfUser, randomId, getFormattedDate} from '../utilities';
 let jstz = <any>require('jstz');
 let vCard = <any>require('vcards-js');
 
@@ -69,9 +69,11 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
       return h('div', { class: 'row' }, [
         h('img', { class: 'profile-picture', src: item.fromUserId === toUserId ? otherUser.image : user.image }),
         h('div', { class: 'messagecontainer' }, [
-          h('b', [item.fromUserId === toUserId ? otherUser.firstName : 'me']),
-          h('span', [item.text]),
-          h('small', [item.date.toISOString().slice(0, 10)])
+          h('div', {class: 'messageTitleContainer'}, [
+            h('b', [item.fromUserId === toUserId ? otherUser.firstName : 'me']),
+            h('i', [getFormattedDate(item.date)])
+          ]),
+          h('span', [item.text])
         ])
       ]);
     }

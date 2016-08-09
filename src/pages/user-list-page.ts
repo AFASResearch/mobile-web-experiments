@@ -7,6 +7,7 @@ import {UserInfo, MessageInfo} from '../interfaces';
 import {createPage} from '../components/page';
 import {createList} from '../components/list';
 import {createText} from '../components/text';
+import {getFormattedDate} from '../utilities';
 
 export let createUserListPage = (dataService: DataService, user: UserInfo, projector: Projector) => {
 
@@ -37,18 +38,21 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
 
         let chatRoomId = [user.id, item.id].sort().join('-'); // format: lowestUserId-highestUserId
 
-        let lastMessage: string;
+        let lastMessage: MessageInfo;
         lastMessages.forEach((message) => {
           if (message.chatRoomId === chatRoomId) {
-            lastMessage = message.text;
+            lastMessage = message;
           }
         });
 
         return h('div', {class: 'row'},
         [ h('img', {class: 'profile-picture', src: item.image}),
         h('div', {class: 'messagecontainer'}, [
-          h('b', [item.firstName, ' ', item.lastName]),
-          h('p', [lastMessage])
+          h('div', { class: 'messageTitleContainer'}, [
+            h('b', [item.firstName + ' ' + item.lastName]),
+            h('i', [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
+          ]),
+          h('p', [lastMessage ? lastMessage.text : undefined])
         ])
       ]);
 
