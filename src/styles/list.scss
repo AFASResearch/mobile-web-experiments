@@ -3,15 +3,10 @@
 .list {
   border-collapse: collapse;
   flex: 1 1 auto;
+  flex: 1;
 
   .container {
     display: flex;
-  }
-
-  table {
-    border-collapse: collapse;
-    position: relative;
-    width: 100%;
   }
 
   .row {
@@ -24,19 +19,6 @@
     &:hover {
       background-color: #efefef;
 
-    }
-
-    th {
-      background-color: $transparent;
-      color: $text-color-inverted;
-      text-align: left;
-      padding: 8px;
-    }
-
-    td {
-      margin: 0;
-      padding: 8px;
-      border: none;
     }
   }
 }

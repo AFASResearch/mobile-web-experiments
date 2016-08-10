@@ -38,7 +38,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       company,
       image
     });
-  }
+  };
 
   getLocationData().then((locationdata: any) => {
     address = `${locationdata.street} ${locationdata.streetnumber}`;

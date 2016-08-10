@@ -95,6 +95,7 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
   };
 
   let messageComposer = createMessageComposer({ sendMessage });
+
   return createPage({
     title: () => `Chat with ${nameOfUser(otherUser)}`,
     dataService,

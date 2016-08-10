@@ -8,6 +8,7 @@ export interface ListColumn {
 }
 
 export interface ListConfig {
+  className: string;
 }
 
 export interface ListBindings<Item> {
@@ -19,6 +20,7 @@ export interface ListBindings<Item> {
 
 export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | MessageInfo>): Component => {
   let {getItems, getKey, renderRow, rowClicked} = bindings;
+  let {className} = config;
 
   let handleClick = (evt: Event) => {
     let items = getItems();
@@ -31,17 +33,20 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | M
   let list = {
     renderMaquette: () => {
       let items = getItems();
-      return h('div', { key: list, class: 'list' }, [
-        items ? [
-          h('div', {class: 'card'}, items.map(item =>
-            h('div', { key: getKey(item), onclick: handleClick, 'data-itemId': item.id }, [
-              renderRow(item)
-            ])
-          ))
-        ] : [
-          h('span', ['Loading...'])
-        ]
+      return h('div', { class: className ? className : undefined }, [
+        h('div', { key: list, class: 'list' }, [
+          items ? [
+            h('div', {class: 'card'}, items.map(item =>
+              h('div', { key: getKey(item), onclick: handleClick, 'data-itemId': item.id }, [
+                renderRow(item)
+              ])
+            ))
+          ] : [
+            h('span', ['Loading...'])
+          ]
+        ])
       ]);
+
     }
   };
   return list;
