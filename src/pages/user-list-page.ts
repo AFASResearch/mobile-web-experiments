@@ -1,6 +1,6 @@
 import {Projector, h} from 'maquette';
 import {DataService} from '../services/data-service';
-import {UserInfo} from '../interfaces';
+import {UserInfo, MessageInfo} from '../interfaces';
 import {createPage} from '../components/page';
 import {createUserList} from '../components/user-list.ts';
 import {createChatList} from '../components/chat-list.ts';
@@ -19,12 +19,12 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
     title: 'Chat',
     dataService,
     body: [ { renderMaquette: () => {
-      return h('div', {class: 'chatPagesHolder'}, [
+      return h('div', {class: 'card chatPagesHolder'}, [
         userlist.renderMaquette(),
         chatlist.renderMaquette()
     ]);
-    }
   }
+}
     ],
     destroy: () => {
       // subscription.unsubscribe();

@@ -2,7 +2,9 @@ import {Projector, h} from 'maquette';
 import {createList} from '../components/list';
 import {DataService} from '../services/data-service';
 import {UserInfo, MessageInfo} from '../interfaces';
-import {getFormattedDate} from '../utilities';
+import {getFormattedDate, randomId} from '../utilities';
+import {createMessageComposer} from '../components/message-composer';
+
 require('../styles/chat-list.scss');
 
 export interface ChatListConfig {
@@ -19,15 +21,11 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
 
   let {dataService, user, projector} = config;
   let {toUserId} = bindings;
-
   let otherUserSubscription: any;
   let messagesSubscription: any;
-
   let oldUserId: string;
-
   let otherUser: UserInfo;
   let messages: MessageInfo[];
-
   let chatRoomId = [user.id, toUserId()].sort().join('-'); // format: lowestUserId-highestUserId
 
   let updateChatRoomId = () => {
@@ -52,6 +50,12 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
         if (msgs.length > 0) {
           projector.scheduleRender();
           messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
+
+          let objDiv = document.getElementsByClassName('chat-list')[0];
+          if (objDiv !== null) {
+            objDiv.scrollTop = objDiv.scrollHeight;
+          }
+
         } else {
           let firstMessage: MessageInfo;
 
@@ -75,6 +79,23 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
     updateOtherUserSubscription();
     updateMessagesSubscription();
 
+    let sendMessage = (text: string) => {
+    let date = new Date();
+
+    let message: MessageInfo = {
+       id: randomId(),
+       chatRoomId: chatRoomId, // format: see chat-page
+       fromUserId: user.id,
+       toUserId: chatRoomId,
+       text: text,
+       date: date,
+       timestamp: date.valueOf()
+     };
+     dataService.horizon('directMessages').upsert(message);
+   };
+
+   let messageComposer = createMessageComposer({ sendMessage });
+
     let list = createList({className: 'chat-list'}, {
       getItems: () => messages,
       getKey: (message: MessageInfo) => message.id,
@@ -91,17 +112,19 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
 
         return h('div', { class: 'row' }, [
           h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image }),
-          h('div', { class: 'messagecontainer' }, [
-            h('div', {class: 'messageTitleContainer'}, [
+          h('div', {key: item.timestamp, class: 'messagecontainer' }, [
+            h('div', { class: 'messageTitleContainer'}, [
               h('b', [item.fromUserId === userId ? otherUser.firstName : 'me']),
               h('i', [getFormattedDate(item.date)])
             ]),
             h('span', [item.text])
           ])
         ]);
+      },
+      renderFooter: () => {
+        return messageComposer.renderMaquette();
       }
     });
-
 
     return list;
   };

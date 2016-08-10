@@ -60,9 +60,11 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
   .subscribe((msgs: MessageInfo[]) => {
     projector.scheduleRender();
     messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
+
+
   });
 
-  let list = createList({}, {
+  let list = createList({className: 'standardlist'}, {
     getItems: () => messages,
     getKey: (message: MessageInfo) => message.id,
     renderRow: (item: MessageInfo) => {

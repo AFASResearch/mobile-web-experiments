@@ -1,10 +1,11 @@
 @import 'variables';
 
-
 .chat-list {
   flex: 2;
   max-height: inherit;
   overflow-y: scroll;
+  border-left: $table-border;
+  padding-bottom: 120px;
 }
 
 .user-list {
@@ -13,13 +14,13 @@
   max-height: inherit;
   overflow-y: scroll;
 
-
   .list {
-
   }
 }
 
+
 .doubleList {
+
   height: 90%;
   max-height: 90%;
   position: absolute;
