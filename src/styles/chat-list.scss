@@ -5,7 +5,7 @@
   max-height: inherit;
   border-left: $table-border;
   display: flex;
-flex-direction: column;
+  flex-direction: column;
 }
 
 .user-list {
@@ -39,7 +39,8 @@ flex-direction: column;
     margin-left: 20px;
   }
 }
-.listHolder {
-flex: 1;
 
-overflow-y: scroll;}
+.listHolder {
+  flex: 1;
+  overflow-y: scroll;
+}

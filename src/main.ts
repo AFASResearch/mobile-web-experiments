@@ -10,9 +10,19 @@ import {createDataService} from './services/data-service';
 import {createRouteRegistry} from './route-registry';
 import {createUserService} from './services/user-service';
 
+declare let cordova: any;
 // Bootstrapping code
-let horizon = Horizon();
 //let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
+
+let horizon: any
+
+if (typeof cordova !== 'undefined') {
+  alert('cordova detected!');
+   horizon = Horizon({host: 'localhost:8181'});
+} else {
+  horizon = Horizon();
+}
+
 let store = (localforage as any as localforage).createInstance({ storeName: 'mobile-web-experiments' });
 
 let horizonReady = false;
