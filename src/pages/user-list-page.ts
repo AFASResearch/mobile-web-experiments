@@ -44,7 +44,7 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
     title: 'Chat',
     dataService,
     body: [ { renderMaquette: () => {
-      return h('div', {class: 'card chatPagesHolder'}, [
+      return h('div',  {class: 'card chatPagesHolder'}, [
         userlist.renderMaquette(),
         ResponsiveMode ? undefined : chatlist.renderMaquette()
       ]);

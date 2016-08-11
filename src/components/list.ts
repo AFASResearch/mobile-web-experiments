@@ -37,7 +37,7 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | M
     renderMaquette: () => {
       let items = getItems();
 
-      return h('div', { class: className ? className : undefined }, [
+      return h('div', { class: className ? className : undefined, key: className ? className : undefined  }, [
         h('div', { key: list, class: 'list', id: 'chatList' }, [
           items ? [
             h('div', {id: 'chatContainer', key: list}, items.map(item =>
