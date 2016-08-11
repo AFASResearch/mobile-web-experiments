@@ -61,7 +61,7 @@
   border-radius: 5px;
   margin: 0;
   margin-bottom: 10px;
-  padding: 10pt;
+  // padding: 10pt;
   width: inherit;
 }
 
@@ -99,10 +99,17 @@
 
 .contact-card {
   display:flex;
+  background: #f8f8f8;
+padding: 20px;
+border-bottom: $table-border;
+
+h1, h2, h3, h4, h5, ul {
+  margin: 0;
+}
 
   img {
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
   }
 }
 

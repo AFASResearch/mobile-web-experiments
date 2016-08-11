@@ -3,18 +3,15 @@
 .chat-list {
   flex: 2;
   max-height: inherit;
-  overflow-y: scroll;
   border-left: $table-border;
-  padding-bottom: 120px;
+  display: flex;
+flex-direction: column;
 }
 
 .user-list {
   flex: 1;
   max-height: inherit;
   overflow-y: scroll;
-
-  .list {
-  }
 }
 
 .doubleList {
@@ -40,6 +37,9 @@
     overflow-y: scroll;
     border-left: $table-border;
     margin-left: 20px;
-    padding: 20px;
   }
 }
+.listHolder {
+flex: 1;
+
+overflow-y: scroll;}

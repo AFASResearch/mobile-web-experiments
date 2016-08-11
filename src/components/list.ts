@@ -39,8 +39,10 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | M
       let items = getItems();
 
       return h('div', { class: className ? className : undefined, key: className ? className : undefined  }, [
-        h('div', { key: list, class: 'list', id: 'chatList' }, [
-          renderHeader ? renderHeader() : undefined,
+        renderHeader ? renderHeader() : undefined,
+        h('div', { key: list, class: 'listHolder' }, [
+
+        h('div', { key: list, class: 'list' }, [
           items ? [
             h('div', {id: 'chatContainer', key: list}, items.map(item =>
               h('div', { key: getKey(item), onclick: handleClick, 'data-itemId': item.id }, [
@@ -49,9 +51,10 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | M
             ))
           ] : [
             h('span', ['Loading...'])
-          ],
-          renderFooter ? renderFooter() : undefined
-        ])
+          ]
+          ])
+        ]),
+        renderFooter ? renderFooter() : undefined
       ]);
     }
   };

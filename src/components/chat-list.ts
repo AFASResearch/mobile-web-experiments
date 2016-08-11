@@ -41,6 +41,13 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
       });
     };
 
+    let scrollpage = () => {
+      let objDiv = document.getElementsByClassName('listHolder')[1];
+      if (objDiv !== null && objDiv !== undefined) {
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
+    };
+
     let updateMessagesSubscription = () => {
       messagesSubscription = dataService.horizon('directMessages')
       .findAll({ chatRoomId: chatRoomId })
@@ -52,15 +59,10 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           projector.scheduleRender();
           messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
 
-          // let objDiv = document.getElementsByClassName('chat-list')[0];
-          // if (objDiv !== null) {
-          //   objDiv.scrollTop = objDiv.scrollHeight;
-          // }
-
         } else {
           let firstMessage: MessageInfo;
 
-           firstMessage = {
+          firstMessage = {
             id: '',
             chatRoomId: chatRoomId, // format: see chat-page
             fromUserId: user.id,
@@ -72,6 +74,14 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
 
           messages = [firstMessage];
         }
+
+      },
+      (err: Error) => {
+        // on error
+        console.error(err);
+      },
+      () => {
+        // on complete
       });
     };
 
@@ -81,32 +91,32 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
     updateMessagesSubscription();
 
     let sendMessage = (text: string) => {
-    let date = new Date();
+      let date = new Date();
 
-    let message: MessageInfo = {
-       id: randomId(),
-       chatRoomId: chatRoomId, // format: see chat-page
-       fromUserId: user.id,
-       toUserId: chatRoomId,
-       text: text,
-       date: date,
-       timestamp: date.valueOf()
-     };
-     dataService.horizon('directMessages').upsert(message);
-   };
+      let message: MessageInfo = {
+        id: randomId(),
+        chatRoomId: chatRoomId, // format: see chat-page
+        fromUserId: user.id,
+        toUserId: chatRoomId,
+        text: text,
+        date: date,
+        timestamp: date.valueOf()
+      };
+      dataService.horizon('directMessages').upsert(message);
+    };
 
-   let messageComposer = createMessageComposer({ sendMessage });
-   let contactInfo = createContactInfo({}, {user: () => otherUser});
+    let messageComposer = createMessageComposer({ sendMessage });
+    let contactInfo = createContactInfo({}, {user: () => otherUser});
 
     let list = createList({className: 'chat-list'}, {
       getItems: () => messages,
       getKey: (message: MessageInfo) => message.id,
       renderHeader: () => {
         if (contactInfo) {
-        return contactInfo.renderMaquette();
-      } else {
-        return undefined;
-      }
+          return contactInfo.renderMaquette();
+        } else {
+          return undefined;
+        }
       },
       renderRow: (item: MessageInfo) => {
         let userId = toUserId();
@@ -119,7 +129,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           oldUserId = userId;
         }
 
-        return h('div', { class: 'row' }, [
+        return h('div', { class: 'row', afterCreate: scrollpage }, [
           h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image }),
           h('div', {key: item.timestamp, class: 'messagecontainer' }, [
             h('div', { class: 'messageTitleContainer'}, [
