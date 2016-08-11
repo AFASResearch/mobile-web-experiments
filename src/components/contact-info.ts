@@ -1,7 +1,6 @@
-
-let vCard = <any>require('vcards-js');
 import {h} from 'maquette';
 import {UserInfo} from '../interfaces';
+let vCard = <any>require('vcards-js');
 
 require('../styles/text.scss');
 
@@ -14,6 +13,8 @@ export interface ContactInfoBindings {
 
 export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfoBindings) => {
   let {user} = bindings;
+
+    vCard = new vCard();
 
     let downloadContact = (evt: Event) => {
 
