@@ -40,7 +40,7 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | M
 
       return h('div', { class: className ? className : undefined, key: className ? className : undefined  }, [
         renderHeader ? renderHeader() : undefined,
-        h('div', { key: list, class: 'listHolder' }, [
+        h('div', { key: list, class: 'listHolder', id: className ?  className + '-listHolder' : 'listHolder' }, [
 
         h('div', { key: list, class: 'list' }, [
           items ? [

@@ -1,6 +1,10 @@
 import {h} from 'maquette';
 import {UserInfo} from '../interfaces';
+import {createText} from '../components/text';
 let vCard = <any>require('vcards-js');
+let jstz = <any>require('jstz');
+
+vCard = vCard();
 
 require('../styles/text.scss');
 
@@ -14,7 +18,10 @@ export interface ContactInfoBindings {
 export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfoBindings) => {
   let {user} = bindings;
 
-    vCard = new vCard();
+  // timezone library
+  const timezone = jstz.determine();
+
+  let timeZoneText = createText({ htmlContent: 'Current timezone: ' + timezone.name() });
 
     let downloadContact = (evt: Event) => {
 
@@ -41,12 +48,12 @@ export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfo
 
   return {
     renderMaquette: () => {
-
       return h('div', {class: 'contact-card'}, user() ? [
         h('img', {class: 'profile-picture', src: user().image}, []),
         h('div', {class: 'contact-card-content'}, [
           h('h4', ['Chat with ' + `${user().firstName} ${user().lastName}`]),
           h('h5', ['company: ', user().company]),
+          h('h5', [timeZoneText.renderMaquette()]),
           h('ul', [
             h('li', [ h('a', { key: 1, href: `tel: ${user().phoneNumber}` }, ['Phone:', user().phoneNumber]) ]),
             h('li', [ h('a', { key: 2, href: `https://maps.apple.com?q=${user().address},${user().city},${user().country}`},

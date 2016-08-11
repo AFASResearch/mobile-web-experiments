@@ -15,7 +15,7 @@ export interface ChatListConfig {
 }
 
 export interface ChatListBindings {
-  toUserId: () => string;
+  toUserId?: () => string;
 }
 
 export let createChatList = (config: ChatListConfig, bindings: ChatListBindings) => {
@@ -42,7 +42,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
     };
 
     let scrollpage = () => {
-      let objDiv = document.getElementsByClassName('listHolder')[1];
+      let objDiv = document.getElementById('chat-list-listHolder');
       if (objDiv !== null && objDiv !== undefined) {
         objDiv.scrollTop = objDiv.scrollHeight;
       }

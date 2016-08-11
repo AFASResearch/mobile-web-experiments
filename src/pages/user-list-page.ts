@@ -12,7 +12,7 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
   let ResponsiveMode = false;
 
   let checkResponsiveMode = () => {
-    if (w.innerWidth < 720) {
+    if (w.innerWidth < 796) {
         ResponsiveMode = true;
     } else {
       ResponsiveMode = false;
