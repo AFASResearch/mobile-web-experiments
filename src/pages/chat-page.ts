@@ -26,31 +26,31 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
     projector.scheduleRender();
   });
 
-  let downloadContact = (evt: Event) => {
+    let downloadContact = (evt: Event) => {
 
-    // Set properties
-    vCard.firstName = otherUser.firstName;
-    vCard.lastName = otherUser.lastName;
-    vCard.organization = otherUser.company;
+      // Set properties
+      vCard.firstName = otherUser.firstName;
+      vCard.lastName = otherUser.lastName;
+      vCard.organization = otherUser.company;
 
-    // Set address information
-    vCard.homeAddress.label = 'Home Address';
-    vCard.homeAddress.street = otherUser.address;
-    vCard.homeAddress.city = otherUser.city;
-    vCard.homeAddress.countryRegion = otherUser.country;
+      // Set address information
+      vCard.homeAddress.label = 'Home Address';
+      vCard.homeAddress.street = otherUser.address;
+      vCard.homeAddress.city = otherUser.city;
+      vCard.homeAddress.countryRegion = otherUser.country;
 
-    // THIS FUNCTION CANNOT BE USED IN BROWSER
-    // vCard.saveToFile('./file-name.vcf');
+      // THIS FUNCTION CANNOT BE USED IN BROWSER
+      // vCard.saveToFile('./file-name.vcf');
 
-    // this piece of code creates a link (<a>) and emulates click on it.
-    let element = document.createElement('a');
-    element.setAttribute('href', 'data:text/vcard;charset=utf-16B,' + encodeURIComponent(vCard.getFormattedString()));
-    element.setAttribute('download', `${otherUser.firstName}.vcf`);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  };
+      // this piece of code creates a link (<a>) and emulates click on it.
+      let element = document.createElement('a');
+      element.setAttribute('href', 'data:text/vcard;charset=utf-16B,' + encodeURIComponent(vCard.getFormattedString()));
+      element.setAttribute('download', `${otherUser.firstName}.vcf`);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    };
 
   let messagesSubscription = dataService.horizon('directMessages')
   .findAll({ chatRoomId: chatRoomId })

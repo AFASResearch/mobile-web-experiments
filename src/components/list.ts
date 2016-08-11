@@ -14,13 +14,14 @@ export interface ListConfig {
 export interface ListBindings<Item> {
   getItems: () => Item[];
   getKey: (item: Item) => string | number;
+  renderHeader?: () => VNode | string;
   renderRow: (item: Item) => VNode | string;
   renderFooter?: () => VNode | string;
   rowClicked?: (item: Item) => void;
 }
 
 export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | MessageInfo>): Component => {
-  let {getItems, getKey, renderRow, renderFooter, rowClicked} = bindings;
+  let {getItems, getKey, renderHeader, renderRow, renderFooter, rowClicked} = bindings;
   let {className} = config;
 
   let handleClick = (evt: Event) => {
@@ -39,6 +40,7 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | M
 
       return h('div', { class: className ? className : undefined, key: className ? className : undefined  }, [
         h('div', { key: list, class: 'list', id: 'chatList' }, [
+          renderHeader ? renderHeader() : undefined,
           items ? [
             h('div', {id: 'chatContainer', key: list}, items.map(item =>
               h('div', { key: getKey(item), onclick: handleClick, 'data-itemId': item.id }, [

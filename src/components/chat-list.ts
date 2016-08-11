@@ -4,6 +4,7 @@ import {DataService} from '../services/data-service';
 import {UserInfo, MessageInfo} from '../interfaces';
 import {getFormattedDate, randomId} from '../utilities';
 import {createMessageComposer} from '../components/message-composer';
+import {createContactInfo} from '../components/contact-info';
 
 require('../styles/chat-list.scss');
 
@@ -95,10 +96,18 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
    };
 
    let messageComposer = createMessageComposer({ sendMessage });
+   let contactInfo = createContactInfo({}, {user: () => otherUser});
 
     let list = createList({className: 'chat-list'}, {
       getItems: () => messages,
       getKey: (message: MessageInfo) => message.id,
+      renderHeader: () => {
+        if (contactInfo) {
+        return contactInfo.renderMaquette();
+      } else {
+        return undefined;
+      }
+      },
       renderRow: (item: MessageInfo) => {
         let userId = toUserId();
 

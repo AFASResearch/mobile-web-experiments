@@ -42,6 +42,8 @@
   flex-direction: column;
   margin-top: $header-height;
   overflow-y: scroll;
+  width: inherit;
+  height: inherit;
 }
 
 .profile-picture {
@@ -120,37 +122,39 @@
     }
   }
 
-.currentuser-holder {
-  display: flex;
-  flex: 1;
-  justify-content: center;
+  .currentuser-holder {
+    display: flex;
+    flex: 1;
+    justify-content: center;
 
-  img {
-    height: 30px;
-    width: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
-    align-self: center;
+    img {
+      height: 30px;
+      width: 30px;
+      margin-left: 10px;
+      margin-right: 10px;
+      align-self: center;
+    }
   }
-}
 
-.messagecontainer {
-width: 100%;
-}
+  .messagecontainer {
+    width: 100%;
+  }
 
-.messageTitleContainer {
-display: flex;
+  .messageTitleContainer {
+    display: flex;
 
-i {
-  flex: 1;
-  width: 100%;
-  text-align: right;
-}
-}
+    i {
+      flex: 1;
+      width: 100%;
+      text-align: right;
+    }
+  }
 
-.chatPagesHolder {
-  display: flex;
-  position: absolute;
-  width: 90%;
-  height: 90%;
-}
+  .chatPagesHolder {
+    display: flex;
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    margin-left: 5%;
+    margin-top: 2%
+  }
