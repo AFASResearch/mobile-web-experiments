@@ -51,10 +51,10 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           projector.scheduleRender();
           messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
 
-          let objDiv = document.getElementsByClassName('chat-list')[0];
-          if (objDiv !== null) {
-            objDiv.scrollTop = objDiv.scrollHeight;
-          }
+          // let objDiv = document.getElementsByClassName('chat-list')[0];
+          // if (objDiv !== null) {
+          //   objDiv.scrollTop = objDiv.scrollHeight;
+          // }
 
         } else {
           let firstMessage: MessageInfo;
