@@ -22,3 +22,15 @@
 .prefilled {
   background-color: yellow;
 }
+
+.voicecontrollinputholder {
+  display: flex;
+
+  button{
+    margin: 0;
+  }
+
+  input {
+    flex: 1;
+  }
+}

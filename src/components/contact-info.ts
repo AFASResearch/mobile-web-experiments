@@ -1,31 +1,30 @@
+/*
+* This component shows the user information of a user, and you can download the info to your contacts app.
+* Downloading the contact as .vcf file does not work properly on Safari for OS X.
+*/
+
 import {h} from 'maquette';
 import {UserInfo} from '../interfaces';
 import {createText} from '../components/text';
 let vCard = <any>require('vcards-js');
 let jstz = <any>require('jstz');
+require('../styles/contact-info.scss');
 
 vCard = vCard();
 
-require('../styles/text.scss');
-
-export interface ContactInfoConfig {
-}
+export interface ContactInfoConfig { };
 
 export interface ContactInfoBindings {
   user: () => UserInfo;
-}
+};
 
 export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfoBindings) => {
   let {user} = bindings;
 
-  // timezone library
-  const timezone = jstz.determine();
-
+  const timezone = jstz.determine(); // timezone library
   let timeZoneText = createText({ htmlContent: 'Current timezone: ' + timezone.name() });
 
     let downloadContact = (evt: Event) => {
-
-      // Set properties
       vCard.firstName = user().firstName;
       vCard.lastName = user().lastName;
       vCard.organization = user().company;
@@ -36,7 +35,7 @@ export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfo
       vCard.homeAddress.city = user().city;
       vCard.homeAddress.countryRegion = user().country;
 
-      // this piece of code creates a link (<a>) and emulates click on it.
+      // this piece of code creates a link (<a>) and emulates a click on it.
       let element = document.createElement('a');
       element.setAttribute('href', 'data:text/vcard;charset=utf-16B,' + encodeURIComponent(vCard.getFormattedString()));
       element.setAttribute('download', `${user().firstName}.vcf`);

@@ -1,3 +1,7 @@
+/*
+* This component shows the list of users, and the last message from each chat with these users.
+*/
+
 import {Projector, h} from 'maquette';
 import {DataService} from '../services/data-service';
 import {UserInfo, MessageInfo} from '../interfaces';
@@ -16,9 +20,10 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
       let chatRoomId: string = [user.id, otheruser.id].sort().join('-'); // format: lowestUserId-highestUserId
 
       dataService.horizon('directMessages').findAll({ chatRoomId: chatRoomId }).order('timestamp', 'descending').limit(1).watch().subscribe((msg: any) => {
+
         if (msg[0]) {
-          lastMessages.push(msg[0]);
-          lastMessages.sort((msg1, msg2) => msg2.timestamp - msg1.timestamp);
+          lastMessages.push(msg[0]); // TODO: check if there was already an object for the current chatroom available and overwrite it.
+          lastMessages.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
         }
         projector.scheduleRender();
       });

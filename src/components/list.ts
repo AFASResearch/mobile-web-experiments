@@ -1,3 +1,8 @@
+/*
+* This component generates a list.
+* It renders multiple rows, and can also render a static header and/or footer. 
+*/
+
 import {h, VNode, Component} from 'maquette';
 import {UserInfo, MessageInfo} from '../interfaces';
 require('../styles/list.scss');

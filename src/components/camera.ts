@@ -5,7 +5,6 @@ This component uses getUserMedia and thus requires HTTPS to work. (localhost is 
 */
 
 import {h, Projector} from 'maquette';
-import {createButton} from './button';
 require('../styles/camera.scss');
 
 export interface CameraConfig {

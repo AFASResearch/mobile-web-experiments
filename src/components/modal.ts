@@ -1,3 +1,8 @@
+/*
+This component takes an array of other components as parameter.
+It displays a button, and onclick it will show a modal with the given components in it.
+*/
+
 import {h, Component} from 'maquette';
 require('../styles/modal.scss');
 
@@ -22,7 +27,7 @@ export let createModal = (config: ModalConfig, bindings: ModalBindings) => {
                     h('div', { class: 'modalContent' }, [
                         h('div', { class: 'modalHeader' }, [
                             title,
-                            h('div', { class: 'close', onclick: toggleModal}, ['X'])
+                            h('div', { class: 'close', onclick: toggleModal}, ['X']) // X will be the closing button.
                         ]),
                         contents.map(c => c.renderMaquette())
                     ])

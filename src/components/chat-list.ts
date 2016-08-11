@@ -1,3 +1,9 @@
+/*
+* This component generates a List with chat messages when a certain chatroomId is given.
+* It also handles the database connection. It contains user information at the top of the list and
+* a message composer at the footer of the list.
+*/
+
 import {Projector, h} from 'maquette';
 import {createList} from '../components/list';
 import {DataService} from '../services/data-service';
@@ -19,9 +25,9 @@ export interface ChatListBindings {
 }
 
 export let createChatList = (config: ChatListConfig, bindings: ChatListBindings) => {
-
   let {dataService, user, projector} = config;
   let {toUserId} = bindings;
+
   let otherUserSubscription: any;
   let messagesSubscription: any;
   let oldUserId: string;
@@ -55,11 +61,11 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
       .limit(500)
       .watch()
       .subscribe((msgs: MessageInfo[]) => {
+        // if there is a new message, append it and sort the array
         if (msgs.length > 0) {
           projector.scheduleRender();
           messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
-
-        } else {
+        } else { // if there are no messages, then make a fake message with some nice text
           let firstMessage: MessageInfo;
 
           firstMessage = {
@@ -74,25 +80,11 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
 
           messages = [firstMessage];
         }
-
-      },
-      (err: Error) => {
-        // on error
-        console.error(err);
-      },
-      () => {
-        // on complete
       });
     };
 
-    // run these functions for the first time on create
-    updateChatRoomId();
-    updateOtherUserSubscription();
-    updateMessagesSubscription();
-
     let sendMessage = (text: string) => {
       let date = new Date();
-
       let message: MessageInfo = {
         id: randomId(),
         chatRoomId: chatRoomId, // format: see chat-page
@@ -105,27 +97,32 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
       dataService.horizon('directMessages').upsert(message);
     };
 
+    // run these functions for the first time
+    updateChatRoomId();
+    updateOtherUserSubscription();
+    updateMessagesSubscription();
+
     let messageComposer = createMessageComposer({ sendMessage });
     let contactInfo = createContactInfo({}, {user: () => otherUser});
 
-    let list = createList({className: 'chat-list'}, {
+    return createList({className: 'chat-list'}, {
       getItems: () => messages,
       getKey: (message: MessageInfo) => message.id,
       renderHeader: () => {
         if (contactInfo) {
-          return contactInfo.renderMaquette();
-        } else {
-          return undefined;
+          return contactInfo.renderMaquette(); // set the contactinfo component in the header.
         }
       },
+      // renderRow renders a row for each item in the messages array.
       renderRow: (item: MessageInfo) => {
         let userId = toUserId();
 
-        // if the user id of the other user has changed...
+        // if the user id of the other user has changed, we need to change the queries of the database
         if (userId !== oldUserId) {
           updateChatRoomId();
           updateOtherUserSubscription();
           updateMessagesSubscription();
+
           oldUserId = userId;
         }
 
@@ -141,9 +138,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
         ]);
       },
       renderFooter: () => {
-        return messageComposer.renderMaquette();
+        return messageComposer.renderMaquette(); // set the message composer component in the footer
       }
     });
-
-    return list;
   };

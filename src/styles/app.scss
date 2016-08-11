@@ -31,8 +31,20 @@
   position: fixed;
   width: 100%;
 
-  .title {
+  .title { }
 
+  .currentuser-holder {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+
+    img {
+      height: 30px;
+      width: 30px;
+      margin-left: 10px;
+      margin-right: 10px;
+      align-self: center;
+    }
   }
 }
 
@@ -47,8 +59,8 @@
 }
 
 .profile-picture {
-  height: 50px;
-  width: 50px;
+  height: $profile-picture-size-normal;
+  width: $profile-picture-size-normal;
   border-radius: 50%;
   border: $table-border;
   object-fit: cover;
@@ -61,7 +73,6 @@
   border-radius: 5px;
   margin: 0;
   margin-bottom: 10px;
-  // padding: 10pt;
   width: inherit;
 }
 
@@ -80,8 +91,8 @@
 }
 
 .attachment {
-  border: 1px solid #cacaca;
-  background-color: #f5f5f5;
+  border: $table-border;
+  background-color: $light-gray;
   padding: 10px;
   display: flex;
   margin-top: 10px;
@@ -96,72 +107,3 @@
     margin-bottom: 0;
   }
 }
-
-.contact-card {
-  display:flex;
-  background: #f8f8f8;
-padding: 20px;
-border-bottom: $table-border;
-
-h1, h2, h3, h4, h5, ul {
-  margin: 0;
-}
-
-  img {
-    width: 70px;
-    height: 70px;
-  }
-}
-
-.contact-card-content {
-  flex: 1;
-  display: block;
-}
-
-.voicecontrollinputholder{
-  display: flex;
-
-  button{
-    margin: 0;}
-
-    input {
-      flex: 1;
-    }
-  }
-
-  .currentuser-holder {
-    display: flex;
-    flex: 1;
-    justify-content: center;
-
-    img {
-      height: 30px;
-      width: 30px;
-      margin-left: 10px;
-      margin-right: 10px;
-      align-self: center;
-    }
-  }
-
-  .messagecontainer {
-    width: 100%;
-  }
-
-  .messageTitleContainer {
-    display: flex;
-
-    i {
-      flex: 1;
-      width: 100%;
-      text-align: right;
-    }
-  }
-
-  .chatPagesHolder {
-    display: flex;
-    position: absolute;
-    width: 90%;
-    height: 90%;
-    margin-left: 5%;
-    margin-top: 2%
-  }

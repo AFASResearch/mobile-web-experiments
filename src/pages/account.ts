@@ -5,7 +5,6 @@ The user info can be edited here.
 
 import {createPage} from '../components/page';
 import {createTextField} from '../components/text-field';
-import {createText} from '../components/text';
 import {createVoiceControlledTextField} from '../components/voice-controlled-text-field';
 import {createButton} from '../components/button';
 import {createImageUploader} from '../components/image-uploader';
@@ -39,8 +38,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
     title: 'Account',
     dataService,
     body: [
-      createVoiceControlledTextField({label: 'first name (VOICE CONTROL)', projector: projector}, { getValue: () => firstName, setValue: (value) => {firstName = value; }}),
-    //  createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value; } }),
+      createVoiceControlledTextField({label: 'first name', projector: projector}, { getValue: () => firstName, setValue: (value) => {firstName = value; }}),
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),

@@ -1,3 +1,7 @@
+/*
+* this component handles the sending of messages into a chat. 
+*/
+
 import {h} from 'maquette';
 require('../styles/message-composer.scss');
 

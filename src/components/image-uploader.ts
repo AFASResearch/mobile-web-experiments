@@ -1,3 +1,7 @@
+/*
+* this component shows a modal and file upload to upload images, with or without the webcam.
+*/
+
 import {createModal} from './modal';
 import {createButton} from './button';
 import {createLiveCamera} from './live-camera';

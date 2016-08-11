@@ -1,0 +1,22 @@
+@import 'variables';
+
+.contact-card {
+  display:flex;
+  background: #f8f8f8;
+  padding: 20px;
+  border-bottom: $table-border;
+
+  h1, h2, h3, h4, h5, ul {
+    margin: 0;
+  }
+
+  img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+.contact-card-content {
+  flex: 1;
+  display: block;
+}
