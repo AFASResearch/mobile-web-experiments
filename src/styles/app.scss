@@ -74,6 +74,7 @@
   margin: 0;
   margin-bottom: 10px;
   width: inherit;
+  padding: 1px; // minor padding, to prevent the content from overlapping the border radius.
 }
 
 .newFileContent {

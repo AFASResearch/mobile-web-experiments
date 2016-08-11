@@ -3,16 +3,14 @@
 .contact-card {
   display:flex;
   background: #f8f8f8;
-  padding: 20px;
+  padding: 10px;
   border-bottom: $table-border;
 
-  h1, h2, h3, h4, h5, ul {
+  h1, h2, h3, h4, h5, ul, .text {
     margin: 0;
-  }
-
-  img {
-    width: 70px;
-    height: 70px;
+    line-height: 1;
+    padding:0;
+    list-style-type: none;
   }
 }
 

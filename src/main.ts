@@ -12,13 +12,12 @@ import {createUserService} from './services/user-service';
 
 declare let cordova: any;
 // Bootstrapping code
-//let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
+// let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
 
-let horizon: any
+let horizon: any;
 
 if (typeof cordova !== 'undefined') {
-  alert('cordova detected!');
-   horizon = Horizon({host: 'localhost:8181'});
+  horizon = Horizon({host: 'localhost:8181'});
 } else {
   horizon = Horizon();
 }
