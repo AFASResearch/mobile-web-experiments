@@ -21,12 +21,16 @@ export interface Page {
 }
 
 export let createPage = (config: PageConfig): Page => {
-  let {title, body, destroy} = config;
+  let {title, body, backButton, destroy} = config;
+
   let getTitle = typeof title === 'string' ? () => title : title;
+
   let page: Page = {
     destroy,
     renderHeader: () => {
-      return h('span', { class: 'title' }, [getTitle()]);
+      return h('span', { class: 'title' }, [
+      backButton ? h('a', {class: 'backbutton', href: backButton.route}, [backButton.title]) : undefined,
+        getTitle()]);
     },
     renderBody: () => {
       return h('div', { class: 'page', key: page }, [

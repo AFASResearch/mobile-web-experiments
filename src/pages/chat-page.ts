@@ -10,6 +10,7 @@ export let createChatPage = (dataService: DataService, user: UserInfo, toUserId:
 
   return createPage({
     title: () => ``,
+    backButton: {title: '<', route: '#users'},
     dataService,
     body: [
       chatlist
