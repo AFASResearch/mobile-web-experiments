@@ -54,7 +54,7 @@ export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfo
           h('h5', ['company: ', user().company]),
           h('h5', [timeZoneText.renderMaquette()]),
           h('ul', [
-            h('li', [ h('a', { key: 1, href: `tel: ${user().phoneNumber}` }, ['Phone:', user().phoneNumber]) ]),
+            h('li', [ h('a', { key: 1, href: `tel:${user().phoneNumber}` }, ['Phone:', user().phoneNumber]) ]),
             h('li', [ h('a', { key: 2, href: `https://maps.apple.com?q=${user().address},${user().city},${user().country}`},
             [`Location: ${user().address}, ${user().city}, ${user().country}`]) ])
           ])
