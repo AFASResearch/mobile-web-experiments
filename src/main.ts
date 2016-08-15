@@ -12,6 +12,7 @@ import {createUserService} from './services/user-service';
 
 declare let cordova: any;
 declare let Notification: any;
+declare let window: any;
 // Bootstrapping code
 // let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
 
@@ -36,9 +37,12 @@ let options = [
   }
 ];
 
-document.addEventListener('DOMContentLoaded', function() {
-  new Notification(options[0].title, options[0]);
-});
+// check if we are running in Electron
+if (window && window.process && window.process.type) {
+  document.addEventListener('DOMContentLoaded', function() {
+    new Notification(options[0].title, options[0]);
+  });
+}
 // END electron code for notifications
 
 let store = (localforage as any as localforage).createInstance({ storeName: 'mobile-web-experiments' });
