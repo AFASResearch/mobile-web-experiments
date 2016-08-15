@@ -11,6 +11,7 @@ import {createRouteRegistry} from './route-registry';
 import {createUserService} from './services/user-service';
 
 declare let cordova: any;
+declare let Notification: any;
 // Bootstrapping code
 // let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
 
@@ -21,6 +22,24 @@ if (typeof cordova !== 'undefined') {
 } else {
   horizon = Horizon();
 }
+
+// START electron code for notifications
+// https://github.com/hokein/electron-sample-apps/tree/master/notifications
+let options = [
+  {
+    title: 'Basic Notification',
+    body: 'Short message part'
+  },
+  {
+    title: 'Content-Image Notification',
+    body: 'Short message plus a custom content image'
+  }
+];
+
+document.addEventListener('DOMContentLoaded', function() {
+  new Notification(options[0].title, options[0]);
+});
+// END electron code for notifications
 
 let store = (localforage as any as localforage).createInstance({ storeName: 'mobile-web-experiments' });
 
