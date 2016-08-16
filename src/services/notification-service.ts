@@ -13,7 +13,7 @@ let sendCordovaNotification = ( obj: NotificationInfo ) => {
   // source: https://github.com/katzer/cordova-plugin-local-notifications
   // for (at least) cordova we could be sending additional data into the notification
   // we might need to wait for device ready before cordova may fire the notification
-  document.addEventListener('deviceready', function () {
+  document.addEventListener('deviceready', () => {
     cordova.plugins.notification.local.schedule({
       // id: 10,
       title: obj.title,
@@ -29,7 +29,7 @@ let sendBrowserNotification = ( obj: NotificationInfo ) => {
   } else if (Notification.permission === 'granted') {
     new Notification(obj.title, obj);
   } else if (Notification.permission !== 'denied') {   // if no permission, we need to ask the user.
-    Notification.requestPermission(function (permission: string) {
+    Notification.requestPermission((permission: string) => {
       if (permission === 'granted') {  // If the user accepts, let's create a notification
         new Notification(obj.title, obj);
       }
@@ -46,7 +46,8 @@ if (typeof cordova !== 'undefined') {
   }
 };
 
-/*
+/* cordova onclick functions for notifications
+
 // Join BBM Meeting when user has clicked on the notification
 cordova.plugins.notification.local.on('click', function (notification: any) {
 if (notification.id === 10) {

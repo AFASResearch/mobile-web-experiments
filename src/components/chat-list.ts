@@ -6,12 +6,12 @@
 
 import {Projector, h} from 'maquette';
 import {createList} from '../components/list';
-import {DataService} from '../services/data-service';
-import {UserInfo, MessageInfo} from '../interfaces';
-import {getFormattedDate, randomId} from '../utilities';
 import {createMessageComposer} from '../components/message-composer';
+import {DataService} from '../services/data-service';
+import {sendNotification} from '../services/notification-service';
+import {UserInfo, MessageInfo, NotificationInfo} from '../interfaces';
+import {getFormattedDate, randomId} from '../utilities';
 import {createContactInfo} from '../components/contact-info';
-
 require('../styles/chat-list.scss');
 
 export interface ChatListConfig {
@@ -65,6 +65,10 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
         if (msgs.length > 0) {
           projector.scheduleRender();
           messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
+
+          let notification: NotificationInfo = {title: otherUser.firstName, body: msgs[msgs.length - 1].text};
+          sendNotification(notification);
+
         } else { // if there are no messages, then make a fake message with some nice text
           let firstMessage: MessageInfo;
 

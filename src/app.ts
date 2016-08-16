@@ -4,14 +4,12 @@ import {randomId} from './utilities';
 import {Router} from './services/router';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
-import {NotificationInfo} from './interfaces';
-import {sendNotification} from './services/notification-service';
 import {createMainMenu} from './components/main-menu';
 require('./styles/app.scss');
 
-declare let Object: any;
 declare let cordova: any;
 declare let localNotification: any;
+declare let Object: any;
 
 // polyfill for object assign, since it is not supported by android.
 if (typeof Object.assign !== 'function') {
@@ -34,9 +32,6 @@ if (typeof Object.assign !== 'function') {
     return target;
   };
 }
-
-let notification: NotificationInfo = {title: 'test notificatie titel', body: 'body'};
-sendNotification(notification);
 
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
