@@ -24,27 +24,6 @@ if (typeof cordova !== 'undefined') {
   horizon = Horizon();
 }
 
-// START electron code for notifications
-// https://github.com/hokein/electron-sample-apps/tree/master/notifications
-let options = [
-  {
-    title: 'Basic Notification',
-    body: 'Short message part'
-  },
-  {
-    title: 'Content-Image Notification',
-    body: 'Short message plus a custom content image'
-  }
-];
-
-// check if we are running in Electron
-if (window && window.process && window.process.type) {
-  document.addEventListener('DOMContentLoaded', function() {
-    new Notification(options[0].title, options[0]);
-  });
-}
-// END electron code for notifications
-
 let store = (localforage as any as localforage).createInstance({ storeName: 'mobile-web-experiments' });
 
 let horizonReady = false;

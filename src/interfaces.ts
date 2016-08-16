@@ -20,3 +20,8 @@ export interface UserInfo {
   company?: string;
   oauth?: { };
 }
+
+export interface NotificationInfo {
+  title: string;
+  body: string;
+}

@@ -47,6 +47,7 @@
         "src/service-worker-registration.ts",
         "src/services/data-service.ts",
         "src/services/location-service.ts",
+        "src/services/notification-service.ts",
         "src/services/router.ts",
         "src/services/user-service.ts",
         "src/utilities.ts"

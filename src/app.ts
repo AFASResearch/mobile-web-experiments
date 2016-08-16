@@ -4,6 +4,8 @@ import {randomId} from './utilities';
 import {Router} from './services/router';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
+import {NotificationInfo} from './interfaces';
+import {sendNotification} from './services/notification-service';
 import {createMainMenu} from './components/main-menu';
 require('./styles/app.scss');
 
@@ -33,39 +35,8 @@ if (typeof Object.assign !== 'function') {
   };
 }
 
-// https://github.com/katzer/cordova-plugin-local-notifications
- document.addEventListener('deviceready', function () {
-
-     // Schedule notification for tomorrow to remember about the meeting
-    cordova.plugins.notification.local.schedule({
-        id: 10,
-        title: 'Meeting in 15 minutes!',
-        text: 'test een notificatie vanuit cordova',
-        data: { meetingId: '#123FG8' }
-    });
-
-    // Join BBM Meeting when user has clicked on the notification
-    cordova.plugins.notification.local.on('click', function (notification: any) {
-        if (notification.id === 10) {
-           // joinMeeting(notification.data.meetingId);
-           // console.log('notification has been clicked');
-        }
-    });
-
-    // Notification has reached its trigger time (Tomorrow at 8:45 AM)
-    cordova.plugins.notification.local.on('trigger', function (notification: any) {
-        if (notification.id !== 10) {
-            return;
-        }
-        // After 10 minutes update notification's title
-        setTimeout(function () {
-            cordova.plugins.notification.local.update({
-                id: 10,
-                title: 'Meeting in 5 minutes!'
-            });
-        }, 600000);
-    });
- }, false);
+let notification: NotificationInfo = {title: 'test notificatie titel', body: 'body'};
+sendNotification(notification);
 
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
