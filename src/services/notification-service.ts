@@ -48,7 +48,6 @@ if (typeof cordova !== 'undefined') {
 
 /* cordova onclick functions for notifications
 
-// Join BBM Meeting when user has clicked on the notification
 cordova.plugins.notification.local.on('click', function (notification: any) {
 if (notification.id === 10) {
 // joinMeeting(notification.data.meetingId);

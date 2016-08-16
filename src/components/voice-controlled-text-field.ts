@@ -25,6 +25,8 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
   let recognizedSpeech = '';
   let isListening = false;
   let startStopButtonText = 'start listening';
+  let speechApiSupported = true;
+
   let handleInput = () => {
     let inputField = <HTMLInputElement>document.getElementsByClassName('input')[0];
     setValue(inputField.value);
@@ -34,6 +36,7 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
   if (!('webkitSpeechRecognition' in window)) {
     // Speech API not supported here…
     console.log('speech api is not supported.');
+    speechApiSupported = false;
 
     // ensure that islistening is always false.
     isListening = false;
@@ -105,7 +108,7 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
           h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text',
           value: isListening ? recognizedSpeech : getValue(), oninput: handleInput}),
           isListening ? h('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Cochlea_wave_animated.gif'}) : undefined,
-          h('button', { class: 'button', onclick: startOrStopListening }, [startStopButtonText])
+          speechApiSupported ? h('button', { class: 'button', onclick: startOrStopListening }, [startStopButtonText]) : undefined
         ])
       ]);
     }

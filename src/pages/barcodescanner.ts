@@ -12,7 +12,6 @@ export let createBarcodePage = (dataService: DataService, userService: UserServi
     body: [
       createLiveCamera({ projector: projector, BarcodeScanEnabled: true }, {})
     ], destroy: () => {
-      // todo
       destroyLiveCamera();
     }
   });
