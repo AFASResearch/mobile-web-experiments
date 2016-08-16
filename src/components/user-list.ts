@@ -9,15 +9,16 @@ import {UserInfo, MessageInfo, NotificationInfo} from '../interfaces';
 import {createList} from '../components/list';
 import {getFormattedDate} from '../utilities';
 
+let subscription: any;
 let has_focus = true;
 
- window.onfocus = () => {
-   has_focus = true;
- };
+window.onfocus = () => {
+  has_focus = true;
+};
 
- window.onblur = () => {
-   has_focus = false;
- };
+window.onblur = () => {
+  has_focus = false;
+};
 
 export let createUserList = (dataService: DataService, user: UserInfo, projector: Projector, handleClick: (itemId: string) => void) => {
 
@@ -25,7 +26,7 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
   let usersCollection = dataService.horizon('users');
   let lastMessages: MessageInfo[] = [];
 
-  let subscription = usersCollection.order('lastName').watch().subscribe((allUsers: UserInfo[]) => {
+   subscription = usersCollection.order('lastName').watch().subscribe((allUsers: UserInfo[]) => {
     users = allUsers;
     users.forEach((otheruser) => {
       let chatRoomId: string = [user.id, otheruser.id].sort().join('-'); // format: lowestUserId-highestUserId
@@ -53,7 +54,6 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
     renderRow: (item: UserInfo) => {
 
       let chatRoomId = [user.id, item.id].sort().join('-'); // format: lowestUserId-highestUserId
-
       let lastMessage: MessageInfo;
 
       lastMessages.forEach((message) => {
@@ -79,4 +79,8 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
   }
 });
 return list;
+};
+
+export let destroyUserList = () => {
+  subscription.unsubscribe();
 };

@@ -2,8 +2,8 @@ import {Projector, h} from 'maquette';
 import {DataService} from '../services/data-service';
 import {UserInfo} from '../interfaces';
 import {createPage} from '../components/page';
-import {createUserList} from '../components/user-list.ts';
-import {createChatList} from '../components/chat-list.ts';
+import {createUserList, destroyUserList} from '../components/user-list.ts';
+import {createChatList, destroyChatList} from '../components/chat-list.ts';
 
 export let createUserListPage = (dataService: DataService, user: UserInfo, projector: Projector) => {
   let chatRoomId = 'izbhn78g0th';
@@ -52,7 +52,8 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
   }
 ],
 destroy: () => {
-  // subscription.unsubscribe();
+  destroyUserList();
+  destroyChatList();
 }
 });
 return page;

@@ -13,6 +13,9 @@ import {getFormattedDate, randomId} from '../utilities';
 import {createContactInfo} from '../components/contact-info';
 require('../styles/chat-list.scss');
 
+let otherUserSubscription: any;
+let messagesSubscription: any;
+
 export interface ChatListConfig {
   dataService: DataService;
   user: UserInfo;
@@ -21,14 +24,13 @@ export interface ChatListConfig {
 
 export interface ChatListBindings {
   toUserId?: () => string;
+  onDestroy?: () => void;
 }
 
 export let createChatList = (config: ChatListConfig, bindings: ChatListBindings) => {
   let {dataService, user, projector} = config;
-  let {toUserId} = bindings;
+  let {toUserId, onDestroy} = bindings;
 
-  let otherUserSubscription: any;
-  let messagesSubscription: any;
   let oldUserId: string;
   let otherUser: UserInfo;
   let messages: MessageInfo[];
@@ -141,3 +143,8 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
       }
     });
   };
+
+export let destroyChatList = () => {
+  messagesSubscription.unsubscribe();
+  otherUserSubscription.unsubscribe();
+};
