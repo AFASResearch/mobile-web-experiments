@@ -133,3 +133,7 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
       }
     };
   };
+
+export let destroyLiveCamera = () => { 
+    Quagga.stop();
+};

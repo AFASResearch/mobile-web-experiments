@@ -1,5 +1,5 @@
 import {createPage} from '../components/page';
-import {createLiveCamera} from '../components/live-camera';
+import {createLiveCamera, destroyLiveCamera} from '../components/live-camera';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
 require('quagga');
@@ -11,7 +11,10 @@ export let createBarcodePage = (dataService: DataService, userService: UserServi
     dataService,
     body: [
       createLiveCamera({ projector: projector, BarcodeScanEnabled: true }, {})
-    ]
+    ], destroy: () => {
+      // todo
+      destroyLiveCamera();
+    }
   });
   return page;
 };
