@@ -33,6 +33,20 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
     prefilled = false;
   };
 
+let recognition: any;
+
+let stopListening = () => {
+  recognition.stop();
+  startStopButtonText = 'start listening';
+  projector.scheduleRender();
+};
+
+let startListening = () => {
+  recognition.start();
+  startStopButtonText = 'stop listening';
+  projector.scheduleRender();
+};
+
   if (!('webkitSpeechRecognition' in window)) {
     // Speech API not supported here…
     console.log('speech api is not supported.');
@@ -41,7 +55,7 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
     // ensure that islistening is always false.
     isListening = false;
   } else {
-    var recognition = new webkitSpeechRecognition(); // That is the object that will manage our whole recognition process.
+    recognition = new webkitSpeechRecognition(); // That is the object that will manage our whole recognition process.
     recognition.continuous = true;   // Suitable for dictation.
     recognition.interimResults = true;  // If we want to start receiving results even if they are not final.
     recognition.lang = 'nl_NL';
@@ -77,18 +91,6 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
       projector.scheduleRender();
     };
   }
-
-  let stopListening = () => {
-    recognition.stop();
-    startStopButtonText = 'start listening';
-    projector.scheduleRender();
-  };
-
-  let startListening = () => {
-    recognition.start();
-    startStopButtonText = 'stop listening';
-    projector.scheduleRender();
-  };
 
   let startOrStopListening = () => {
     console.log(isListening);
