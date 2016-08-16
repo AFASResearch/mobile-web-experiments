@@ -12,8 +12,7 @@ declare let cordova: any; // declare cordova
 export let sendNotification = ( obj: NotificationInfo ) => {
   if (window && window.process && window.process.type) {    // if we are running in Electron
       new Notification(obj.title, obj);
-  } else if (cordova !== undefined ) { // if we are running in Cordova
-
+  } else if ( false ) { // if we are running in Cordova
      // https://github.com/katzer/cordova-plugin-local-notifications
 
      // we might need to wait for device ready before cordova may fire the notification
@@ -22,14 +21,35 @@ export let sendNotification = ( obj: NotificationInfo ) => {
         cordova.plugins.notification.local.schedule({
 //          id: 10,
             title: obj.title,
-            text: obj.body,
+            text: obj.body
 //          data: { meetingId: '#123FG8' }
         });
      }, false);
 
-  } else {
-    // here we could do standard browser support
+  } else { // standard browser support
+    console.log('trying to send notifciation for browser');
+
+  // Let's check if the browser supports notifications
+  if (!('Notification' in window)) {
+    alert('This browser does not support system notifications');
   }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === 'granted') {
+    // If it's okay let's create a notification
+    let notification = new Notification('Hi there!');
+  } else if (Notification.permission !== 'denied') {   // Otherwise, we need to ask the user for permission
+    Notification.requestPermission(function (permission: string) {
+      // If the user accepts, let's create a notifidcation
+      if (permission === 'granted') {
+        let notification = new Notification('Hi there!');
+      }
+    });
+  }
+
+  // Finally, if the user has denied notifications and you
+  // want to be respectful there is no need to bother them any more.
+}
 };
 
  /*
