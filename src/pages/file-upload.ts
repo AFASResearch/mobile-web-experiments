@@ -8,6 +8,7 @@ import { createCordovaFileBrowser} from '../components/cordova-file-browser';
 export let createFileUploadPage = (projector: Projector) => {
   return createPage({
     title: 'File upload / file reading',
+    className: 'card',
     body: [
       createText({ htmlContent: '<h2>All browsers/devices</h2>' }),
       createDragDropFileUpload(),

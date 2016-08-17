@@ -38,6 +38,11 @@
     flex: 1;
     justify-content: center;
 
+    .navbar-username {
+      color: white;
+      text-decoration: none;
+    }
+
     img {
       height: 30px;
       width: 30px;
@@ -71,10 +76,13 @@
   background: white;
   border: 1px solid lightgray;
   border-radius: 5px;
-  margin: 0;
+  margin: 30px;
   margin-bottom: 10px;
-  width: inherit;
   padding: 1px; // minor padding, to prevent the content from overlapping the border radius.
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  margin-top: 2%;
 }
 
 .newFileContent {

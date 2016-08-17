@@ -5,6 +5,7 @@ require('../styles/page.scss');
 export interface PageConfig {
   title: string;
   dataService?: DataService;
+  className?: string;
   backButton?: {
     title: string;
     route: string;
@@ -21,7 +22,7 @@ export interface Page {
 }
 
 export let createPage = (config: PageConfig): Page => {
-  let {title, body, backButton, destroy} = config;
+  let {title, body, backButton, destroy, className} = config;
 
   let page: Page = {
     destroy,
@@ -32,7 +33,7 @@ export let createPage = (config: PageConfig): Page => {
       ]);
     },
     renderBody: () => {
-      return h('div', { class: 'page', key: page }, [
+      return h('div', { class: className ? `page ${className}`: 'page', key: page }, [
         body.map(c => c.renderMaquette())
       ]);
     }

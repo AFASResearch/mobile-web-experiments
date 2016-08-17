@@ -50,7 +50,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
           currentPage.renderHeader(),
           h('div', { class: 'currentuser-holder' }, [user ? [
             h('img', {src: user.image, class: 'profile-picture', height: 20}),
-            h('span', {class: 'navbar-username'}, [user.firstName + ' ' + user.lastName])
+            h('a', {class: 'navbar-username', href: '#account'}, [user.firstName + ' ' + user.lastName])
           ] : undefined]),
           h('div', { class: 'status' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
         ]),

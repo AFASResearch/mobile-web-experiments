@@ -48,7 +48,7 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
         return h('div',  {class: 'card chatPagesHolder'}, [
           userlist.renderMaquette(),
           !ResponsiveMode ? [
-            chatRoomId === '' ? h('div', {class: 'chat-list no-chat-selected'}, ['choose someone to chat with']) : chatlist.renderMaquette()
+            chatRoomId === '' ? h('div', {class: 'chat-list no-chat-selected'}, ['Choose someone to chat with']) : chatlist.renderMaquette()
           ] : undefined
         ]);
       }
