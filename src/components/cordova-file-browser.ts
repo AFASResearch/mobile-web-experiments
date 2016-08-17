@@ -152,7 +152,7 @@ export let createCordovaFileBrowser = (projector: Projector) => {
           ])
         ])
       ])
-      : h('div', ['loading files...'])
+      : undefined
     ]);
     }
   };

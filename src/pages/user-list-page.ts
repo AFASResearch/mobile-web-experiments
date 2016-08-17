@@ -6,7 +6,7 @@ import {createUserList, destroyUserList} from '../components/user-list.ts';
 import {createChatList, destroyChatList} from '../components/chat-list.ts';
 
 export let createUserListPage = (dataService: DataService, user: UserInfo, projector: Projector) => {
-  let chatRoomId = 'izbhn78g0th';
+  let chatRoomId = '';
 
   let w = <any>window;
   let ResponsiveMode = false;
@@ -47,7 +47,9 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
       renderMaquette: () => {
         return h('div',  {class: 'card chatPagesHolder'}, [
           userlist.renderMaquette(),
-          ResponsiveMode ? undefined : chatlist.renderMaquette()
+          !ResponsiveMode ? [
+            chatRoomId === '' ? h('div', {class: 'chat-list no-chat-selected'}, ['choose someone to chat with']) : chatlist.renderMaquette()
+          ] : undefined
         ]);
       }
     }],
