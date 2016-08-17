@@ -23,11 +23,11 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
         case 'account':
           return createAccountPage(dataService, userService, projector);
         case 'barcodescanner':
-          return createBarcodePage(dataService, userService, projector);
+          return createBarcodePage(projector);
         case 'file-upload':
-          return createFileUploadPage(dataService, projector);
+          return createFileUploadPage(projector);
         case 'camera':
-          return createMultiCamPage(dataService, userService, projector);
+          return createMultiCamPage(projector);
         default:
           let match = /chat\/(\w+)/.exec(route);
           if (match) {

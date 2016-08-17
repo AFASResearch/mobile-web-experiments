@@ -1,5 +1,4 @@
 import {Projector, h} from 'maquette';
-import {DataService} from '../services/data-service';
 import {createPage} from '../components/page';
 import {createTextField} from '../components/text-field';
 import {createText} from '../components/text';
@@ -10,10 +9,10 @@ declare let cordova: any;
 declare let window: any;
 declare let FileTransfer: any;
 
-export let createFileUploadPage = (dataService: DataService, projector: Projector) => {
+export let createFileUploadPage = (projector: Projector) => {
 
-  let newFileTitle = '';
-  let newFileContent = '';
+  let newFileTitle: string = '';
+  let newFileContent: string = '';
   let allEntries: any[];
   let fileSystem: any;
 
@@ -157,10 +156,9 @@ export let createFileUploadPage = (dataService: DataService, projector: Projecto
 
   return createPage({
     title: 'File upload / file reading',
-    dataService,
     body: [
       createText({ htmlContent: '<h2>All browsers/devices</h2>' }),
-      createDragDropFileUpload({}, {}),
+      createDragDropFileUpload(),
       {
         renderMaquette: () => {
           return h('div', [

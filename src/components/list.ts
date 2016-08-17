@@ -1,6 +1,6 @@
 /*
 * This component generates a list.
-* It renders multiple rows, and can also render a static header and/or footer. 
+* It renders multiple rows, and can also render a static header and/or footer.
 */
 
 import {h, VNode, Component} from 'maquette';
@@ -46,7 +46,6 @@ export let createList = (config: ListConfig, bindings: ListBindings<UserInfo | M
       return h('div', { class: className ? className : undefined, key: className ? className : undefined  }, [
         renderHeader ? renderHeader() : undefined,
         h('div', { key: list, class: 'listHolder', id: className ?  className + '-listHolder' : 'listHolder' }, [
-
         h('div', { key: list, class: 'list' }, [
           items ? [
             h('div', {id: 'chatContainer', key: list}, items.map(item =>

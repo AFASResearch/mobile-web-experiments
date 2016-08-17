@@ -3,8 +3,8 @@ import {DataService} from '../services/data-service';
 require('../styles/page.scss');
 
 export interface PageConfig {
-  title: string | (() => string);
-  dataService: DataService;
+  title: string;
+  dataService?: DataService;
   backButton?: {
     title: string;
     route: string;
@@ -23,16 +23,12 @@ export interface Page {
 export let createPage = (config: PageConfig): Page => {
   let {title, body, backButton, destroy} = config;
 
-  let getTitle: any;
-
-  getTitle = () => title;
-
   let page: Page = {
     destroy,
     renderHeader: () => {
       return h('span', { class: 'title' }, [
         backButton ? h('a', {class: 'backbutton', href: backButton.route}, [backButton.title]) : undefined,
-        getTitle()
+        title
       ]);
     },
     renderBody: () => {

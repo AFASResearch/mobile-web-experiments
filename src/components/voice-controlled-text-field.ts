@@ -10,7 +10,7 @@ declare let webkitSpeechRecognition: any;
 
 export interface VoiceControlledTextFieldConfig {
   label: string;
-  prefilled?: boolean;
+  prefilled?: boolean; // this property decides wheter the background of the textfield will be yellow when shown
   projector: Projector;
 }
 
@@ -52,7 +52,6 @@ let startListening = () => {
     // Speech API not supported here…
     console.log('speech api is not supported.');
     speechApiSupported = false;
-
     // ensure that islistening is always false.
     isListening = false;
   } else {
