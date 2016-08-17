@@ -33,7 +33,7 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
     }
   };
 
-  // check repsonsive mode on start
+  // check responsive mode on start
   checkResponsiveMode();
 
   // create the components

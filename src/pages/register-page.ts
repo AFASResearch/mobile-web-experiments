@@ -10,7 +10,7 @@ import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
 import {createImageUploader} from '../components/image-uploader';
 import {getLocationData} from '../services/location-service';
-import {h, Projector} from 'maquette';
+import {Projector} from 'maquette';
 
 export let createRegisterPage = (dataService: DataService, userService: UserService, projector: Projector, id: string) => {
 
@@ -59,7 +59,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
 
       // these fields will be prefilled automatically since we estimate the location of the user
       createTextField({ label: 'Address', prefilled: true}, { getValue: () => address, setValue: (value) => { address = value; }}),
-      createTextField({ label: 'City', prefilled: true}, { getValue: () => city, setValue: (value) => { city = value }}),
+      createTextField({ label: 'City', prefilled: true}, { getValue: () => city, setValue: (value) => { city = value; }}),
       createTextField({ label: 'Country', prefilled: true}, { getValue: () => country, setValue: (value) => { country = value; }}),
 
       createImageUploader({ projector: projector, userService: userService, image: 'images/barcode.jpg' }, {}),

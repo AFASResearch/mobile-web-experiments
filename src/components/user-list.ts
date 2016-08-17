@@ -62,23 +62,22 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
         }
       });
 
-      return h('div', {class: 'row'},
-      [ h('img', {class: 'profile-picture', src: item.image}),
-      h('div', {class: 'messagecontainer'}, [
-        h('div', { class: 'messageTitleContainer'}, [
-          h('b', [item.firstName + ' ' + item.lastName]),
-          h('i', [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
-        ]),
-        h('p', [lastMessage ? lastMessage.text : undefined])
-      ])
-    ]);
-
-  },
-  rowClicked: (item: UserInfo) => {
-    handleClick(item.id);
-  }
-});
-return list;
+      return h('div', {class: 'row'}, [
+        h('img', {class: 'profile-picture', src: item.image}),
+        h('div', {class: 'messagecontainer'}, [
+          h('div', { class: 'messageTitleContainer'}, [
+            h('b', [item.firstName + ' ' + item.lastName]),
+            h('i', [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
+          ]),
+          h('p', [lastMessage ? lastMessage.text : undefined])
+        ])
+      ]);
+    },
+    rowClicked: (item: UserInfo) => {
+      handleClick(item.id);
+    }
+  });
+  return list;
 };
 
 export let destroyUserList = () => {

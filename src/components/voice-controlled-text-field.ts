@@ -1,5 +1,6 @@
 /*
 * This component returns a text-field, but also with a button to start voice control.
+* it uses the webkitSpeechRecognition API, which is handled by the recognition variable.
 */
 
 import {Projector, h} from 'maquette';
