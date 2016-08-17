@@ -10,15 +10,6 @@ import {createList} from '../components/list';
 import {getFormattedDate} from '../utilities';
 
 let subscription: any;
-let has_focus = true;
-
-window.onfocus = () => {
-  has_focus = true;
-};
-
-window.onblur = () => {
-  has_focus = false;
-};
 
 export let createUserList = (dataService: DataService, user: UserInfo, projector: Projector, handleClick: (itemId: string) => void) => {
 
@@ -38,10 +29,8 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
           lastMessages.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
 
           let lastmessage = lastMessages[lastMessages.length - 1];
-          if (!has_focus) { // only send a notification if the browser window isn't focused
-            let notification: NotificationInfo = {title: otheruser.firstName, body: lastmessage.text};
-            sendNotification(notification);
-          }
+          let notification: NotificationInfo = {title: otheruser.firstName, body: lastmessage.text};
+          sendNotification(notification);
         }
         projector.scheduleRender();
       });

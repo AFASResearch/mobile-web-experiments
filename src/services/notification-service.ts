@@ -9,6 +9,15 @@ declare let window: any; // declare window as any since Electron changes it
 declare let Notification: any; // declare Notification as any since Electron adds it.
 declare let cordova: any; // declare cordova
 
+let has_focus = true;
+window.onfocus = () => {
+  has_focus = true;
+};
+
+window.onblur = () => {
+  has_focus = false;
+};
+
 let sendCordovaNotification = ( obj: NotificationInfo ) => {
   // source: https://github.com/katzer/cordova-plugin-local-notifications
   // for (at least) cordova we could be sending additional data into the notification
@@ -24,18 +33,20 @@ let sendCordovaNotification = ( obj: NotificationInfo ) => {
 };
 
 let sendBrowserNotification = ( obj: NotificationInfo ) => {
-  if (!('Notification' in window)) {
-    alert('This browser does not support system notifications');
-  } else if (Notification.permission === 'granted') {
-    new Notification(obj.title, obj);
-  } else if (Notification.permission !== 'denied') {   // if no permission, we need to ask the user.
-    Notification.requestPermission((permission: string) => {
-      if (permission === 'granted') {  // If the user accepts, let's create a notification
-        new Notification(obj.title, obj);
-      }
-    });
+  if (!has_focus) { // only send a notification if the browser window isn't focused
+    if (!('Notification' in window)) {
+      alert('This browser does not support system notifications');
+    } else if (Notification.permission === 'granted') {
+      new Notification(obj.title, obj);
+    } else if (Notification.permission !== 'denied') {   // if no permission, we need to ask the user.
+      Notification.requestPermission((permission: string) => {
+        if (permission === 'granted') {  // If the user accepts, let's create a notification
+          new Notification(obj.title, obj);
+        }
+      });
+    }
+    // Notification permission has been denied...
   }
-  // Notification permission has been denied...
 };
 
 export let sendNotification = ( obj: NotificationInfo ) => {

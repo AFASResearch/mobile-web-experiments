@@ -4,6 +4,7 @@ import {createTextField} from '../components/text-field';
 import {createText} from '../components/text';
 import {createButton} from '../components/button';
 import {createDragDropFileUpload} from '../components/drag-drop-file-upload';
+import {createFileDownload} from '../components/file-download';
 
 declare let cordova: any;
 declare let window: any;
@@ -159,15 +160,7 @@ export let createFileUploadPage = (projector: Projector) => {
     body: [
       createText({ htmlContent: '<h2>All browsers/devices</h2>' }),
       createDragDropFileUpload(),
-      {
-        renderMaquette: () => {
-          return h('div', [
-            // instant download method - (using the HTML5 download attribute.)
-            h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
-            h('hr')
-          ]);
-        }
-      },
+      createFileDownload(),
       createText({ htmlContent: '<h2>[Cordova] add new file </h2>' }),
       createTextField({ label: 'title' }, { getValue: () => newFileTitle, setValue: (value) => { newFileTitle = value; } }),
       createTextField({ label: 'content' }, { getValue: () => newFileContent, setValue: (value) => { newFileContent = value; } }),
