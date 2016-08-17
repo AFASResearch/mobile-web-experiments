@@ -13,7 +13,7 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
 
   let checkResponsiveMode = () => {
     if (w.innerWidth < 796) {
-        ResponsiveMode = true;
+      ResponsiveMode = true;
     } else {
       ResponsiveMode = false;
     }
@@ -43,18 +43,18 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
   let page = createPage({
     title: 'Chat',
     dataService,
-    body: [ { renderMaquette: () => {
-      return h('div',  {class: 'card chatPagesHolder'}, [
-        userlist.renderMaquette(),
-        ResponsiveMode ? undefined : chatlist.renderMaquette()
-      ]);
+    body: [ {
+      renderMaquette: () => {
+        return h('div',  {class: 'card chatPagesHolder'}, [
+          userlist.renderMaquette(),
+          ResponsiveMode ? undefined : chatlist.renderMaquette()
+        ]);
+      }
+    }],
+    destroy: () => {
+      destroyUserList();
+      destroyChatList();
     }
-  }
-],
-destroy: () => {
-  destroyUserList();
-  destroyChatList();
-}
-});
-return page;
+  });
+  return page;
 };

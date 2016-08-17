@@ -61,7 +61,7 @@
 	var data_service_1 = __webpack_require__(352);
 	var route_registry_1 = __webpack_require__(353);
 	var user_service_1 = __webpack_require__(489);
-	// Bootstrapping code
+	// for testing on local network
 	// let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
 	var horizon;
 	if (typeof cordova !== 'undefined') {
@@ -70,7 +70,7 @@
 	else {
 	    horizon = Horizon();
 	}
-	var store = localforage.createInstance({ storeName: 'mobile-web-experiments' });
+	var store = (localforage).createInstance({ storeName: 'mobile-web-experiments' });
 	var horizonReady = false;
 	var userServiceReady = false;
 	var projector = maquette_1.createProjector({});
@@ -15591,7 +15591,6 @@
 	var maquette_1 = __webpack_require__(213);
 	var register_page_1 = __webpack_require__(215);
 	var utilities_1 = __webpack_require__(241);
-	var notification_service_1 = __webpack_require__(345);
 	var main_menu_1 = __webpack_require__(346);
 	__webpack_require__(349);
 	// polyfill for object assign, since it is not supported by android.
@@ -15615,8 +15614,6 @@
 	        return target;
 	    };
 	}
-	var notification = { title: 'test notificatie titel', body: 'body' };
-	notification_service_1.sendNotification(notification);
 	exports.createApp = function (dataService, store, router, userService, projector) {
 	    var registerPage = register_page_1.createRegisterPage(dataService, userService, projector, utilities_1.randomId());
 	    var mainMenu = main_menu_1.createMainMenu();
@@ -15717,13 +15714,13 @@
 	__webpack_require__(217);
 	exports.createPage = function (config) {
 	    var title = config.title, body = config.body, backButton = config.backButton, destroy = config.destroy;
-	    var getTitle = typeof title === 'string' ? function () { return title; } : title;
 	    var page = {
 	        destroy: destroy,
 	        renderHeader: function () {
 	            return maquette_1.h('span', { class: 'title' }, [
 	                backButton ? maquette_1.h('a', { class: 'backbutton', href: backButton.route }, [backButton.title]) : undefined,
-	                getTitle()]);
+	                title
+	            ]);
 	        },
 	        renderBody: function () {
 	            return maquette_1.h('div', { class: 'page', key: page }, [
@@ -16325,8 +16322,7 @@
 	    };
 	    var getPicture = function (event) {
 	        createCanvas();
-	        if (event.target.files.length === 1 &&
-	            event.target.files[0].type.indexOf('image/') === 0) {
+	        if (event.target.files.length === 1 && event.target.files[0].type.indexOf('image/') === 0) {
 	            var temp_image_1 = new Image();
 	            temp_image_1.src = URL.createObjectURL(event.target.files[0]);
 	            temp_image_1.onload = function () {
@@ -16582,6 +16578,9 @@
 	            ]);
 	        }
 	    };
+	};
+	exports.destroyLiveCamera = function () {
+	    Quagga.stop();
 	};
 
 
@@ -30800,46 +30799,71 @@
 	* It first checks for a Cordova/Electron/Browser app.
 	*/
 	"use strict";
-	exports.sendNotification = function (obj) {
-	    if (window && window.process && window.process.type) {
-	        new Notification(obj.title, obj);
-	    }
-	    else if (cordova !== undefined) {
-	        // https://github.com/katzer/cordova-plugin-local-notifications
-	        // we might need to wait for device ready before cordova may fire the notification
-	        document.addEventListener('deviceready', function () {
-	            // Schedule notification for tomorrow to remember about the meeting
-	            cordova.plugins.notification.local.schedule({
-	                //          id: 10,
-	                title: obj.title,
-	                text: obj.body,
+	var has_focus = true;
+	window.onfocus = function () {
+	    has_focus = true;
+	};
+	window.onblur = function () {
+	    has_focus = false;
+	};
+	var sendCordovaNotification = function (obj) {
+	    // source: https://github.com/katzer/cordova-plugin-local-notifications
+	    // for (at least) cordova we could be sending additional data into the notification
+	    // we might need to wait for device ready before cordova may fire the notification
+	    document.addEventListener('deviceready', function () {
+	        cordova.plugins.notification.local.schedule({
+	            // id: 10,
+	            title: obj.title,
+	            text: obj.body
+	        });
+	    }, false);
+	};
+	var sendBrowserNotification = function (obj) {
+	    if (!has_focus) {
+	        if (!('Notification' in window)) {
+	            alert('This browser does not support system notifications');
+	        }
+	        else if (Notification.permission === 'granted') {
+	            new Notification(obj.title, obj);
+	        }
+	        else if (Notification.permission !== 'denied') {
+	            Notification.requestPermission(function (permission) {
+	                if (permission === 'granted') {
+	                    new Notification(obj.title, obj);
+	                }
 	            });
-	        }, false);
-	    }
-	    else {
+	        }
 	    }
 	};
-	/*
-	// Join BBM Meeting when user has clicked on the notification
-	cordova.plugins.notification.local.on('click', function (notification: any) {
-	    if (notification.id === 10) {
-	       // joinMeeting(notification.data.meetingId);
-	       // console.log('notification has been clicked');
+	exports.sendNotification = function (obj) {
+	    if (typeof cordova !== 'undefined') {
+	        sendCordovaNotification(obj);
 	    }
+	    else {
+	        sendBrowserNotification(obj);
+	    }
+	};
+	/* cordova onclick functions for notifications
+	
+	cordova.plugins.notification.local.on('click', function (notification: any) {
+	if (notification.id === 10) {
+	// joinMeeting(notification.data.meetingId);
+	// console.log('notification has been clicked');
+	}
 	});
 	
 	// Notification has reached its trigger time (Tomorrow at 8:45 AM)
 	cordova.plugins.notification.local.on('trigger', function (notification: any) {
-	    if (notification.id !== 10) {
-	        return;
-	    }
-	    // After 10 minutes update notification's title
-	    setTimeout(function () {
-	        cordova.plugins.notification.local.update({
-	            id: 10,
-	            title: 'Meeting in 5 minutes!'
-	        });
-	    }, 600000);
+	if (notification.id !== 10) {
+	return;
+	}
+	// After 10 minutes update notification's title
+	setTimeout(function () {
+	cordova.plugins.notification.local.update({
+	id: 10,
+	title: 'Meeting in 5 minutes!'
+	});
+	}, 600000);
 	});
 	
 	*/
@@ -31054,11 +31078,11 @@
 	                case 'account':
 	                    return account_1.createAccountPage(dataService, userService, projector);
 	                case 'barcodescanner':
-	                    return barcodescanner_1.createBarcodePage(dataService, userService, projector);
+	                    return barcodescanner_1.createBarcodePage(projector);
 	                case 'file-upload':
-	                    return file_upload_1.createFileUploadPage(dataService, projector);
+	                    return file_upload_1.createFileUploadPage(projector);
 	                case 'camera':
-	                    return multicam_1.createMultiCamPage(dataService, userService, projector);
+	                    return multicam_1.createMultiCamPage(projector);
 	                default:
 	                    var match = /chat\/(\w+)/.exec(route);
 	                    if (match) {
@@ -31106,7 +31130,7 @@
 	            chatRoomId = itemId;
 	        }
 	    };
-	    // check repsonsive mode on start
+	    // check responsive mode on start
 	    checkResponsiveMode();
 	    // create the components
 	    var userlist = user_list_ts_1.createUserList(dataService, user, projector, handleClick);
@@ -31114,16 +31138,17 @@
 	    var page = page_1.createPage({
 	        title: 'Chat',
 	        dataService: dataService,
-	        body: [{ renderMaquette: function () {
+	        body: [{
+	                renderMaquette: function () {
 	                    return maquette_1.h('div', { class: 'card chatPagesHolder' }, [
 	                        userlist.renderMaquette(),
 	                        ResponsiveMode ? undefined : chatlist.renderMaquette()
 	                    ]);
 	                }
-	            }
-	        ],
+	            }],
 	        destroy: function () {
-	            // subscription.unsubscribe();
+	            user_list_ts_1.destroyUserList();
+	            chat_list_ts_1.destroyChatList();
 	        }
 	    });
 	    return page;
@@ -31139,13 +31164,15 @@
 	*/
 	"use strict";
 	var maquette_1 = __webpack_require__(213);
+	var notification_service_1 = __webpack_require__(345);
 	var list_1 = __webpack_require__(356);
 	var utilities_1 = __webpack_require__(241);
+	var subscription;
 	exports.createUserList = function (dataService, user, projector, handleClick) {
 	    var users = undefined;
 	    var usersCollection = dataService.horizon('users');
 	    var lastMessages = [];
-	    var subscription = usersCollection.order('lastName').watch().subscribe(function (allUsers) {
+	    subscription = usersCollection.order('lastName').watch().subscribe(function (allUsers) {
 	        users = allUsers;
 	        users.forEach(function (otheruser) {
 	            var chatRoomId = [user.id, otheruser.id].sort().join('-'); // format: lowestUserId-highestUserId
@@ -31153,6 +31180,9 @@
 	                if (msg[0]) {
 	                    lastMessages.push(msg[0]); // TODO: check if there was already an object for the current chatroom available and overwrite it.
 	                    lastMessages.sort(function (msg1, msg2) { return msg1.timestamp - msg2.timestamp; });
+	                    var lastmessage = lastMessages[lastMessages.length - 1];
+	                    var notification = { title: otheruser.firstName, body: lastmessage.text };
+	                    notification_service_1.sendNotification(notification);
 	                }
 	                projector.scheduleRender();
 	            });
@@ -31169,7 +31199,8 @@
 	                    lastMessage = message;
 	                }
 	            });
-	            return maquette_1.h('div', { class: 'row' }, [maquette_1.h('img', { class: 'profile-picture', src: item.image }),
+	            return maquette_1.h('div', { class: 'row' }, [
+	                maquette_1.h('img', { class: 'profile-picture', src: item.image }),
 	                maquette_1.h('div', { class: 'messagecontainer' }, [
 	                    maquette_1.h('div', { class: 'messageTitleContainer' }, [
 	                        maquette_1.h('b', [item.firstName + ' ' + item.lastName]),
@@ -31184,6 +31215,9 @@
 	        }
 	    });
 	    return list;
+	};
+	exports.destroyUserList = function () {
+	    subscription.unsubscribe();
 	};
 
 
@@ -31289,15 +31323,15 @@
 	"use strict";
 	var maquette_1 = __webpack_require__(213);
 	var list_1 = __webpack_require__(356);
-	var utilities_1 = __webpack_require__(241);
 	var message_composer_1 = __webpack_require__(360);
+	var utilities_1 = __webpack_require__(241);
 	var contact_info_1 = __webpack_require__(363);
 	__webpack_require__(475);
+	var otherUserSubscription;
+	var messagesSubscription;
 	exports.createChatList = function (config, bindings) {
 	    var dataService = config.dataService, user = config.user, projector = config.projector;
 	    var toUserId = bindings.toUserId;
-	    var otherUserSubscription;
-	    var messagesSubscription;
 	    var oldUserId;
 	    var otherUser;
 	    var messages;
@@ -31396,6 +31430,10 @@
 	            return messageComposer.renderMaquette(); // set the message composer component in the footer
 	        }
 	    });
+	};
+	exports.destroyChatList = function () {
+	    messagesSubscription.unsubscribe();
+	    otherUserSubscription.unsubscribe();
 	};
 
 
@@ -47765,6 +47803,7 @@
 
 	/*
 	* This component returns a text-field, but also with a button to start voice control.
+	* it uses the webkitSpeechRecognition API, which is handled by the recognition variable.
 	*/
 	"use strict";
 	var maquette_1 = __webpack_require__(213);
@@ -47775,19 +47814,32 @@
 	    var recognizedSpeech = '';
 	    var isListening = false;
 	    var startStopButtonText = 'start listening';
+	    var speechApiSupported = true;
 	    var handleInput = function () {
 	        var inputField = document.getElementsByClassName('input')[0];
 	        setValue(inputField.value);
 	        prefilled = false;
 	    };
+	    var recognition;
+	    var stopListening = function () {
+	        recognition.stop();
+	        startStopButtonText = 'start listening';
+	        projector.scheduleRender();
+	    };
+	    var startListening = function () {
+	        recognition.start();
+	        startStopButtonText = 'stop listening';
+	        projector.scheduleRender();
+	    };
 	    if (!('webkitSpeechRecognition' in window)) {
 	        // Speech API not supported here…
 	        console.log('speech api is not supported.');
+	        speechApiSupported = false;
 	        // ensure that islistening is always false.
 	        isListening = false;
 	    }
 	    else {
-	        var recognition = new webkitSpeechRecognition(); // That is the object that will manage our whole recognition process.
+	        recognition = new webkitSpeechRecognition(); // That is the object that will manage our whole recognition process.
 	        recognition.continuous = true; // Suitable for dictation.
 	        recognition.interimResults = true; // If we want to start receiving results even if they are not final.
 	        recognition.lang = 'nl_NL';
@@ -47818,16 +47870,6 @@
 	            projector.scheduleRender();
 	        };
 	    }
-	    var stopListening = function () {
-	        recognition.stop();
-	        startStopButtonText = 'start listening';
-	        projector.scheduleRender();
-	    };
-	    var startListening = function () {
-	        recognition.start();
-	        startStopButtonText = 'stop listening';
-	        projector.scheduleRender();
-	    };
 	    var startOrStopListening = function () {
 	        console.log(isListening);
 	        if (isListening) {
@@ -47846,7 +47888,7 @@
 	                    maquette_1.h('input', { class: 'input', classes: { 'prefilled': prefilled }, type: 'text',
 	                        value: isListening ? recognizedSpeech : getValue(), oninput: handleInput }),
 	                    isListening ? maquette_1.h('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Cochlea_wave_animated.gif' }) : undefined,
-	                    maquette_1.h('button', { class: 'button', onclick: startOrStopListening }, [startStopButtonText])
+	                    speechApiSupported ? maquette_1.h('button', { class: 'button', onclick: startOrStopListening }, [startStopButtonText]) : undefined
 	                ])
 	            ]);
 	        }
@@ -47862,16 +47904,15 @@
 	"use strict";
 	var page_1 = __webpack_require__(216);
 	var live_camera_1 = __webpack_require__(234);
-	__webpack_require__(237);
-	exports.createBarcodePage = function (dataService, userService, projector) {
-	    var page = page_1.createPage({
+	exports.createBarcodePage = function (projector) {
+	    return page_1.createPage({
 	        title: 'Barcodescanning',
-	        dataService: dataService,
 	        body: [
 	            live_camera_1.createLiveCamera({ projector: projector, BarcodeScanEnabled: true }, {})
-	        ]
+	        ], destroy: function () {
+	            live_camera_1.destroyLiveCamera();
+	        }
 	    });
-	    return page;
 	};
 
 
@@ -47882,15 +47923,13 @@
 	"use strict";
 	var page_1 = __webpack_require__(216);
 	var camera_1 = __webpack_require__(481);
-	exports.createMultiCamPage = function (dataService, userService, projector) {
-	    var page = page_1.createPage({
+	exports.createMultiCamPage = function (projector) {
+	    return page_1.createPage({
 	        title: 'Multicam testing',
-	        dataService: dataService,
 	        body: [
 	            camera_1.createCamera({ projector: projector }, {})
 	        ]
 	    });
-	    return page;
 	};
 
 
@@ -48059,13 +48098,12 @@
 	var chat_list_1 = __webpack_require__(359);
 	var page_1 = __webpack_require__(216);
 	exports.createChatPage = function (dataService, user, toUserId, projector) {
-	    var chatlist = chat_list_1.createChatList({ dataService: dataService, user: user, projector: projector }, { toUserId: function () { return toUserId; } });
 	    return page_1.createPage({
 	        title: function () { return ""; },
 	        backButton: { title: '<', route: '#users' },
 	        dataService: dataService,
 	        body: [
-	            chatlist
+	            chat_list_1.createChatList({ dataService: dataService, user: user, projector: projector }, { toUserId: function () { return toUserId; } })
 	        ]
 	    });
 	};
@@ -48076,13 +48114,169 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var maquette_1 = __webpack_require__(213);
 	var page_1 = __webpack_require__(216);
-	var text_field_1 = __webpack_require__(224);
 	var text_1 = __webpack_require__(221);
-	var button_1 = __webpack_require__(227);
 	var drag_drop_file_upload_1 = __webpack_require__(486);
-	exports.createFileUploadPage = function (dataService, projector) {
+	var file_download_1 = __webpack_require__(491);
+	var cordova_file_browser_1 = __webpack_require__(492);
+	exports.createFileUploadPage = function (projector) {
+	    return page_1.createPage({
+	        title: 'File upload / file reading',
+	        body: [
+	            text_1.createText({ htmlContent: '<h2>All browsers/devices</h2>' }),
+	            drag_drop_file_upload_1.createDragDropFileUpload(),
+	            file_download_1.createFileDownload(),
+	            cordova_file_browser_1.createCordovaFileBrowser(projector)
+	        ]
+	    });
+	};
+
+
+/***/ },
+/* 486 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	* This component creates an input, which uses the HTML5 standard.
+	* due to the custom styling it is easy to drag and drop.
+	* Normally drag and drop is supported if you drag the file on to the button. (but that is not very clear to users)
+	*/
+	"use strict";
+	var maquette_1 = __webpack_require__(213);
+	__webpack_require__(487);
+	exports.createDragDropFileUpload = function () {
+	    return {
+	        renderMaquette: function () {
+	            return maquette_1.h('div', [
+	                // browsers allow already by themselves to drag files on a input='file' element.
+	                maquette_1.h('input', { id: 'file-upload', type: 'file', name: 'file[]', multiple: true })
+	            ]);
+	        }
+	    };
+	};
+
+
+/***/ },
+/* 487 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(488);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(220)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./drag-drop-file-upload.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./drag-drop-file-upload.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 488 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(219)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "#file-upload {\n  position: relative;\n  background: none;\n  height: 300px;\n  width: 500px;\n  border: 2px dashed gray;\n  border-radius: 10px; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 489 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.createUserService = function (store, scheduleRender) {
+	    var users;
+	    var userInfo;
+	    var updateUserInfo = function (newUserInfo) {
+	        users.upsert(newUserInfo).subscribe({
+	            error: function (msg) { console.error(msg); },
+	            complete: function () {
+	                store.setItem('user-info', newUserInfo).then(function () {
+	                    userInfo = newUserInfo;
+	                    scheduleRender();
+	                });
+	            }
+	        });
+	    };
+	    return {
+	        initialize: function () {
+	            return store.getItem('user-info').then(function (info) {
+	                userInfo = info;
+	            });
+	        },
+	        initializeHorizon: function (horizon) {
+	            users = horizon('users');
+	            // synchronize the userInfo with horizon in the background
+	            if (userInfo) {
+	                users.findAll({ id: userInfo.id }).fetch().subscribe(function (serverInfo) {
+	                    if (serverInfo.length === 0) {
+	                        // The server forgot about us, lets remind him who we are
+	                        updateUserInfo(userInfo);
+	                    }
+	                    else {
+	                        // The server may have updated info
+	                        userInfo = serverInfo[0];
+	                    }
+	                }, function (err) {
+	                    console.error(err);
+	                });
+	            }
+	        },
+	        updateUserInfo: updateUserInfo,
+	        getUserInfo: function () { return userInfo; }
+	    };
+	};
+
+
+/***/ },
+/* 490 */,
+/* 491 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var maquette_1 = __webpack_require__(213);
+	__webpack_require__(222);
+	exports.createFileDownload = function () {
+	    return {
+	        renderMaquette: function () {
+	            return maquette_1.h('div', [
+	                // instant download method - (using the HTML5 download attribute.)
+	                maquette_1.h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
+	                maquette_1.h('hr')
+	            ]);
+	        }
+	    };
+	};
+
+
+/***/ },
+/* 492 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var maquette_1 = __webpack_require__(213);
+	var text_field_1 = __webpack_require__(224);
+	var button_1 = __webpack_require__(227);
+	var text_1 = __webpack_require__(221);
+	__webpack_require__(222);
+	exports.createCordovaFileBrowser = function (projector) {
 	    var newFileTitle = '';
 	    var newFileContent = '';
 	    var allEntries;
@@ -48183,181 +48377,53 @@
 	            }, onErrorReadFile);
 	        });
 	    };
-	    // !! Assumes letiable fileURL contains a valid URL to a path on the device,
-	    //    for example, cdvfile://localhost/persistent/path/to/downloads/
-	    // let fileTransfer = new FileTransfer();
-	    // let uri = encodeURI('http://some.server.com/download.php');
-	    // fileTransfer.download(
-	    //     uri,
-	    //     fileURL,
-	    //     function(entry) {
-	    //         console.log('download complete: ' + entry.toURL());
-	    //     },
-	    //     function(error) {
-	    //         console.log('download error source ' + error.source);
-	    //         console.log('download error target ' + error.target);
-	    //         console.log('upload error code' + error.code);
-	    //     },
-	    //     false,
-	    //     {
-	    //         headers: {
-	    //             'Authorization': 'Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=='
-	    //         }
-	    //     }
-	    // );
-	    return page_1.createPage({
-	        title: 'File upload / file reading',
-	        dataService: dataService,
-	        body: [
-	            text_1.createText({ htmlContent: '<h2>All browsers/devices</h2>' }),
-	            drag_drop_file_upload_1.createDragDropFileUpload({}, {}),
-	            {
-	                renderMaquette: function () {
-	                    return maquette_1.h('div', [
-	                        // instant download method - (using the HTML5 download attribute.)
-	                        maquette_1.h('a', { download: 'pdf.pdf', href: 'images/pdf.pdf', title: 'imageName' }, ['download a fancy image']),
-	                        maquette_1.h('hr')
-	                    ]);
-	                }
-	            },
-	            text_1.createText({ htmlContent: '<h2>[Cordova] add new file </h2>' }),
-	            text_field_1.createTextField({ label: 'title' }, { getValue: function () { return newFileTitle; }, setValue: function (value) { newFileTitle = value; } }),
-	            text_field_1.createTextField({ label: 'content' }, { getValue: function () { return newFileContent; }, setValue: function (value) { newFileContent = value; } }),
-	            button_1.createButton({ text: 'Create the file', primary: true }, { onClick: createNewFile }),
-	            {
-	                renderMaquette: function () {
-	                    return maquette_1.h('div', [
-	                        allEntries ? maquette_1.h('div', [allEntries.map(function (entry) { return [
-	                                maquette_1.h('div', { class: 'attachment', key: entry.name }, [
-	                                    maquette_1.h('p', { key: entry.name }, [entry.name]),
-	                                    maquette_1.h('button', { class: 'button invertedPrimary', onclick: editFile, key: entry.name, 'data-fileName': entry.name }, ['edit']),
-	                                    maquette_1.h('button', { class: 'button invertedPrimary', onclick: openFile, key: entry.name, 'data-fileName': entry.name }, ['show/download']),
-	                                    maquette_1.h('button', { class: 'button invertedDanger', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
-	                                ])
-	                            ]; })
-	                        ])
-	                            : maquette_1.h('div', ['loading files...'])
-	                    ]);
-	                }
-	            }
-	        ]
-	    });
-	};
-
-
-/***/ },
-/* 486 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	* This component creates an input, which uses the HTML5 standard.
-	* due to the custom styling it is easy to drag and drop.
-	* Normally drag and drop is supported if you drag the file on to the button. (but that is not very clear to users)
-	*/
-	"use strict";
-	var maquette_1 = __webpack_require__(213);
-	__webpack_require__(487);
-	;
-	;
-	// browsers allow already by themselves to drag files on a input='file' element.
-	exports.createDragDropFileUpload = function (config, bindings) {
+	    var headerText = text_1.createText({ htmlContent: '<h2>[Cordova] add new file </h2>' });
+	    var titleTextField = text_field_1.createTextField({ label: 'title' }, { getValue: function () { return newFileTitle; }, setValue: function (value) { newFileTitle = value; } });
+	    var contentTextField = text_field_1.createTextField({ label: 'content' }, { getValue: function () { return newFileContent; }, setValue: function (value) { newFileContent = value; } });
+	    var createFileButton = button_1.createButton({ text: 'Create the file', primary: true }, { onClick: createNewFile });
 	    return {
 	        renderMaquette: function () {
 	            return maquette_1.h('div', [
-	                maquette_1.h('input', { id: 'file-upload', type: 'file', name: 'file[]', multiple: true })
+	                headerText.renderMaquette(),
+	                titleTextField.renderMaquette(),
+	                contentTextField.renderMaquette(),
+	                createFileButton.renderMaquette(),
+	                allEntries ? maquette_1.h('div', [allEntries.map(function (entry) { return [
+	                        maquette_1.h('div', { class: 'attachment', key: entry.name }, [
+	                            maquette_1.h('p', { key: entry.name }, [entry.name]),
+	                            maquette_1.h('button', { class: 'button invertedPrimary', onclick: editFile, key: entry.name, 'data-fileName': entry.name }, ['edit']),
+	                            maquette_1.h('button', { class: 'button invertedPrimary', onclick: openFile, key: entry.name, 'data-fileName': entry.name }, ['show/download']),
+	                            maquette_1.h('button', { class: 'button invertedDanger', onclick: deleteFile, key: entry.name, 'data-fileName': entry.name }, ['delete'])
+	                        ])
+	                    ]; })
+	                ])
+	                    : maquette_1.h('div', ['loading files...'])
 	            ]);
 	        }
 	    };
 	};
-
-
-/***/ },
-/* 487 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(488);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(220)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./drag-drop-file-upload.scss", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./drag-drop-file-upload.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 488 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(219)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "#file-upload {\n  position: relative;\n  background: none;\n  height: 300px;\n  width: 500px;\n  border: 2px dashed gray;\n  border-radius: 10px; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 489 */
-/***/ function(module, exports) {
-
-	"use strict";
-	exports.createUserService = function (store, scheduleRender) {
-	    var users;
-	    var userInfo;
-	    var updateUserInfo = function (newUserInfo) {
-	        users.upsert(newUserInfo).subscribe({
-	            error: function (msg) { console.error(msg); },
-	            complete: function () {
-	                store.setItem('user-info', newUserInfo).then(function () {
-	                    userInfo = newUserInfo;
-	                    scheduleRender();
-	                });
-	            }
-	        });
-	    };
-	    return {
-	        initialize: function () {
-	            return store.getItem('user-info').then(function (info) {
-	                userInfo = info;
-	            });
-	        },
-	        initializeHorizon: function (horizon) {
-	            users = horizon('users');
-	            // synchronize the userInfo with horizon in the background
-	            if (userInfo) {
-	                users.findAll({ id: userInfo.id }).fetch().subscribe(function (serverInfo) {
-	                    if (serverInfo.length === 0) {
-	                        // The server forgot about us, lets remind him who we are
-	                        updateUserInfo(userInfo);
-	                    }
-	                    else {
-	                        // The server may have updated info
-	                        userInfo = serverInfo[0];
-	                    }
-	                }, function (err) {
-	                    console.error(err);
-	                });
-	            }
-	        },
-	        updateUserInfo: updateUserInfo,
-	        getUserInfo: function () { return userInfo; }
-	    };
-	};
+	// !! Assumes letiable fileURL contains a valid URL to a path on the device,
+	//    for example, cdvfile://localhost/persistent/path/to/downloads/
+	// let fileTransfer = new FileTransfer();
+	// let uri = encodeURI('http://some.server.com/download.php');
+	// fileTransfer.download(
+	//     uri,
+	//     fileURL,
+	//     function(entry) {
+	//         console.log('download complete: ' + entry.toURL());
+	//     },
+	//     function(error) {
+	//         console.log('download error source ' + error.source);
+	//         console.log('download error target ' + error.target);
+	//         console.log('upload error code' + error.code);
+	//     },
+	//     false,
+	//     {
+	//         headers: {
+	//             'Authorization': 'Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=='
+	//         }
+	//     }
+	// );
 
 
 /***/ }
