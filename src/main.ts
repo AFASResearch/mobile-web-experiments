@@ -1,7 +1,7 @@
 import './service-worker-registration';
 
 import Horizon = require('@horizon/client');
-import localforage = require('localforage');
+const localforage = <any>require('localforage');
 import {createProjector} from 'maquette';
 
 import {createApp} from './app';
@@ -13,9 +13,9 @@ import {createUserService} from './services/user-service';
 declare let cordova: any;
 declare let Notification: any;
 declare let window: any;
-// Bootstrapping code
-// let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
 
+// for testing on local network
+// let horizon = Horizon({host: 'nl1-lbs.afasgroep.nl:8181'});
 let horizon: any;
 
 if (typeof cordova !== 'undefined') {
@@ -24,7 +24,7 @@ if (typeof cordova !== 'undefined') {
   horizon = Horizon();
 }
 
-let store = (localforage as any as localforage).createInstance({ storeName: 'mobile-web-experiments' });
+let store = (localforage).createInstance({ storeName: 'mobile-web-experiments' });
 
 let horizonReady = false;
 let userServiceReady = false;

@@ -24,12 +24,11 @@ export interface ChatListConfig {
 
 export interface ChatListBindings {
   toUserId?: () => string;
-  onDestroy?: () => void;
 }
 
 export let createChatList = (config: ChatListConfig, bindings: ChatListBindings) => {
   let {dataService, user, projector} = config;
-  let {toUserId, onDestroy} = bindings;
+  let {toUserId} = bindings;
 
   let oldUserId: string;
   let otherUser: UserInfo;

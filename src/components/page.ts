@@ -24,18 +24,15 @@ export let createPage = (config: PageConfig): Page => {
   let {title, body, backButton, destroy} = config;
 
   let getTitle: any;
-  if (typeof title === 'string' ) {
-    getTitle = () => title;
-  } else {
-    getTitle = title;
-  }
+
+  getTitle = () => title;
 
   let page: Page = {
     destroy,
     renderHeader: () => {
       return h('span', { class: 'title' }, [
         backButton ? h('a', {class: 'backbutton', href: backButton.route}, [backButton.title]) : undefined,
-        getTitle
+        getTitle()
       ]);
     },
     renderBody: () => {
