@@ -12,7 +12,8 @@
     ],
     "filesGlob": [
         "src/**/*.ts",
-        "test/**/*.ts"
+        "test/**/*.ts",
+        "typings/**/*.ts"
     ],
     "files": [
         "src/app.ts",
@@ -50,7 +51,10 @@
         "src/services/notification-service.ts",
         "src/services/router.ts",
         "src/services/user-service.ts",
-        "src/utilities.ts"
+        "src/utilities.ts",
+        "typings/globals/es6-promise/index.d.ts",
+        "typings/globals/localforage/index.d.ts",
+        "typings/index.d.ts"
     ],
     "atom": {
         "rewriteTsconfig": true

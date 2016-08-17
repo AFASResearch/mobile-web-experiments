@@ -26,7 +26,7 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
   let usersCollection = dataService.horizon('users');
   let lastMessages: MessageInfo[] = [];
 
-   subscription = usersCollection.order('lastName').watch().subscribe((allUsers: UserInfo[]) => {
+  subscription = usersCollection.order('lastName').watch().subscribe((allUsers: UserInfo[]) => {
     users = allUsers;
     users.forEach((otheruser) => {
       let chatRoomId: string = [user.id, otheruser.id].sort().join('-'); // format: lowestUserId-highestUserId
@@ -39,9 +39,9 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
 
           let lastmessage = lastMessages[lastMessages.length - 1];
           if (!has_focus) { // only send a notification if the browser window isn't focused
-              let notification: NotificationInfo = {title: otheruser.firstName, body: lastmessage.text};
-              sendNotification(notification);
-            }
+            let notification: NotificationInfo = {title: otheruser.firstName, body: lastmessage.text};
+            sendNotification(notification);
+          }
         }
         projector.scheduleRender();
       });
