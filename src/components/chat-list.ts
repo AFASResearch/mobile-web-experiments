@@ -126,22 +126,21 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           oldUserId = userId;
         }
 
-        return h('div', { class: 'chatrow', afterCreate: scrollpage }, [
+        if (item.fromUserId === userId) {
 
-          item.fromUserId === userId ?
-          [
-          h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image }),
-
-          h('div', {key: item.timestamp, class: 'messagecontainer' }, [
-            h('div', { class: 'messageTitleContainer'}, [
-              h('b', [ otherUser.firstName ]),
-              h('span', {class: 'messageTimeStamp'}, [getFormattedDate(item.date)])
-            ]),
-            h('span', [item.text])
-          ])
-        ] : [
-
-          h('div', {key: item.timestamp, class: 'messagecontainer right' }, [
+          return h('div', { class: 'chatrow', classes: {right: false}, afterCreate: scrollpage }, [
+            h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image }),
+            h('div', {key: item, class: 'messagecontainer' }, [
+              h('div', { class: 'messageTitleContainer'}, [
+                h('b', [ otherUser.firstName ]),
+                h('span', {class: 'messageTimeStamp'}, [getFormattedDate(item.date)])
+              ]),
+              h('span', [item.text])
+            ])
+          ]);
+        } else {
+          return h('div', { class: 'chatrow', classes: {right: true}, afterCreate: scrollpage }, [
+          h('div', {key: item, class: 'messagecontainer' }, [
             h('div', { class: 'messageTitleContainer'}, [
               h('b', ['me']),
               h('span', {class: 'messageTimeStamp'}, [getFormattedDate(item.date)])
@@ -149,9 +148,8 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
             h('span', [item.text])
           ]),
           h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image })
-
-        ]
-        ]);
+          ]);
+        }
       },
       renderFooter: () => {
         return messageComposer.renderMaquette(); // set the message composer component in the footer

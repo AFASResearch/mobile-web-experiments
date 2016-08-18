@@ -12,6 +12,10 @@
   .chatrow {
     display: flex;
     margin: 10px;
+
+    &.right {
+      justify-content: flex-end;
+    }
   }
 
   .row {
@@ -57,9 +61,9 @@
 
 
   &.right {
-    margin-left: 40%;
     width: 60%;
     background-color: #dfeaf9;
+    align-self: center;
   }
 
 }
