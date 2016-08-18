@@ -42,6 +42,11 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
     getKey: (otherUser: UserInfo) => otherUser.id,
     renderRow: (item: UserInfo) => {
 
+      // you need not chat with yourself.
+      if (user.id === item.id) {
+        return;
+      }
+
       let chatRoomId = [user.id, item.id].sort().join('-'); // format: lowestUserId-highestUserId
       let lastMessage: MessageInfo;
 
@@ -53,10 +58,10 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
 
       return h('div', {class: 'row'}, [
         h('img', {class: 'profile-picture', src: item.image}),
-        h('div', {class: 'messagecontainer'}, [
-          h('div', { class: 'messageTitleContainer'}, [
+        h('div', {class: 'userlistItemContainer'}, [
+          h('div', { class: 'userlistItemTitleContainer'}, [
             h('b', [item.firstName + ' ' + item.lastName]),
-            h('i', [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
+            h('span', {class: 'userlistItemTimeStamp'}, [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
           ]),
           h('p', [lastMessage ? lastMessage.text : undefined])
         ])

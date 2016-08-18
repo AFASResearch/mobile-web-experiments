@@ -126,15 +126,31 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           oldUserId = userId;
         }
 
-        return h('div', { class: 'row', afterCreate: scrollpage }, [
+        return h('div', { class: 'chatrow', afterCreate: scrollpage }, [
+
+          item.fromUserId === userId ?
+          [
           h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image }),
+
           h('div', {key: item.timestamp, class: 'messagecontainer' }, [
             h('div', { class: 'messageTitleContainer'}, [
-              h('b', [item.fromUserId === userId ? otherUser.firstName : 'me']),
-              h('i', [getFormattedDate(item.date)])
+              h('b', [ otherUser.firstName ]),
+              h('span', {class: 'messageTimeStamp'}, [getFormattedDate(item.date)])
             ]),
             h('span', [item.text])
           ])
+        ] : [
+
+          h('div', {key: item.timestamp, class: 'messagecontainer right' }, [
+            h('div', { class: 'messageTitleContainer'}, [
+              h('b', ['me']),
+              h('span', {class: 'messageTimeStamp'}, [getFormattedDate(item.date)])
+            ]),
+            h('span', [item.text])
+          ]),
+          h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image })
+
+        ]
         ]);
       },
       renderFooter: () => {
