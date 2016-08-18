@@ -19,8 +19,8 @@
 
 .user-list {
   flex: 1;
+  height: inherit;
   max-height: inherit;
-  overflow-y: scroll;
 }
 
 .doubleList {
@@ -51,5 +51,6 @@
 
 .listHolder {
   flex: 1;
+  height: inherit;
   overflow-y: scroll;
 }
