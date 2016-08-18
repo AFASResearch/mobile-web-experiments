@@ -13,11 +13,22 @@ export interface CameraConfig {
 
 export interface CameraBindings { }
 
+let window = <any>Window;
+let videoElement: HTMLVideoElement;
+
+  let stop = () => {
+    if (window.stream) {
+      videoElement.src = null;
+      window.stream.getTracks().forEach(function (track: any) {
+        track.stop();
+      });
+    }
+  };
+
 export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
   let {projector} = config;
   let n = <any>navigator;
-  let window = <any>Window;
-  let videoElement: HTMLVideoElement;
+
   let videoSources: string[];
   let audioSources: string[];
   let currentVideoSourceIndex: number;
@@ -37,12 +48,7 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
   };
 
   let start = () => {
-    if (window.stream) {
-      videoElement.src = null;
-      window.stream.getTracks().forEach(function (track: any) {
-        track.stop();
-      });
-    }
+    stop();
 
     let audioSource = audioSources[currentAudioSourceIndex];
     let videoSource = videoSources[currentVideoSourceIndex];
@@ -69,7 +75,7 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
       } else if (sourceInfo.kind === 'videoinput') {
         videoSources.push(sourceInfo.deviceId);
       } else {
-        // console.log('Some other kind of source: ', sourceInfo);
+      // console.log('Some other kind of source: ', sourceInfo);
       }
     }
     if (videoSources.length > 1 && !multipleCamerasAvailable) {
@@ -123,4 +129,8 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
       ]);
     }
   };
+};
+
+export let destroyCamera = () => {
+  stop();
 };
