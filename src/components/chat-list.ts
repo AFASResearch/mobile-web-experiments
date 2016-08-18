@@ -129,11 +129,11 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           toggleModal: toggleModal
         });
 
-      return h('div', {class: 'contact-card'}, [
+      return h('div', {class: 'contact-card', onclick: toggleModal}, [
         modal.renderMaquette(),
         otherUser ? [
           h('img', {class: 'profile-picture', src: otherUser.image}, []),
-          h('a', {onclick: toggleModal}, [`${otherUser.firstName} ${otherUser.lastName}`])
+          h('h3', [`${otherUser.firstName} ${otherUser.lastName}`])
         ] : undefined
       ]);
 
