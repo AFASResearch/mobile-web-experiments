@@ -52,7 +52,7 @@ export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfo
       return h('div', {class: 'contact-card'}, user() ? [
         h('img', {class: 'profile-picture', src: user().image}, []),
         h('div', {class: 'contact-card-content'}, [
-          h('h4', ['Chat with ' + `${user().firstName} ${user().lastName}`]),
+          h('h3', ['Chat with ' + `${user().firstName} ${user().lastName}`]),
           h('h5', ['company: ', user().company]),
           h('h5', [timeZoneText.renderMaquette()]),
           h('ul', [

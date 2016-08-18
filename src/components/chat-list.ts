@@ -10,11 +10,16 @@ import {createMessageComposer} from '../components/message-composer';
 import {DataService} from '../services/data-service';
 import {UserInfo, MessageInfo} from '../interfaces';
 import {getFormattedDate, randomId} from '../utilities';
-import {createContactInfo} from '../components/contact-info';
+import {createModal} from './modal';
+import {createContactInfo} from './contact-info';
+
+require('../styles/contact-info.scss');
 require('../styles/chat-list.scss');
 
 let otherUserSubscription: any;
 let messagesSubscription: any;
+
+let modalIsOpen = false;
 
 export interface ChatListConfig {
   dataService: DataService;
@@ -97,6 +102,10 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
       dataService.horizon('directMessages').upsert(message);
     };
 
+    let toggleModal = () => {
+      modalIsOpen = !modalIsOpen;
+    };
+
     // run these functions for the first time
     updateChatRoomId();
     updateOtherUserSubscription();
@@ -109,9 +118,28 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
       getItems: () => messages,
       getKey: (message: MessageInfo) => message.id,
       renderHeader: () => {
-        if (contactInfo) {
-          return contactInfo.renderMaquette(); // set the contactinfo component in the header.
-        }
+
+        let modal = createModal({
+          isOpen: modalIsOpen,
+          title: 'modal',
+          contents: [
+            contactInfo
+          ]
+        }, {
+          toggleModal: toggleModal
+        });
+
+      return h('div', {class: 'contact-card'}, [
+        modal.renderMaquette(),
+        otherUser ? [
+          h('img', {class: 'profile-picture', src: otherUser.image}, []),
+          h('a', {onclick: toggleModal}, [`${otherUser.firstName} ${otherUser.lastName}`])
+        ] : undefined
+      ]);
+
+      //  if (contactInfo) {
+      //    return contactInfo.renderMaquette(); // set the contactinfo component in the header.
+      //  }
       },
       // renderRow renders a row for each item in the messages array.
       renderRow: (item: MessageInfo) => {
