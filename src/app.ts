@@ -36,7 +36,7 @@ if (typeof Object.assign !== 'function') {
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
   let registerPage = createRegisterPage(dataService, userService, projector, randomId());
-  let mainMenu = createMainMenu();
+  let mainMenu = createMainMenu(dataService, userService);
 
   return {
     renderMaquette: () => {
@@ -47,12 +47,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
       return h('body', { class: 'app' }, [
         h('div', { class: 'header' }, [
-          currentPage.renderHeader(),
-          h('div', { class: 'currentuser-holder' }, [user ? [
-            h('img', {src: user.image, class: 'profile-picture', height: 20}),
-            h('a', {class: 'navbar-username', href: '#account'}, [user.firstName + ' ' + user.lastName])
-          ] : undefined]),
-          h('div', { class: 'status' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
+          currentPage.renderHeader()
         ]),
         h('div', { key: currentPage, class: 'body' }, [
           mainMenu.renderMaquette(),

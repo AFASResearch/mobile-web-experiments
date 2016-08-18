@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:200,400,500,700');
 @import 'variables';
 
 * {
@@ -21,14 +21,12 @@
   background-color: $header-color;
   color: $text-color;
   display: flex;
-  flex: 0 0 auto;
   font-family: $font-header;
   font-size: $font-size-header;
-  font-weight: bold;
+  font-weight: 500;
   height: $header-height;
   line-height: 24px;
   padding: 8px 8px 8px 48px;
-  position: fixed;
   width: 100%;
 
   .title { }
@@ -55,12 +53,11 @@
 
 .body {
   background-color: $background-color;
-  flex: 1 1 auto;
+  flex: 1;
+  height: inherit;
   flex-direction: column;
-  margin-top: $header-height;
   overflow-y: scroll;
   width: inherit;
-  height: inherit;
 }
 
 .profile-picture {
@@ -70,19 +67,6 @@
   border: $table-border;
   object-fit: cover;
   margin-right: 10px;
-}
-
-.card {
-  background: white;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  margin: 30px;
-  margin-bottom: 10px;
-  padding: 1px; // minor padding, to prevent the content from overlapping the border radius.
-  width: 90%;
-  height: 90%;
-  margin-left: 5%;
-  margin-top: 2%;
 }
 
 .newFileContent {

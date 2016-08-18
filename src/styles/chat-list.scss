@@ -2,6 +2,7 @@
 
 .chat-list {
   flex: 2;
+  height: inherit;
   max-height: inherit;
   border-left: $table-border;
   display: flex;

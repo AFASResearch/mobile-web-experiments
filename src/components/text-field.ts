@@ -3,7 +3,7 @@ require('../styles/text-field.scss');
 
 export interface TextFieldConfig {
   label: string;
-  prefilled?:  boolean;
+  prefilled?: boolean;
 }
 
 export interface TextFieldBindings {

@@ -12,6 +12,8 @@ require('../styles/contact-info.scss');
 
 vCard = vCard();
 
+declare let navigator: any;
+
 export interface ContactInfoConfig { };
 
 export interface ContactInfoBindings {

@@ -1,5 +1,5 @@
 /*
-* this component handles the sending of messages into a chat. 
+* this component handles the sending of messages into a chat.
 */
 
 import {h} from 'maquette';

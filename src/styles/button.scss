@@ -11,7 +11,6 @@
   line-height: 24px;
   font-size: $font-size-main;
   width: inherit;
-  font-weight: bold;
   height: 35px;
 
   &:hover{
@@ -27,12 +26,10 @@
   border: 1px solid green;
   background: none;
   color: green;
-  font-weight: 500;
 }
 
 .invertedDanger {
   border: 1px solid red;
   background: none;
   color: red;
-  font-weight: 500;
 }
