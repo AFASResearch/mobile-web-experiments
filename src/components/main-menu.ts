@@ -1,13 +1,9 @@
 import {h} from 'maquette';
-import {UserService} from './services/user-service';
-import {DataService} from './services/data-service';
+import {UserService} from '../services/user-service';
+import {DataService} from '../services/data-service';
 require('../styles/main-menu.scss');
 
 const MENU_ITEMS: { text: string, route: string }[] = [
-  {
-    text: 'About me',
-    route: 'account'
-  },
   {
     text: 'People',
     route: 'users'
@@ -57,14 +53,14 @@ export let createMainMenu = (dataService: DataService, userService: UserService)
         h('div', { key: 'touchArea', class: 'touchArea', classes: { ['isOpen']: isOpen } }, [
           isOpen ? [
             h('div', { class: 'menu' }, [
-              h('div' { class: 'currentuser-holder'}, [
-                h('img', {src: user.image, class: 'profile-picture', height: 20}),
-                h('a', {class: 'navbar-username', href: '#account'}, [user.firstName + ' ' + user.lastName])
+              h('div', { class: 'item'}, [
+                h('a', {class: 'navbar-username', href: '#account', onclick: handleItemClick}, [user.firstName + ' ' + user.lastName]),
+                h('img', {src: user.image, class: 'profile-picture', height: 20})
               ]),
-              h('div', { class: 'status' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected']),
               MENU_ITEMS.map(item => h('div', { class: 'item' }, [
                 h('a', { href: `#${item.route}`, onclick: handleItemClick }, [item.text])
-              ]))
+              ])),
+              h('div', { class: 'item' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
             ])
           ] : undefined
         ]),
