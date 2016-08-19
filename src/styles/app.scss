@@ -67,6 +67,22 @@
   border: $table-border;
   object-fit: cover;
   margin-right: 10px;
+
+  &.small {
+    height: $profile-picture-size-small;
+    width: $profile-picture-size-small;
+  }
+
+
+  &.large {
+    height: $profile-picture-size-large;
+    width: $profile-picture-size-large;
+  }
+
+  &.xlarge {
+    height: $profile-picture-size-xlarge;
+    width: $profile-picture-size-xlarge;
+  }
 }
 
 .newFileContent {

@@ -33,6 +33,7 @@ export let createMessageComposer = (bindings: MessageComposerBindings) => {
     renderMaquette: () => {
       return h('div', { class: 'messageComposer' }, [
         h('input', { class: 'input', value: textToSend, oninput: handleInput, onkeydown: handleKeyDown }),
+        h('i', {class: 'fa fa-paper-plane', 'aria-hidden': 'true'}),
         h('button', { class: 'send', onclick: handleSendClick }, ['Send'])
       ]);
     }

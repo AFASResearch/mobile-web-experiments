@@ -6,6 +6,7 @@ import {createFileDownload} from '../components/file-download';
 import { createCordovaFileBrowser} from '../components/cordova-file-browser';
 
 export let createFileUploadPage = (projector: Projector) => {
+
   return createPage({
     title: 'File upload / file reading',
     className: 'card',

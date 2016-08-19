@@ -1,10 +1,12 @@
+// https://developers.google.com/web/updates/2015/03/push-notifications-on-the-open-web
 if ('serviceWorker' in navigator) {
-  (navigator as any).serviceWorker.register('service-worker.js').then(function(reg: any) {
+  (navigator as any).serviceWorker.register('service-worker.js').then(function(serviceWorkerRegistration: any) {
+
     // updatefound is fired if service-worker.js changes.
-    reg.onupdatefound = function() {
+    serviceWorkerRegistration.onupdatefound = function() {
       // The updatefound event implies that reg.installing is set; see
       // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#service-worker-container-updatefound-event
-      let installingWorker = reg.installing;
+      let installingWorker: any = serviceWorkerRegistration.installing;
       console.log('Installing new service worker...');
 
       installingWorker.onstatechange = function() {
@@ -29,7 +31,5 @@ if ('serviceWorker' in navigator) {
         }
       };
     };
-  }).catch(function(e: any) {
-    console.error('Error during service worker registration:', e);
   });
 }
