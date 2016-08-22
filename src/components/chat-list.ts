@@ -14,7 +14,7 @@ import {createModal} from './modal';
 import {createContactInfo} from './contact-info';
 
 require('../styles/contact-info.scss');
-require('../styles/chat-list.scss');
+require('../styles/list.scss');
 
 let otherUserSubscription: any;
 let messagesSubscription: any;
@@ -136,10 +136,6 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           h('h3', [`${otherUser.firstName} ${otherUser.lastName}`])
         ] : undefined
       ]);
-
-      //  if (contactInfo) {
-      //    return contactInfo.renderMaquette(); // set the contactinfo component in the header.
-      //  }
       },
       // renderRow renders a row for each item in the messages array.
       renderRow: (item: MessageInfo) => {

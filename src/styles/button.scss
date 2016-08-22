@@ -14,7 +14,7 @@
   height: 35px;
 
   &:hover{
-    background-color: purple;
+    background-color: $brand-selected;
   }
 }
 
@@ -23,13 +23,13 @@
 }
 
 .invertedPrimary {
-  border: 1px solid green;
+  border: 1px solid $brand-primary;
   background: none;
-  color: green;
+  color: $brand-primary;
 }
 
 .invertedDanger {
-  border: 1px solid red;
+  border: 1px solid $brand-danger;
   background: none;
-  color: red;
+  color: $brand-danger;
 }

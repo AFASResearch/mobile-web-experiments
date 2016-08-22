@@ -1,11 +1,9 @@
 @import "variables";
 
-
 canvas {
   margin: 24px 8px 8px 8px;
   border: 1px solid black;
   position: relative;
-
 }
 
 video {
@@ -14,9 +12,7 @@ video {
   position: relative;
 }
 
-
-
-//inside barcodescanner the overlay must lie over it
+// inside barcodescanner the overlay must lie over it
 .viewport {
   canvas {
     z-index: 2;
@@ -31,6 +27,5 @@ video {
   #uploadedImageCanvas {
     z-index: 1;
     position: absolute;
-
   }
 }

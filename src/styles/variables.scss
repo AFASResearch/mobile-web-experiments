@@ -3,8 +3,11 @@ $background-color: white;
 $header-color: #333;
 $light-gray: #f5f5f5;
 
-$brand-primary: LimeGreen ;
+$brand-primary: LimeGreen;
 $brand-default: LightSlateGrey;
+$brand-danger: red;
+$brand-selected: purple;
+$gray: gray;
 $transparent: rgba(0, 0, 0, 0);
 
 // fonts and text
@@ -28,6 +31,11 @@ $card-border: 1px solid #c5c5c5;
 
 $header-height: 40px;
 
+// chat messages
+$message-min-width: 30%;
+$message-max-width: 60%;
+$message-currentuser-background: lightgreen;
+$message-otheruser-background: #efefef;
 
 // images
 $profile-picture-size-small: 30px;

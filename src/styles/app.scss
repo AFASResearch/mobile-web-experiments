@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:200,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 @import 'variables';
 
 * {
@@ -66,13 +66,11 @@
   border-radius: 50%;
   border: $table-border;
   object-fit: cover;
-  margin-right: 10px;
 
   &.small {
     height: $profile-picture-size-small;
     width: $profile-picture-size-small;
   }
-
 
   &.large {
     height: $profile-picture-size-large;
@@ -83,41 +81,4 @@
     height: $profile-picture-size-xlarge;
     width: $profile-picture-size-xlarge;
   }
-}
-
-.newFileContent {
-  display: block;
-
-  input {
-    display: block;
-    width: 100%;
-    border:$text-field-border;
-    padding: 3px 7px;
-    line-height: 24px;
-    border-radius: 4px;
-    margin-top: 10px;
-  }
-}
-
-.attachment {
-  border: $table-border;
-  background-color: $light-gray;
-  padding: 10px;
-  display: flex;
-  margin-top: 10px;
-
-  p {
-    flex: 1;
-    line-height: 0;
-  }
-
-  .button {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-}
-
-.backbutton {
-  color: white;
-  text-decoration: none;
 }
