@@ -39,9 +39,9 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
     dataService,
     className: 'card',
     body: [
-      createVoiceControlledTextField({label: 'first name', projector: projector}, { getValue: () => firstName, setValue: (value) => {firstName = value; }}),
+      createVoiceControlledTextField({label: 'First name', projector: projector}, { getValue: () => firstName, setValue: (value) => {firstName = value; }}),
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
-      createTextField({ label: 'phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
+      createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
       createTextField({ label: 'Address' }, { getValue: () => address, setValue: (value) => { address = value; } }),
       createTextField({ label: 'City' }, { getValue: () => city, setValue: (value) => { city = value; } }),

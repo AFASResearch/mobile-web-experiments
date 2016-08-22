@@ -13,10 +13,9 @@
 }
 
 .input {
-  border:$text-field-border;
   padding: 3px 7px;
   line-height: 24px;
-  border-radius: 4px;
+  border: 0;
 }
 
 .prefilled {
@@ -25,30 +24,35 @@
 
 .voicecontrollinputholder {
   display: flex;
+  padding: 1px;
+
+  border:$text-field-border;
+  border-radius: 4px;
 
   button{
+    justify-content: flex-end;
     margin: 0;
-    position: absolute;
-    right: 10px;
-    background: none;
+    margin-right: 10px;
     background: url('~/icons/voice-input.png') no-repeat 7px 5px;
     background-size: 13px 20px;
-
-
-    margin: 0;
-    border: 1px solid #c5c5c5;
-    border-radius: 4px;
-    text-align: center;
     background-color: $transparent;
     color: $transparent;
     border: 0;
-    width: 30px;
+    width: 24px;
     padding: 0;
     line-height: 24px;
-    font-size: 14px;
   }
 
   input {
     flex: 1;
   }
+}
+
+.voice-control-animation {
+  justify-content: flex-end;
+  margin-right: 20px;
+  height: 30px;
+  background-size: 100% 100%;
+  overflow: hidden;
+  margin-top: 1px;
 }

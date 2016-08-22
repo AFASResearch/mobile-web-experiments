@@ -109,7 +109,7 @@ let startListening = () => {
         h('div', {class: 'voicecontrollinputholder'}, [
           h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text',
           value: isListening ? recognizedSpeech : getValue(), oninput: handleInput}),
-          isListening ? h('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Cochlea_wave_animated.gif'}) : undefined,
+          isListening ? h('img', {class: 'voice-control-animation', src: 'icons/voice-spinner.gif', onclick: startOrStopListening}) : 
           speechApiSupported ? h('button', { class: 'button', onclick: startOrStopListening }, [startStopButtonText]) : undefined
         ])
       ]);

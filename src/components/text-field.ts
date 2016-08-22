@@ -24,12 +24,14 @@ export let createTextField = (config: TextFieldConfig, bindings: TextFieldBindin
     renderMaquette: () => {
       return h('label', { class: 'textField', key: textField }, [
         h('span', { class: 'label' }, [label]),
-        h('input', { class: 'input',
-          classes: {'prefilled': prefilled},
-          type: 'text',
-          value: getValue(),
-          oninput: handleInput
-        })
+        h('div', {class: 'voicecontrollinputholder'}, [
+          h('input', { class: 'input',
+            classes: {'prefilled': prefilled},
+            type: 'text',
+            value: getValue(),
+            oninput: handleInput
+          })
+        ])
       ]);
     }
   };
