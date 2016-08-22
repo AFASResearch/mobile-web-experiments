@@ -25,7 +25,7 @@ export let createVoiceControlledTextField = (config: VoiceControlledTextFieldCon
 
   let recognizedSpeech = '';
   let isListening = false;
-  let startStopButtonText = 'start listening';
+  let startStopButtonText = '';
   let speechApiSupported = true;
 
   let handleInput = () => {
@@ -38,13 +38,13 @@ let recognition: any;
 
 let stopListening = () => {
   recognition.stop();
-  startStopButtonText = 'start listening';
+  startStopButtonText = '';
   projector.scheduleRender();
 };
 
 let startListening = () => {
   recognition.start();
-  startStopButtonText = 'stop listening';
+  startStopButtonText = '';
   projector.scheduleRender();
 };
 

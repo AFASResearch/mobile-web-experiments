@@ -28,6 +28,24 @@
 
   button{
     margin: 0;
+    position: absolute;
+    right: 10px;
+    background: none;
+    background: url('~/icons/voice-input.png') no-repeat 7px 5px;
+    background-size: 13px 20px;
+
+
+    margin: 0;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    text-align: center;
+    background-color: $transparent;
+    color: $transparent;
+    border: 0;
+    width: 30px;
+    padding: 0;
+    line-height: 24px;
+    font-size: 14px;
   }
 
   input {
