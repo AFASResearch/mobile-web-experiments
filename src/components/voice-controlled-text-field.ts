@@ -48,6 +48,15 @@ let startListening = () => {
   projector.scheduleRender();
 };
 
+let startOrStopListening = () => {
+  if (isListening) {
+    stopListening();
+  } else {
+    startListening();
+  }
+  isListening = !isListening;
+};
+
   if (!('webkitSpeechRecognition' in window)) {
     // Speech API not supported here…
     console.log('speech api is not supported.');
@@ -83,6 +92,7 @@ let startListening = () => {
         if (event.results[i].isFinal) {
           // Final results; here is the place to do useful things with the results.
           recognizedSpeech = event.results[i][0].transcript;
+          startOrStopListening();
         } else {
           // i.e. interim. You can use these results to give the user near real time experience.
           recognizedSpeech = event.results[i][0].transcript;
@@ -92,16 +102,6 @@ let startListening = () => {
     };
   }
 
-  let startOrStopListening = () => {
-    console.log(isListening);
-    if (isListening) {
-      stopListening();
-    } else {
-      startListening();
-    }
-    isListening = !isListening;
-  };
-
   let textField = {
     renderMaquette: () => {
       return h('label', { class: 'textField', key: textField }, [
@@ -109,8 +109,8 @@ let startListening = () => {
         h('div', {class: 'voicecontrollinputholder'}, [
           h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text',
           value: isListening ? recognizedSpeech : getValue(), oninput: handleInput}),
-          isListening ? h('img', {class: 'voice-control-animation', src: 'icons/voice-spinner.gif', onclick: startOrStopListening}) : 
-          speechApiSupported ? h('button', { class: 'button', onclick: startOrStopListening }, [startStopButtonText]) : undefined
+          isListening ? h('img', {class: 'voice-control-animation', src: 'icons/voice-spinner.gif', onclick: startOrStopListening}) :
+          speechApiSupported ? h('button', { class: 'voice-control-button', onclick: startOrStopListening }, [startStopButtonText]) : undefined
         ])
       ]);
     }

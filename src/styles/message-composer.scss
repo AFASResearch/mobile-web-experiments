@@ -3,13 +3,26 @@
 .messageComposer {
   flex: 0 0 auto;
   display: flex;
-  padding: 20pt;
-  background-color: white;
+  padding: 10px;
+  padding-top: 20px;
+  background-color: #efefef;
 }
 
-.input {
-  flex-grow:1;
+.textField {
+  flex: 1;
 }
 
 .send {
+  justify-content: flex-end;
+  margin: 0;
+  margin-right: 10px;
+  background: url('~/icons/text-send.png') no-repeat 7px 5px;
+  background-size: 30px 30px;
+  background-position: center;
+  background-color: $transparent;
+  color: $transparent;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  margin-top: 10px;
 }

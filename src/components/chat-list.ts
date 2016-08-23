@@ -111,7 +111,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
     updateOtherUserSubscription();
     updateMessagesSubscription();
 
-    let messageComposer = createMessageComposer({ sendMessage });
+    let messageComposer = createMessageComposer({ projector}, { sendMessage });
     let contactInfo = createContactInfo({}, {user: () => otherUser});
 
     return createList({className: 'chat-list'}, {

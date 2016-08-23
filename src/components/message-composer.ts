@@ -2,39 +2,53 @@
 * this component handles the sending of messages into a chat.
 */
 
-import {h} from 'maquette';
+import {h, Projector} from 'maquette';
+import {createVoiceControlledTextField} from '../components/voice-controlled-text-field';
 require('../styles/message-composer.scss');
+
+export interface MessageComposerConfig {
+  projector: Projector;
+}
 
 export interface MessageComposerBindings {
   sendMessage(text: string): void;
 }
 
-export let createMessageComposer = (bindings: MessageComposerBindings) => {
+export let createMessageComposer = (config: MessageComposerConfig, bindings: MessageComposerBindings) => {
+  let {projector} = config;
   let textToSend = '';
-  let handleKeyDown = (evt: KeyboardEvent) => {
-    if (evt.which === 13) {
-      evt.preventDefault();
+
+  let sendMessage = () => {
+    if (textToSend.trim() !== '') { // do not send empty messages, or only spaces
       bindings.sendMessage(textToSend);
       textToSend = '';
     }
   };
 
-  let handleInput = (evt: Event) => {
-    textToSend = (evt.target as HTMLInputElement).value;
-  };
+  // let handleKeyDown = (evt: KeyboardEvent) => {
+  //   if (evt.which === 13) { // enter
+  //     evt.preventDefault();
+  //     sendMessage();
+  //   }
+  // };
+  //
+  // let handleInput = (evt: Event) => {
+  //   textToSend = (evt.target as HTMLInputElement).value;
+  // };
 
   let handleSendClick = (evt: Event) => {
     evt.preventDefault();
-    bindings.sendMessage(textToSend);
-    textToSend = '';
+    sendMessage();
   };
+
+  let textfield = createVoiceControlledTextField({label: '', projector: projector}, { getValue: () => textToSend, setValue: (value) => {textToSend = value; }});
 
   return {
     renderMaquette: () => {
       return h('div', { class: 'messageComposer' }, [
-        h('input', { class: 'input', value: textToSend, oninput: handleInput, onkeydown: handleKeyDown }),
-        h('i', {class: 'fa fa-paper-plane', 'aria-hidden': 'true'}),
-        h('button', { class: 'send', onclick: handleSendClick }, ['Send'])
+        textfield.renderMaquette(),
+    //    h('input', { class: 'input', value: textToSend, oninput: handleInput, onkeydown: handleKeyDown }),
+        h('button', { class: 'send', onclick: handleSendClick })
       ]);
     }
   };

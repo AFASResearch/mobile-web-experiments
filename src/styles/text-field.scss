@@ -25,11 +25,11 @@
 .voicecontrollinputholder {
   display: flex;
   padding: 1px;
-
+  background-color: white;
   border:$text-field-border;
   border-radius: 4px;
 
-  button{
+  .voice-control-button {
     justify-content: flex-end;
     margin: 0;
     margin-right: 10px;
