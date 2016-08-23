@@ -18,6 +18,7 @@ export interface UserInfo {
   country: string;
   image: string;
   company?: string;
+  skypeUserName?: string;
   oauth?: { };
 }
 

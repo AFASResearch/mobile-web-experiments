@@ -53,8 +53,9 @@ export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfo
           h('h2', [`${user().firstName} ${user().lastName}`]),
           h('h3', [user().company]),
           h('h3', [timezone.name()]),
-          h('a', { class: 'contact-info-link', key: 1, href: `tel:${user().phoneNumber}` }, ['Phone:', user().phoneNumber]),
-          h('a', { class: 'contact-info-link', key: 2, href: `https://maps.apple.com?q=${user().address},${user().city},${user().country}`},
+          h('a', { class: 'contact-info-link', key: 1, href: `tel:${user().phoneNumber}` }, ['Phone: ', user().phoneNumber]),
+          h('a', { class: 'contact-info-link', key: 2, href: `callto:${user().skypeUserName}` }, ['Skype: ', user().skypeUserName]),
+          h('a', { class: 'contact-info-link', key: 3, href: `https://maps.apple.com?q=${user().address},${user().city},${user().country}`},
           [`Location: ${user().address}, ${user().city}, ${user().country}`])
         ]),
         h('button', {class: 'button', onclick: downloadContact}, ['Save to contacts'])

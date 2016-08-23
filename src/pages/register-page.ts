@@ -19,6 +19,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
   let company = '';
   let phoneNumber = '';
   let image = '';
+  let skypeUserName = '';
   let address: string;
   let city: string;
   let country: string;
@@ -36,7 +37,8 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       city,
       country,
       company,
-      image
+      image,
+      skypeUserName
     });
   };
 
@@ -56,6 +58,8 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value; } }),
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
+      createTextField({ label: 'Skype name' }, { getValue: () => skypeUserName, setValue: (value) => { skypeUserName = value; } }),
+
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
 
       // these fields will be prefilled automatically since we estimate the location of the user

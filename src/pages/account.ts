@@ -14,7 +14,7 @@ import {Projector} from 'maquette';
 
 export let createAccountPage = (dataService: DataService, userService: UserService, projector: Projector) => {
 
-  let {id, firstName, lastName, phoneNumber, image, company, address, country, city} = userService.getUserInfo();
+  let {id, firstName, lastName, phoneNumber, image, company, address, country, city, skypeUserName} = userService.getUserInfo();
 
   let doUpdate = () => {
     let canvas = <HTMLCanvasElement>document.getElementById('canvas');
@@ -29,7 +29,8 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       address,
       city,
       country,
-      image
+      image,
+      skypeUserName
     });
     document.location.hash = '#users';
   };
@@ -42,6 +43,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       createVoiceControlledTextField({label: 'First name', projector: projector}, { getValue: () => firstName, setValue: (value) => {firstName = value; }}),
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
       createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
+      createTextField({ label: 'Skype name' }, { getValue: () => skypeUserName, setValue: (value) => { skypeUserName = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
       createTextField({ label: 'Address' }, { getValue: () => address, setValue: (value) => { address = value; } }),
       createTextField({ label: 'City' }, { getValue: () => city, setValue: (value) => { city = value; } }),
