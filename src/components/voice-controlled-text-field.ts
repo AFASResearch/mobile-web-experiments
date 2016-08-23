@@ -45,6 +45,9 @@ let stopListening = () => {
 };
 
 let startListening = () => {
+  console.log('start listtening');
+
+  console.log(recognition);
   recognition.start();
   startStopButtonText = '';
   projector.scheduleRender();
@@ -94,12 +97,17 @@ let startOrStopListening = () => {
         if (event.results[i].isFinal) {
           // Final results; here is the place to do useful things with the results.
           recognizedSpeech = event.results[i][0].transcript;
-          startOrStopListening();
+          console.log('final');
+
+          stopListening();
         } else {
           // i.e. interim. You can use these results to give the user near real time experience.
           recognizedSpeech = event.results[i][0].transcript;
+          console.log('interim');
+
         }
       }
+      console.log('ok');
       projector.scheduleRender();
     };
   }
