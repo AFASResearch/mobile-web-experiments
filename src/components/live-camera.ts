@@ -110,7 +110,6 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
             }
           } else {
             console.log('nothing detected');
-            decodeImage(event); // recursion
           }
         });
       }
@@ -134,6 +133,6 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
     };
   };
 
-export let destroyLiveCamera = () => { 
+export let destroyLiveCamera = () => {
     Quagga.stop();
 };
