@@ -25,29 +25,33 @@ export let createMessageComposer = (config: MessageComposerConfig, bindings: Mes
     }
   };
 
-  // let handleKeyDown = (evt: KeyboardEvent) => {
-  //   if (evt.which === 13) { // enter
-  //     evt.preventDefault();
-  //     sendMessage();
-  //   }
-  // };
-  //
-  // let handleInput = (evt: Event) => {
-  //   textToSend = (evt.target as HTMLInputElement).value;
-  // };
+  let handleKeyDown = (evt: KeyboardEvent) => {
+    if (evt.which === 13) { // enter
+      evt.preventDefault();
+      sendMessage();
+    }
+  };
+
+  let handleInput = (evt: Event) => {
+    console.log('ok');
+    textToSend = (evt.target as HTMLInputElement).value;
+  };
 
   let handleSendClick = (evt: Event) => {
     evt.preventDefault();
     sendMessage();
   };
 
-  let textfield = createVoiceControlledTextField({label: '', projector: projector}, { getValue: () => textToSend, setValue: (value) => {textToSend = value; }});
+  let textfield = createVoiceControlledTextField({label: '', projector: projector}, {
+    getValue: () => textToSend,
+    setValue: (value) => {textToSend = value; },
+    onInput: handleInput,
+    onKeyDown: handleKeyDown });
 
   return {
     renderMaquette: () => {
       return h('div', { class: 'messageComposer' }, [
         textfield.renderMaquette(),
-    //    h('input', { class: 'input', value: textToSend, oninput: handleInput, onkeydown: handleKeyDown }),
         h('button', { class: 'send', onclick: handleSendClick })
       ]);
     }

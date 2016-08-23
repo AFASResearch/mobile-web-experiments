@@ -33,7 +33,7 @@ export let createPage = (config: PageConfig): Page => {
       ]);
     },
     renderBody: () => {
-      return h('div', { class: className ? `page ${className}`: 'page', key: page }, [
+      return h('div', { class: className ? `page ${className}` : 'page', key: page }, [
         body.map(c => c.renderMaquette())
       ]);
     }

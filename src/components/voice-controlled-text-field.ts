@@ -17,11 +17,13 @@ export interface VoiceControlledTextFieldConfig {
 export interface VoiceControlledTextFieldBindings {
   getValue: () => string;
   setValue: (value: string) => void;
+  onInput?: (evt: Event) => void;
+  onKeyDown?: (evt: KeyboardEvent) => void;
 }
 
 export let createVoiceControlledTextField = (config: VoiceControlledTextFieldConfig, bindings: VoiceControlledTextFieldBindings) => {
   let {label, prefilled, projector} = config;
-  let {getValue, setValue} = bindings;
+  let {getValue, setValue, onInput, onKeyDown} = bindings;
 
   let recognizedSpeech = '';
   let isListening = false;
@@ -107,8 +109,8 @@ let startOrStopListening = () => {
       return h('label', { class: 'textField', key: textField }, [
         h('span', { class: 'label' }, [label]),
         h('div', {class: 'voicecontrollinputholder'}, [
-          h('input', { class: 'input', classes: {'prefilled': prefilled}, type: 'text',
-          value: isListening ? recognizedSpeech : getValue(), oninput: handleInput}),
+          h('input', { class: 'input', classes: {'prefilled': prefilled}, oninput: onInput , onkeydown: onKeyDown, type: 'text',
+          value: isListening ? recognizedSpeech : getValue()}),
           isListening ? h('img', {class: 'voice-control-animation', src: 'icons/voice-spinner.gif', onclick: startOrStopListening}) :
           speechApiSupported ? h('button', { class: 'voice-control-button', onclick: startOrStopListening }, [startStopButtonText]) : undefined
         ])
