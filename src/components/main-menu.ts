@@ -79,9 +79,9 @@ let swipeBackafterCreate = () => {
   });
 }
 
-  return {
+  let menu = {
     renderMaquette: () => {
-      return h('div', { class: 'mainMenu', afterCreate: initialiseTouchGesturesAfterCreate,  }, [
+      return h('div', { key: menu, class: 'mainMenu', afterCreate: initialiseTouchGesturesAfterCreate,  }, [
         isOpen ? h('div', { key: 'overlay', id: 'overlay', class: 'overlay', onclick: handleOverlayClick, afterCreate: swipeBackafterCreate }) : undefined,
         h('div', { key: 'touchArea', id: 'touchArea', class: 'touchArea', classes: { ['isOpen']: isOpen} }, [
           isOpen ? [
@@ -104,4 +104,5 @@ let swipeBackafterCreate = () => {
       ]);
     }
   };
+  return menu;
 };
