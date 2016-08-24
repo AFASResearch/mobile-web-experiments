@@ -66,11 +66,11 @@ let initialiseTouchGesturesAfterCreate = () => {
 
 let swipeBackafterCreate = () => { 
 
-  let touchArea: HTMLElement = document.getElementById('touchArea');
+  let overlay: HTMLElement = document.getElementById('overlay');
 
   // create a simple instance
   // by default, it only adds horizontal recognizers
-  let touchAreaSwipeObj: any = new Hammer(touchArea);
+  let touchAreaSwipeObj: any = new Hammer(overlay);
 
   // listen to events...
   touchAreaSwipeObj.on("panleft", function(evt: any) {
@@ -82,7 +82,7 @@ let swipeBackafterCreate = () => {
   return {
     renderMaquette: () => {
       return h('div', { class: 'mainMenu', afterCreate: initialiseTouchGesturesAfterCreate,  }, [
-        isOpen ? h('div', { key: 'overlay', class: 'overlay', onclick: handleOverlayClick, afterCreate: swipeBackafterCreate }) : undefined,
+        isOpen ? h('div', { key: 'overlay', id: 'overlay', class: 'overlay', onclick: handleOverlayClick, afterCreate: swipeBackafterCreate }) : undefined,
         h('div', { key: 'touchArea', id: 'touchArea', class: 'touchArea', classes: { ['isOpen']: isOpen} }, [
           isOpen ? [
             h('div', { class: 'menu' }, [
