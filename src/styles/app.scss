@@ -15,6 +15,7 @@
   margin: 0;
   overflow: hidden;
   padding: 0;
+  flex: 1;
 }
 
 .header {
@@ -25,6 +26,7 @@
   font-size: $font-size-header;
   font-weight: 500;
   height: $header-height;
+  min-height: $header-height;
   line-height: 24px;
   padding: 8px 8px 8px 8px;
   width: 100%;
@@ -32,7 +34,9 @@
 .backbutton {
   color: white;
   text-decoration: none; 
-  
+  img {
+    height: 24px;
+  }
 }
 
   .currentuser-holder {
@@ -58,10 +62,16 @@
 .body {
   background-color: $background-color;
   flex: 1;
-  height: inherit;
-  flex-direction: column;
   overflow-y: scroll;
   width: inherit;
+  display: flex;
+  flex-direction: column;
+
+  z-index: 3;
+  box-shadow: -10px 0px 20px -5px #555555;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
 }
 
 .profile-picture {
