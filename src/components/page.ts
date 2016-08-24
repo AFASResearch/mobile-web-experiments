@@ -34,7 +34,7 @@ export let createPage = (config: PageConfig): Page => {
   let page: Page = {
     destroy,
     renderHeader: () => {
-      return h('span', { class: 'title', styles: { 'padding-left': backButton? '8px' : '40px'}}, [  // if there is no backbutton make the margin bigger.
+      return h('span', { class: 'title', styles: { 'padding-left': backButton? '8px' : '8px'}}, [  // if there is no backbutton make the margin bigger.
         backButton ? h('a', {class: 'backbutton', href: backButton.route}, [backButton.title]) : undefined,
         title
       ]);

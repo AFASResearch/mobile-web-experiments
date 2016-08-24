@@ -40,7 +40,7 @@ if (typeof Object.assign !== 'function') {
 
 const MENU_ITEMS: { text: string, route: string }[] = [
   {
-    text: 'People',
+    text: 'Chat',
     route: 'users'
   },
   {
@@ -85,20 +85,23 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
     snapper.close();
   }
 
+  let handleMenuButtonClick = () { 
+     if( snapper.state().state=="left" ){
+        snapper.close();
+    } else {
+        snapper.open('left');
+    }
+  }
+
 
   return {
     renderMaquette: () => {
 
       let user = userService.getUserInfo();
-
       let currentPage = user ? router.getCurrentPage() : registerPage;
 
-
-
       return h('body', { class: 'app' }, [
-
-
-h('div', { key: 0, class: 'mainMenu'}, [
+      h('div', { key: 0, class: 'mainMenu'}, [
         h('div', { key: 'touchArea', id: 'touchArea', class: 'touchArea' }, [
             [
             h('div', { class: 'menu' }, [
@@ -119,6 +122,7 @@ h('div', { key: 0, class: 'mainMenu'}, [
 
         h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate }, [
         h('div', { class: 'header' }, [
+          h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']),
           currentPage.renderHeader()
         ]),
           currentPage.renderBody()
