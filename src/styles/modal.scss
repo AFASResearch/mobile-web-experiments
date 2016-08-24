@@ -12,8 +12,7 @@
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
   display: flex;
   flex-direction: column;
 }
@@ -25,14 +24,25 @@
   padding-bottom: 0;
 }
 
+.modalOverlay {
+  z-index: 3;
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
 /* Modal Content/Box */
 .modalContent {
   background-color: #fefefe;
-  padding: 20px;
-  border: 1px solid #888;
+ // padding: 20px;
+  border: 0;
   align-self: center;
   display: flex;
   flex-direction: column;
+  z-index: 4;
+  border-radius: 4px;
 }
 
 /* The Close Button */

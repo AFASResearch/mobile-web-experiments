@@ -6,10 +6,10 @@ $background-color: white;
 $header-color: #333;
 $light-gray: #f5f5f5;
 $gray: gray;
-$brand-primary: #0bd473;
-$brand-default: #0967b9;
-$brand-danger: red;
-$brand-selected: purple;
+$brand-primary: mediumspringgreen;
+$brand-default: cornflowerblue;
+$brand-danger: orangered;
+$brand-selected: mediumpurple;
 $transparent: rgba(0, 0, 0, 0);
 $menu-background: $light-gray;
 
@@ -22,7 +22,7 @@ $font-size-main: 14px;
 $font-size-header: 16px;
 
 // borders
-$button-border: 1px solid #c5c5c5;
+$button-border: 0;
 $table-border: 1px solid #c5c5c5;
 $card-border: 1px solid #c5c5c5;
 $text-field-border: 1px solid #cacaca;
@@ -30,7 +30,7 @@ $text-field-border: 1px solid #cacaca;
 // chat messages
 $message-min-width: 30%;
 $message-max-width: 60%;
-$message-currentuser-background: $brand-primary;
+$message-currentuser-background: $brand-default;
 $message-otheruser-background: #efefef;
 
 // images

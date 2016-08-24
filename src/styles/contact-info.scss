@@ -24,7 +24,8 @@
   align-items: center;
 
   h1, h2, h3, h4, h5, ul, .text {
-    margin: 10px;
+    margin-bottom: 5px;
+    padding: 0;
     line-height: 1;
     font-weight: 200;
   }
@@ -39,7 +40,23 @@
     width: 100%;
     text-align: center;
     display: flex;
+    border-top: $table-border;
+    color: gray;
+    text-decoration: none;
+    font-weight: 100;
+    padding: 10px;
+
+    &:hover { 
+      color: cornflowerblue;
+    }
+
+    &:last-child { 
+      border-bottom: $table-border;
+    }
   }
 
-
+  button { 
+    margin-top: 10px;
+    width: inherit;
+  }
 }

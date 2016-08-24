@@ -25,6 +25,7 @@ export let createModal = (config: ModalConfig, bindings: ModalBindings) => {
     renderMaquette: () => {
       if (isOpen) {
         return  h('div', { class: 'modal' }, [
+        h('div', {class: 'modalOverlay', onclick: toggleModal}),
           h('div', { class: 'modalContent', styles: {width: width ?  width : undefined}  }, [
             h('div', { class: 'modalHeader' }, [
               // title,

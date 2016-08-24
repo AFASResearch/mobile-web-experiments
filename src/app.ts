@@ -85,7 +85,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
     snapper.close();
   }
 
-  let handleMenuButtonClick = () { 
+  let handleMenuButtonClick = () => { 
      if( snapper.state().state=="left" ){
         snapper.close();
     } else {

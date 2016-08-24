@@ -6,7 +6,7 @@
 import {h} from 'maquette';
 import {UserInfo} from '../interfaces';
 let vCard = <any>require('vcards-js');
-let jstz = <any>require('jstz');
+// let jstz = <any>require('jstz');
 require('../styles/contact-info.scss');
 
 vCard = vCard();
@@ -22,7 +22,7 @@ export interface ContactInfoBindings {
 export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfoBindings) => {
   let {user} = bindings;
 
-  const timezone = jstz.determine(); // timezone library
+ // const timezone = jstz.determine(); // timezone library
 
   let downloadContact = (evt: Event) => {
     vCard.firstName = user().firstName;
@@ -52,11 +52,11 @@ export let createContactInfo = (config: ContactInfoConfig, bindings: ContactInfo
         h('div', {class: 'contact-card-content'}, [
           h('h2', [`${user().firstName} ${user().lastName}`]),
           h('h3', [user().company]),
-          h('h3', [timezone.name()]),
+//          h('h3', [timezone.name()]),
           h('a', { class: 'contact-info-link', key: 1, href: `tel:${user().phoneNumber}` }, ['Phone: ', user().phoneNumber]),
           h('a', { class: 'contact-info-link', key: 2, href: `callto:${user().skypeUserName}` }, ['Skype: ', user().skypeUserName]),
           h('a', { class: 'contact-info-link', key: 3, href: `https://maps.apple.com?q=${user().address},${user().city},${user().country}`},
-          [`Location: ${user().address}, ${user().city}, ${user().country}`])
+          [`Place: ${user().address}, ${user().city}, ${user().country}`])
         ]),
         h('button', {class: 'button', onclick: downloadContact}, ['Save to contacts'])
       ] : h('div', ['nothing found']) );
