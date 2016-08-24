@@ -4,11 +4,16 @@ import {randomId} from './utilities';
 import {Router} from './services/router';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
+import {createMainMenu} from './components/main-menu';
+let Snap = <any>require('snapjs');
 require('./styles/app.scss');
+require('./styles/main-menu.scss');
 
 declare let cordova: any;
 declare let localNotification: any;
 declare let Object: any;
+
+let snapper: any;
 
 // polyfill for object assign, since it is not supported by android.
 if (typeof Object.assign !== 'function') {
@@ -32,10 +37,54 @@ if (typeof Object.assign !== 'function') {
   };
 }
 
+
+const MENU_ITEMS: { text: string, route: string }[] = [
+  {
+    text: 'People',
+    route: 'users'
+  },
+  {
+    text: 'Scan Barcodes',
+    route: 'barcodescanner'
+  },
+  {
+    text: 'Upload files',
+    route: 'file-upload'
+  },
+  {
+    text: 'Multiple camera support',
+    route: 'camera'
+  }
+];
+
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
   let registerPage = createRegisterPage(dataService, userService, projector, randomId());
- // let mainMenu = createMainMenu(dataService, userService, projector);
+
+  let createSnapAfterCreate = () => { 
+   snapper = new Snap({
+      element: document.getElementById('body'),
+      dragger: null,
+      disable: 'right',
+      addBodyClasses: true,
+      hyperextensible: true,
+      resistance: 0.5,
+      flickThreshold: 50,
+      transitionSpeed: 0.3,
+      easing: 'ease',
+      maxPosition: 266,
+      minPosition: -266,
+      tapToClose: true,
+      touchToDrag: true,
+      slideIntent: 40,
+      minDragDistance: 5
+    });
+  }
+
+  let closeSnapper = () => { 
+    snapper.close();
+  }
+
 
   return {
     renderMaquette: () => {
@@ -44,12 +93,34 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
       let currentPage = user ? router.getCurrentPage() : registerPage;
 
-      return h('body', {id: 'app', class: 'app' }, [
+
+
+      return h('body', { class: 'app' }, [
+
+
+h('div', { key: 0, class: 'mainMenu'}, [
+        h('div', { key: 'touchArea', id: 'touchArea', class: 'touchArea' }, [
+            [
+            h('div', { class: 'menu' }, [
+              h('div', { class: 'item'}, [
+                user ? [
+                h('a', {class: 'navbar-username', href: '#account'}, [user.firstName + ' ' + user.lastName]),
+                h('img', {src: user.image, class: 'profile-picture', height: 20})
+                ] : undefined
+              ]),
+              MENU_ITEMS.map(item => h('div', { class: 'item' }, [
+                h('a', { onclick: closeSnapper, href: `#${item.route}` }, [item.text])
+              ])),
+              h('div', { class: 'item' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
+            ])
+          ] 
+        ]),
+      ]),
+
+        h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate }, [
         h('div', { class: 'header' }, [
           currentPage.renderHeader()
         ]),
-        h('div', { key: currentPage, class: 'body' }, [
-         // mainMenu.renderMaquette(),
           currentPage.renderBody()
         ])
       ]);

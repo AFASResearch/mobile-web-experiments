@@ -2,10 +2,15 @@
 
 .mainMenu {
   position: absolute;
-  width: 0;
+  width: 266px;
   top: 0;
   left: 0;
   height: 100vh;
+  z-index: 0;
+  background: blue;
+}
+
+.body {
   z-index: 3;
 }
 
@@ -32,8 +37,6 @@
   top: 0;
   bottom: 0;
   width: calc(40vw + 10px);
-  left: -90vw;
-  transition: left .5s ease-in-out;
   min-width: 200px;
   max-width: 300px;
 }
@@ -48,7 +51,7 @@
   min-width: 200px;
   max-width: 300px;
   box-shadow: 0 0 15px black;
-  background-color: white;
+  background-color: lightgray;
   text-decoration: none;
 
   a {

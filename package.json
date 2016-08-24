@@ -9,6 +9,7 @@
     "localforage": "^1.4.2",
     "moment": "^2.14.1",
     "object-assign": "^4.1.0",
+    "snapjs": "^1.2.1",
     "vcards-js": "^2.4.1"
   },
   "devDependencies": {

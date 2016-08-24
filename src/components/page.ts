@@ -31,13 +31,11 @@ export interface Page {
 export let createPage = (config: PageConfig): Page => {
   let {title, body, backButton, destroy, className, dataService, userService, projector, sideBarVisible} = config;
 
-  let mainMenu = createMainMenu(dataService, userService, projector);
-
   let page: Page = {
     destroy,
     renderHeader: () => {
       return h('span', { class: 'title', styles: { 'padding-left': backButton? '8px' : '40px'}}, [  // if there is no backbutton make the margin bigger.
-        backButton ? h('a', {class: 'backbutton', href: backButton.route}, [backButton.title]) : mainMenu.renderMaquette(), // if there is a backbutton then don't display the sidebar
+        backButton ? h('a', {class: 'backbutton', href: backButton.route}, [backButton.title]) : undefined,
         title
       ]);
     },
