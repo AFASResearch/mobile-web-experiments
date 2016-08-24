@@ -57,13 +57,13 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
       });
 
       return h('div', {class: 'row'}, [
-        h('img', {class: 'profile-picture', src: item.image}),
+        h('img', {class: 'profile-picture margin', src: item.image}),
         h('div', {class: 'userlistItemContainer'}, [
           h('div', { class: 'userlistItemTitleContainer'}, [
-            h('b', [item.firstName + ' ' + item.lastName]),
+            h('h3', { class: 'userlistItemTitle'}, [item.firstName + ' ' + item.lastName]),
             h('span', {class: 'userlistItemTimeStamp'}, [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
           ]),
-          h('p', [lastMessage ? lastMessage.text : undefined])
+          h('p', { class: 'userlistItemContent'}, [lastMessage ? lastMessage.text : undefined])
         ])
       ]);
     },

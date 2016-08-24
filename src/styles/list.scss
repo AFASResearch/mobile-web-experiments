@@ -114,6 +114,33 @@
   flex: 1;
   height: inherit;
   max-height: inherit;
+
+  .row {
+    &:hover {
+      background-color: #efefef;
+    }
+  }
+
+  .userlistItemTitle {
+    line-height: 1;
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+
+  .userlistItemContent {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .userlistItemTimeStamp {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    font-size: 12px;
+  }
 }
 
 .doubleList {

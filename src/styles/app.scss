@@ -28,7 +28,7 @@
   line-height: 24px;
   padding: 8px 8px 8px 48px;
   width: 100%;
-  
+
   .currentuser-holder {
     display: flex;
     flex: 1;
@@ -78,5 +78,9 @@
   &.xlarge {
     height: $profile-picture-size-xlarge;
     width: $profile-picture-size-xlarge;
+  }
+
+  &.margin {
+    margin-right: 10px;
   }
 }

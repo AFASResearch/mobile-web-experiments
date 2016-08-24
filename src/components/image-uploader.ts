@@ -115,8 +115,8 @@ export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUp
         isOpen: modalIsOpen,
         title: 'Create a snapshot',
         contents: [
-          createScreenshotButton,
-          createLiveCamera({ projector: projector, BarcodeScanEnabled: false }, {}) // we don't want to use barcodes when uploading images.
+          createLiveCamera({ projector: projector, BarcodeScanEnabled: false }, {}), // we don't want to use barcodes when uploading images.
+          createScreenshotButton
         ]
       },
       {
