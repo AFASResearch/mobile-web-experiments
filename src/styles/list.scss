@@ -86,12 +86,11 @@
 .chatPagesHolder {
   display: flex;
   position: relative;
-  height: inherit;
+  height: 100%;
   width: 100%;
   margin-left: 0;
-  margin-bottom: -$header-height;
+  max-height: calc(100vh - 40px); // firefox 
 }
-
 
 .chat-list {
   flex: 2;

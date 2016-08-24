@@ -6,6 +6,10 @@
   padding: 10px;
   padding-top: 20px;
   background-color: #efefef;
+
+  input:focus{
+    outline: none;
+  }
 }
 
 .textField {
