@@ -5,6 +5,7 @@
   "author": "Johan Gorter <johan@johangorter.com>",
   "dependencies": {
     "file-saver": "^1.3.2",
+    "hammerjs": "^2.0.8",
     "localforage": "^1.4.2",
     "moment": "^2.14.1",
     "object-assign": "^4.1.0",

@@ -59,8 +59,22 @@ let initialiseTouchGesturesAfterCreate = () => {
 
   // listen to events...
   mc.on(" panright", function(evt: any) {
-      console.log(evt.type +" gesture detected.");
       isOpen = true;
+      projector.scheduleRender();
+  });
+}
+
+let swipeBackafterCreate = () => { 
+
+  let touchArea: HTMLElement = document.getElementById('touchArea');
+
+  // create a simple instance
+  // by default, it only adds horizontal recognizers
+  let touchAreaSwipeObj: any = new Hammer(touchArea);
+
+  // listen to events...
+  touchAreaSwipeObj.on("panleft", function(evt: any) {
+      isOpen = false;
       projector.scheduleRender();
   });
 }
@@ -69,7 +83,7 @@ let initialiseTouchGesturesAfterCreate = () => {
     renderMaquette: () => {
       return h('div', { class: 'mainMenu', afterCreate: initialiseTouchGesturesAfterCreate }, [
         isOpen ? h('div', { key: 'overlay', class: 'overlay', onclick: handleOverlayClick }) : undefined,
-        h('div', { key: 'touchArea', class: 'touchArea', classes: { ['isOpen']: isOpen } }, [
+        h('div', { key: 'touchArea', id: 'touchArea', class: 'touchArea', classes: { ['isOpen']: isOpen}, afterCreate: swipeBackafterCreate }, [
           isOpen ? [
             h('div', { class: 'menu' }, [
               h('div', { class: 'item'}, [
@@ -86,8 +100,7 @@ let initialiseTouchGesturesAfterCreate = () => {
           ] : undefined
         ]),
         h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']),
-                h('div', { key: 'openButton', id: 'swipeMenuBox'}, [])
-
+        h('div', { key: 'openButton', id: 'swipeMenuBox'}, [])
       ]);
     }
   };
