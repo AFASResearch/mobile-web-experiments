@@ -19,22 +19,22 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
     initializePage: (route: string): Page => {
       switch (route) {
         case 'users':
-          return createUserListPage(dataService, userService.getUserInfo(), projector);
+          return createUserListPage(dataService, userService, projector);
         case 'account':
           return createAccountPage(dataService, userService, projector);
         case 'barcodescanner':
-          return createBarcodePage(projector);
+          return createBarcodePage(dataService, userService, projector);
         case 'file-upload':
-          return createFileUploadPage(projector);
+          return createFileUploadPage(dataService, userService, projector);
         case 'camera':
-          return createMultiCamPage(projector);
+          return createMultiCamPage(dataService, userService, projector);
         default:
           let match = /chat\/(\w+)/.exec(route);
           if (match) {
-            return createChatPage(dataService, userService.getUserInfo(), match[1], projector);
+            return createChatPage(dataService, userService, match[1], projector);
           }
           // Nothing matches, default page:
-          return createUserListPage(dataService, userService.getUserInfo(), projector);
+          return createUserListPage(dataService, userService, projector);
       }
     }
   };

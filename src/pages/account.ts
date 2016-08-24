@@ -38,6 +38,8 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
   let page = createPage({
     title: 'Account',
     dataService,
+    userService,
+    projector,
     className: 'card',
     body: [
       createVoiceControlledTextField({label: 'First name', projector: projector}, { getValue: () => firstName, setValue: (value) => {firstName = value; }}),

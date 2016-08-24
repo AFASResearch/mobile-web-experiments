@@ -52,6 +52,8 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
   let page = createPage({
     title: 'Registration',
     dataService,
+    userService,
+    projector,
     className: 'card',
     body: [
       createText({ htmlContent: 'How may we identify you?' }),

@@ -1,12 +1,15 @@
 import {Projector, h} from 'maquette';
 import {DataService} from '../services/data-service';
+import {UserService} from '../services/user-service';
 import {UserInfo} from '../interfaces';
 import {createPage} from '../components/page';
 import {createUserList, destroyUserList} from '../components/user-list.ts';
 import {createChatList, destroyChatList} from '../components/chat-list.ts';
 
-export let createUserListPage = (dataService: DataService, user: UserInfo, projector: Projector) => {
+export let createUserListPage = (dataService: DataService, userService: UserService, projector: Projector) => {
   let chatRoomId = '';
+
+  console.log(userService);
 
   let w = <any>window;
   let ResponsiveMode = false;
@@ -37,12 +40,14 @@ export let createUserListPage = (dataService: DataService, user: UserInfo, proje
   checkResponsiveMode();
 
   // create the components
-  let userlist = createUserList(dataService, user, projector, handleClick);
-  let chatlist = createChatList({dataService: dataService, user: user, projector: projector}, {toUserId: () => chatRoomId});
+  let userlist = createUserList(dataService, userService.getUserInfo(), projector, handleClick);
+  let chatlist = createChatList({dataService: dataService, user: userService.getUserInfo(), projector: projector}, {toUserId: () => chatRoomId});
 
   let page = createPage({
     title: 'Chat',
     dataService,
+    userService,
+    projector,
     body: [ {
       renderMaquette: () => {
         return h('div',  {class: 'card chatPagesHolder'}, [

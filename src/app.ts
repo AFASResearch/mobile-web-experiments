@@ -4,7 +4,6 @@ import {randomId} from './utilities';
 import {Router} from './services/router';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
-import {createMainMenu} from './components/main-menu';
 require('./styles/app.scss');
 
 declare let cordova: any;
@@ -36,7 +35,7 @@ if (typeof Object.assign !== 'function') {
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
   let registerPage = createRegisterPage(dataService, userService, projector, randomId());
-  let mainMenu = createMainMenu(dataService, userService, projector);
+ // let mainMenu = createMainMenu(dataService, userService, projector);
 
   return {
     renderMaquette: () => {
@@ -50,7 +49,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
           currentPage.renderHeader()
         ]),
         h('div', { key: currentPage, class: 'body' }, [
-          mainMenu.renderMaquette(),
+         // mainMenu.renderMaquette(),
           currentPage.renderBody()
         ])
       ]);

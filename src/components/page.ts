@@ -1,10 +1,16 @@
-import {Component, VNode, h} from 'maquette';
+import {Component, VNode, h, Projector} from 'maquette';
 import {DataService} from '../services/data-service';
+import {UserService} from '../services/user-service';
+
+import {createMainMenu} from './main-menu';
+
 require('../styles/page.scss');
 
 export interface PageConfig {
   title: string;
-  dataService?: DataService;
+  dataService: DataService;
+  userService: UserService;
+  projector: Projector;
   className?: string;
   backButton?: {
     title: string;
@@ -22,12 +28,15 @@ export interface Page {
 }
 
 export let createPage = (config: PageConfig): Page => {
-  let {title, body, backButton, destroy, className} = config;
+  let {title, body, backButton, destroy, className, dataService, userService, projector} = config;
+
+  let mainMenu = createMainMenu(dataService, userService, projector);
 
   let page: Page = {
     destroy,
     renderHeader: () => {
       return h('span', { class: 'title' }, [
+        mainMenu.renderMaquette(),
         backButton ? h('a', {class: 'backbutton', href: backButton.route}, [backButton.title]) : undefined,
         title
       ]);
