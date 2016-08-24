@@ -1,6 +1,7 @@
-import {h} from 'maquette';
+import {h, Projector} from 'maquette';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
+let Hammer = <any>require('hammerjs');
 require('../styles/main-menu.scss');
 
 const MENU_ITEMS: { text: string, route: string }[] = [
@@ -22,12 +23,14 @@ const MENU_ITEMS: { text: string, route: string }[] = [
   }
 ];
 
+
 export interface MainMenuEntry {
   key: string;
   title: string;
+  projector: Projector;
 }
 
-export let createMainMenu = (dataService: DataService, userService: UserService) => {
+export let createMainMenu = (dataService: DataService, userService: UserService, projector: Projector) => {
   let isOpen = false;
   let user = userService.getUserInfo();
 
@@ -46,16 +49,34 @@ export let createMainMenu = (dataService: DataService, userService: UserService)
     // not preventing default, so the url changes and routing kicks in
   };
 
+
+let initialiseTouchGesturesAfterCreate = () => {
+  let myElement: HTMLElement = document.getElementById('swipeMenuBox');
+
+  // create a simple instance
+  // by default, it only adds horizontal recognizers
+  let mc: any = new Hammer(myElement);
+
+  // listen to events...
+  mc.on(" panright", function(evt: any) {
+      console.log(evt.type +" gesture detected.");
+      isOpen = true;
+      projector.scheduleRender();
+  });
+}
+
   return {
     renderMaquette: () => {
-      return h('div', { class: 'mainMenu' }, [
+      return h('div', { class: 'mainMenu', afterCreate: initialiseTouchGesturesAfterCreate }, [
         isOpen ? h('div', { key: 'overlay', class: 'overlay', onclick: handleOverlayClick }) : undefined,
         h('div', { key: 'touchArea', class: 'touchArea', classes: { ['isOpen']: isOpen } }, [
           isOpen ? [
             h('div', { class: 'menu' }, [
               h('div', { class: 'item'}, [
+                user ? [
                 h('a', {class: 'navbar-username', href: '#account', onclick: handleItemClick}, [user.firstName + ' ' + user.lastName]),
                 h('img', {src: user.image, class: 'profile-picture', height: 20})
+                ] : undefined
               ]),
               MENU_ITEMS.map(item => h('div', { class: 'item' }, [
                 h('a', { href: `#${item.route}`, onclick: handleItemClick }, [item.text])
@@ -64,7 +85,9 @@ export let createMainMenu = (dataService: DataService, userService: UserService)
             ])
           ] : undefined
         ]),
-        h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰'])
+        h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']),
+                h('div', { key: 'openButton', id: 'swipeMenuBox'}, [])
+
       ]);
     }
   };

@@ -36,7 +36,7 @@ if (typeof Object.assign !== 'function') {
 export let createApp = (dataService: DataService, store: LocalForage, router: Router, userService: UserService, projector: Projector) => {
 
   let registerPage = createRegisterPage(dataService, userService, projector, randomId());
-  let mainMenu = createMainMenu(dataService, userService);
+  let mainMenu = createMainMenu(dataService, userService, projector);
 
   return {
     renderMaquette: () => {
@@ -45,7 +45,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
       let currentPage = user ? router.getCurrentPage() : registerPage;
 
-      return h('body', { class: 'app' }, [
+      return h('body', {id: 'app', class: 'app' }, [
         h('div', { class: 'header' }, [
           currentPage.renderHeader()
         ]),
