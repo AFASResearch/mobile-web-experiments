@@ -9,7 +9,7 @@ import {UserInfo} from '../interfaces';
 export let createChatPage = (dataService: DataService, userService: UserService, toUserId: string, projector: Projector) => {
   return createPage({
     title: '',
-    backButton: {title: '<', route: '#users'},
+    backButton: {title: '⬅', route: '#users'},
     dataService,
     userService,
     projector,

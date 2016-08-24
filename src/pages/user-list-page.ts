@@ -9,8 +9,6 @@ import {createChatList, destroyChatList} from '../components/chat-list.ts';
 export let createUserListPage = (dataService: DataService, userService: UserService, projector: Projector) => {
   let chatRoomId = '';
 
-  console.log(userService);
-
   let w = <any>window;
   let ResponsiveMode = false;
 
