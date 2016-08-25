@@ -117,7 +117,7 @@ let startOrStopListening = () => {
       return h('label', { class: 'textField', key: textField }, [
         h('span', { class: 'label' }, [label]),
         h('div', {class: 'voicecontrollinputholder'}, [
-          h('input', { class: 'input', classes: {'prefilled': prefilled}, oninput: onInput , onkeydown: onKeyDown, type: 'text',
+          h('input', { class: 'input', classes: {'prefilled': prefilled}, oninput: isListening ? onInput : handleInput , onkeydown: onKeyDown, type: 'text',
           value: isListening ? recognizedSpeech : getValue()}),
           isListening ? h('img', {class: 'voice-control-animation', src: 'icons/voice-spinner.gif', onclick: startOrStopListening}) :
           speechApiSupported ? h('button', { class: 'voice-control-button', onclick: startOrStopListening }, [startStopButtonText]) : undefined
