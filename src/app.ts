@@ -8,7 +8,7 @@ import {createMainMenu} from './components/main-menu';
 let Snap = <any>require('snapjs');
 require('./styles/app.scss');
 require('./styles/main-menu.scss');
-
+declare let window: any;
 declare let cordova: any;
 declare let localNotification: any;
 declare let Object: any;
@@ -37,6 +37,8 @@ if (typeof Object.assign !== 'function') {
   };
 }
 
+// code to retrieve the electron variable
+console.log(window.require('electron'));
 
 const MENU_ITEMS: { text: string, route: string }[] = [
   {
