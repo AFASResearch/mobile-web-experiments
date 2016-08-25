@@ -54,6 +54,6 @@ export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
         body.map(c => c.renderMaquette())
       ]);
     }
-  };
+  }; 
   return page;
 };
