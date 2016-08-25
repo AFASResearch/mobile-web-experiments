@@ -153,6 +153,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
         if (item.fromUserId === userId) {
 
           return h('div', { class: 'chatrow', classes: {right: false}, afterCreate: scrollpage }, [
+            otherUser ? [
             h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image, onclick: item.fromUserId === userId ? toggleModal: undefined }),
             h('div', {key: item, class: 'messagecontainer' }, [
               h('div', { class: 'messageTitleContainer'}, [
@@ -160,7 +161,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
                 h('span', {class: 'messageTimeStamp'}, [getFormattedDate(item.date)])
               ]),
               h('span', [item.text])
-            ])
+            ]) ] : undefined
           ]);
         } else {
           return h('div', { class: 'chatrow', classes: {right: true}, afterCreate: scrollpage }, [
