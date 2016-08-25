@@ -38,7 +38,10 @@ if (typeof Object.assign !== 'function') {
 }
 
 // code to retrieve the electron variable
-console.log(window.require('electron'));
+
+if (typeof window.require !== 'undefined') {
+  console.log(window.require('electron'));
+}
 
 const MENU_ITEMS: { text: string, route: string }[] = [
   {
