@@ -6,7 +6,6 @@ import {createLiveCamera, destroyLiveCamera} from '../components/live-camera';
 
 export let createBarcodePage = (dataService: DataService, userService: UserService, projector: Projector) => {
   return createPage({
-    title: 'Barcodescanning',
     className: 'card',
     dataService,
     userService,
@@ -16,5 +15,5 @@ export let createBarcodePage = (dataService: DataService, userService: UserServi
     ], destroy: () => {
       destroyLiveCamera();
     }
-  });
+  }, {title: () => 'Scan a barcode' });
 };

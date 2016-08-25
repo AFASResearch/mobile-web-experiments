@@ -10,7 +10,6 @@ import {UserService} from '../services/user-service';
 export let createFileUploadPage = (dataService: DataService, userService: UserService, projector: Projector) => {
 
   return createPage({
-    title: 'File upload / file reading',
     className: 'card',
     dataService,
     userService,
@@ -21,5 +20,5 @@ export let createFileUploadPage = (dataService: DataService, userService: UserSe
       createFileDownload(),
       createCordovaFileBrowser(projector)
     ]
-  });
+  }, { title: () => 'File upload/download' });
 };

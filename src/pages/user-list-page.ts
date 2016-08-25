@@ -34,15 +34,24 @@ export let createUserListPage = (dataService: DataService, userService: UserServ
     }
   };
 
+
+  let username = '';
+  let setOtherUser = (otheruser: UserInfo) => { 
+    if (otheruser) {
+      username = `${otheruser.firstName} ${otheruser.lastName}`;
+      projector.scheduleRender();
+    }
+  }
+
+
   // check responsive mode on start
   checkResponsiveMode();
 
   // create the components
   let userlist = createUserList(dataService, userService.getUserInfo(), projector, handleClick);
-  let chatlist = createChatList({dataService: dataService, user: userService.getUserInfo(), projector: projector}, {toUserId: () => chatRoomId});
+  let chatlist = createChatList({dataService: dataService, user: userService.getUserInfo(), projector: projector}, {toUserId: () => chatRoomId, getOtherUser: setOtherUser});
 
   let page = createPage({
-    title: 'Chat',
     dataService,
     userService,
     projector,
@@ -60,6 +69,12 @@ export let createUserListPage = (dataService: DataService, userService: UserServ
       destroyUserList();
       destroyChatList();
     }
-  });
+  }, {title: () => { 
+    if (username) { 
+      return `Chat with ${username}`;
+    } else {
+      return 'Chat'
+    }
+  } });
   return page;
 };

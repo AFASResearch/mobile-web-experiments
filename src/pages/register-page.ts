@@ -50,7 +50,6 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
   });
 
   let page = createPage({
-    title: 'Registration',
     dataService,
     userService,
     projector,
@@ -71,6 +70,6 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       createImageUploader({ projector: projector, userService: userService, image: 'images/barcode.jpg' }, {}),
       createButton({ text: 'Register', primary: true }, { onClick: doRegister })
     ]
-  });
+  }, {title: () => 'Registration' });
   return page;
 };

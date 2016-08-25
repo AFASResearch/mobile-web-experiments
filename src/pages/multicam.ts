@@ -6,7 +6,6 @@ import {Projector} from 'maquette';
 
 export let createMultiCamPage = (dataService: DataService, userService: UserService, projector: Projector) => {
   return createPage({
-    title: 'Multicam testing',
     className: 'card',
     dataService,
     userService,
@@ -15,5 +14,5 @@ export let createMultiCamPage = (dataService: DataService, userService: UserServ
       createCamera({ projector: projector}, {})
     ],
     destroy: () => destroyCamera()
-  });
+  }, {title: () => 'Switch between cameras' });
 };

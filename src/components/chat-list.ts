@@ -29,11 +29,12 @@ export interface ChatListConfig {
 
 export interface ChatListBindings {
   toUserId?: () => string;
+  getOtherUser?: (otheruser: UserInfo) => void;
 }
 
 export let createChatList = (config: ChatListConfig, bindings: ChatListBindings) => {
   let {dataService, user, projector} = config;
-  let {toUserId} = bindings;
+  let {toUserId, getOtherUser} = bindings;
 
   let oldUserId: string;
   let otherUser: UserInfo;
@@ -48,6 +49,9 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
     otherUserSubscription = dataService.horizon('users').find(toUserId()).watch().subscribe(
       (userInfo: UserInfo) => {
         otherUser = userInfo;
+        if (getOtherUser) { 
+          getOtherUser(userInfo);
+        }
         projector.scheduleRender();
       });
     };
@@ -129,12 +133,8 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           toggleModal: toggleModal
         });
 
-      return h('div', {class: 'contact-card'}, [
-        modal.renderMaquette(),
-        otherUser ? [
-          h('img', {class: 'profile-picture margin', src: otherUser.image}, []),
-          h('h3', {onclick: toggleModal}, [`${otherUser.firstName} ${otherUser.lastName}`  ])
-        ] : undefined
+      return h('div', [
+        modal.renderMaquette()
       ]);
       },
       // renderRow renders a row for each item in the messages array.
@@ -153,7 +153,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
         if (item.fromUserId === userId) {
 
           return h('div', { class: 'chatrow', classes: {right: false}, afterCreate: scrollpage }, [
-            h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image }),
+            h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image, onclick: item.fromUserId === userId ? toggleModal: undefined }),
             h('div', {key: item, class: 'messagecontainer' }, [
               h('div', { class: 'messageTitleContainer'}, [
                 h('b', [ otherUser.firstName ]),

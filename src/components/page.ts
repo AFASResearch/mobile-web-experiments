@@ -7,7 +7,6 @@ import {createMainMenu} from './main-menu';
 require('../styles/page.scss');
 
 export interface PageConfig {
-  title: string;
   dataService: DataService;
   userService: UserService;
   projector: Projector;
@@ -22,14 +21,19 @@ export interface PageConfig {
   body: Component[];
 }
 
+export interface PageBindings { 
+  title: () => string;
+}
+
 export interface Page {
   renderHeader(): VNode;
   renderBody(): VNode;
   destroy?(): void;
 }
 
-export let createPage = (config: PageConfig): Page => {
-  let {title, body, backButton, destroy, className, dataService, userService, projector, sideBarVisible} = config;
+export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
+  let {body, backButton, destroy, className, dataService, userService, projector, sideBarVisible} = config;
+  let {title} = bindings; 
 
   let page: Page = {
     destroy,
@@ -38,7 +42,7 @@ export let createPage = (config: PageConfig): Page => {
         backButton ? h('a', {class: 'backbutton', href: backButton.route}, [ 
           h('img', {src: 'icons/arrow_back.png'})
         ]) : undefined,
-        title
+       h('span', {class: 'titleText'}, [ title() ] )
       ]);
     },
     renderBody: () => {

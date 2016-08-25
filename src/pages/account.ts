@@ -36,7 +36,6 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
   };
 
   let page = createPage({
-    title: 'Account',
     dataService,
     userService,
     projector,
@@ -53,6 +52,6 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
       createImageUploader({ projector: projector, userService: userService, image: image }, {}),
       createButton({ text: 'Update', primary: true }, { onClick: doUpdate })
     ]
-  });
+  }, { title: () => 'Account' });
   return page;
 };

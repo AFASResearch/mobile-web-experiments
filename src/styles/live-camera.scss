@@ -1,14 +1,14 @@
 @import "variables";
 
 canvas {
-  margin: 24px 8px 8px 8px;
-  border: 1px solid black;
+  margin: 10px 0px 0px 0px;
+ // border: 1px solid black;
   position: relative;
 }
 
 video {
   margin: 24px 8px 8px 8px;
-  border: 2px solid #ffff00;
+//  border: 2px solid #ffff00;
   position: relative;
 }
 
@@ -16,6 +16,7 @@ video {
 .viewport {
   canvas {
     z-index: 2;
+
     position: absolute;
   }
 
