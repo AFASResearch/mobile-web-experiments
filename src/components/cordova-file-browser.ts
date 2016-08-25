@@ -138,6 +138,7 @@ export let createCordovaFileBrowser = (projector: Projector) => {
 
   return {
     renderMaquette: () => {
+      if (typeof cordova !== 'undefined') {
       return h('div', [
         headerText.renderMaquette(),
         titleTextField.renderMaquette(),
@@ -154,6 +155,9 @@ export let createCordovaFileBrowser = (projector: Projector) => {
       ])
       : undefined
     ]);
+      } else { 
+        return h('h1', ['You must be running cordova for more features'])
+      }
     }
   };
 };

@@ -6,6 +6,7 @@ import {createFileDownload} from '../components/file-download';
 import { createCordovaFileBrowser} from '../components/cordova-file-browser';
 import {DataService} from '../services/data-service';
 import {UserService} from '../services/user-service';
+declare let cordova: any;
 
 export let createFileUploadPage = (dataService: DataService, userService: UserService, projector: Projector) => {
 
