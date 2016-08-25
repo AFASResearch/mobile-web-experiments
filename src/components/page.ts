@@ -29,6 +29,7 @@ export interface Page {
   renderHeader(): VNode;
   renderBody(): VNode;
   destroy?(): void;
+  hasBackButton?(): boolean;
 }
 
 export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
@@ -36,9 +37,12 @@ export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
   let {title} = bindings; 
 
   let page: Page = {
+    hasBackButton: () => {
+      return backButton !== undefined;
+    },
     destroy,
     renderHeader: () => {
-      return h('span', { class: 'title', styles: { 'padding-left': backButton? '8px' : '8px'}}, [  // if there is no backbutton make the margin bigger.
+      return h('span', { class: 'title'}, [
         backButton ? h('a', {class: 'backbutton', href: backButton.route}, [ 
           h('img', {src: 'icons/arrow_back.png'})
         ]) : undefined,

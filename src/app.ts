@@ -122,7 +122,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
         h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate }, [
         h('div', { class: 'header' }, [
-          h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']),
+          !currentPage.hasBackButton() ? h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']) : undefined,
           currentPage.renderHeader()
         ]),
           currentPage.renderBody()

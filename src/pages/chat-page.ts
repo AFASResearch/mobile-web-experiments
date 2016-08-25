@@ -26,9 +26,9 @@ export let createChatPage = (dataService: DataService, userService: UserService,
     }
   }, {title: () => { 
     if (username) { 
-      return `chat with ${username}`;
+      return `Chat with ${username}`;
     } else {
-      return 'chat'
+      return 'Chat'
     }
   } });
 };
