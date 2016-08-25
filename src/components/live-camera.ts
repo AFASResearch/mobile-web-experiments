@@ -127,8 +127,10 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
              h('i', [`Use google Chrome, Mozilla Firefox or Microsoft Edge to use this functionality`])
 
           ] : [
+            BarcodeScanEnabled ? [
              h('h1', [`Show a barcode to scan it`]),
-             h('i', [`...or upload a picture from your computer`]),
+             h('i', [`...or upload a picture from your computer`])
+            ] : undefined,
           
           BarcodeScanEnabled ? [
             h('input', { type: 'file', capture: 'camera', accept: 'image/*', id: 'takePictureField', onchange: decodeImage })
