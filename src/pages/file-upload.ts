@@ -17,7 +17,7 @@ export let createFileUploadPage = (dataService: DataService, userService: UserSe
     projector,
     body: [
       createText({ htmlContent: '<h2>All browsers/devices</h2>' }),
-      createDragDropFileUpload(),
+      createDragDropFileUpload(projector),
       createFileDownload(),
       createCordovaFileBrowser(projector)
     ]

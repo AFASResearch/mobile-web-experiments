@@ -4,32 +4,54 @@
 * Normally drag and drop is supported if you drag the file on to the button. (but that is not very clear to users)
 */
 
-import {h} from 'maquette';
+import {h, Projector} from 'maquette';
 require('../styles/drag-drop-file-upload.scss');
 declare let window: any; 
 let electronIsSupported: boolean = false;
-export let createDragDropFileUpload = () => {
+
+let filenames: string[] = [];
+
+export let createDragDropFileUpload = (projector: Projector) => {
 
 
-  if (typeof window.require !== 'undefined') {
-    electronIsSupported = true; 
-  }
+let electron: any; 
+let shell: any; 
+let os: any;
+let fs: any; 
+
+
+let initElectron = () => { 
+  electron = window.require('electron'); 
+  shell = electron.shell; 
+  os = window.require('os'); 
+  fs = window.require('fs');  // https://nodejs.org/api/fs.html
+}
+
+if (typeof window.require !== 'undefined') {
+  electronIsSupported = true; 
+  initElectron();
+}
 
 let openHomeFolderOnClick = () => { 
-  // code to retrieve the electron variable
-  // we can also acces node js libraries
-  let electron = window.require('electron'); 
-  const shell = electron.shell; 
-  let os = window.require('os'); 
-  let fs = window.require('fs');  // https://nodejs.org/api/fs.html
+ fs.readdir(os.homedir(), (err: Error, results: string[]) => {
+  if (err) throw err;  
 
-  // shell.showItemInFolder(os.homedir());
-
-  console.log('fs: ', fs);
-  console.log(fs.readdirSync(os.homedir()));
+  filenames = results; 
+    projector.scheduleRender(); 
+  });
 
   console.log(electron);
   console.log(electron.remote);
+}
+
+// also for electron
+document.ondragover = document.ondrop = (ev) => {
+  ev.preventDefault();
+}
+
+document.body.ondrop = (ev) => {
+  shell.openItem((ev.dataTransfer.files[0] as any).path);
+  ev.preventDefault();
 }
 
   return {
@@ -37,7 +59,13 @@ let openHomeFolderOnClick = () => {
       return h('div', [
         // browsers allow already by themselves to drag files on a input='file' element.
         h('input', { id: 'file-upload', type: 'file', name: 'file[]', multiple: true}),
-        electronIsSupported ? h('button', { onclick: openHomeFolderOnClick}, ['open home folder']) : undefined
+        h('span', ['drag a file in this window to open it']),
+        electronIsSupported ? h('button', { onclick: openHomeFolderOnClick}, ['show contents of your home folder']) : undefined,
+        h('ul', [ 
+          filenames.map((filename: string) => { 
+            return h('li', {key: filename}, [filename]);
+          })
+        ])
       ]);
     }
   };
