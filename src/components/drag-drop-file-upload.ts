@@ -44,28 +44,30 @@ let openHomeFolderOnClick = () => {
   console.log(electron.remote);
 }
 
-// also for electron
-document.ondragover = document.ondrop = (ev) => {
-  ev.preventDefault();
-}
+if (electronIsSupported) { 
+  document.ondragover = document.ondrop = (ev) => {
+    ev.preventDefault();
+  }
 
-document.body.ondrop = (ev) => {
-  shell.openItem((ev.dataTransfer.files[0] as any).path);
-  ev.preventDefault();
+  document.body.ondrop = (ev) => {
+    shell.openItem((ev.dataTransfer.files[0] as any).path);
+    ev.preventDefault();
+  }
 }
 
   return {
     renderMaquette: () => {
       return h('div', [
-        // browsers allow already by themselves to drag files on a input='file' element.
-        h('input', { id: 'file-upload', type: 'file', name: 'file[]', multiple: true}),
         h('span', ['drag a file in this window to open it']),
         electronIsSupported ? h('button', { onclick: openHomeFolderOnClick}, ['show contents of your home folder']) : undefined,
         h('ul', [ 
           filenames.map((filename: string) => { 
             return h('li', {key: filename}, [filename]);
           })
-        ])
+        ]),
+        // browsers allow already by themselves to drag files on a input='file' element.
+        h('input', { id: 'file-upload', type: 'file', name: 'file[]', multiple: true}),
+        h('label', { for: 'file-upload', class: 'file-upload-label' }, ['choose a file!!!!'])
       ]);
     }
   };
