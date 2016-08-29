@@ -41,6 +41,8 @@ $ cordova run ios
 $ cordova run wp8
 ```
 
+##Note: you will need to have rethinkdb running for full functionality. standard is localhost:8181.
+
 Cordova does need to compile for specific , and therefore the bundle.js needs to be put in a specific path: 
 To edit the files for cordova, take the bundle.js from the dist folder and put it inside the /cordova-demo/www/js folder.
 

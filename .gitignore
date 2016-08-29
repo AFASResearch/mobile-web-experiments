@@ -112,3 +112,4 @@ cordova-demo/plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js
 cordova-demo/plugins/cordova-plugin-compat/package.json
 cordova-demo/plugins/cordova-plugin-compat/README.md
 cordova-demo/plugins/cordova-plugin-compat/src/android/PermissionHelper.java
+npm-debug.log
