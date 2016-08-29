@@ -12,6 +12,53 @@
     ],
     "filesGlob": [
         "src/**/*.ts",
-        "test/**/*.ts"
-    ]
+        "test/**/*.ts",
+        "typings/**/*.ts"
+    ],
+    "files": [
+        "src/app.ts",
+        "src/components/button.ts",
+        "src/components/camera.ts",
+        "src/components/chat-list.ts",
+        "src/components/contact-info.ts",
+        "src/components/cordova-file-browser.ts",
+        "src/components/drag-drop-file-upload.ts",
+        "src/components/file-download.ts",
+        "src/components/image-uploader.ts",
+        "src/components/list.ts",
+        "src/components/live-camera.ts",
+        "src/components/main-menu.ts",
+        "src/components/message-composer.ts",
+        "src/components/modal.ts",
+        "src/components/page.ts",
+        "src/components/text-field.ts",
+        "src/components/text.ts",
+        "src/components/user-list.ts",
+        "src/components/voice-controlled-text-field.ts",
+        "src/extensions.d.ts",
+        "src/Horizon.d.ts",
+        "src/interfaces.ts",
+        "src/main.ts",
+        "src/pages/account.ts",
+        "src/pages/barcodescanner.ts",
+        "src/pages/chat-page.ts",
+        "src/pages/file-upload.ts",
+        "src/pages/multicam.ts",
+        "src/pages/register-page.ts",
+        "src/pages/user-list-page.ts",
+        "src/route-registry.ts",
+        "src/service-worker-registration.ts",
+        "src/services/data-service.ts",
+        "src/services/location-service.ts",
+        "src/services/notification-service.ts",
+        "src/services/router.ts",
+        "src/services/user-service.ts",
+        "src/utilities.ts",
+        "typings/globals/es6-promise/index.d.ts",
+        "typings/globals/localforage/index.d.ts",
+        "typings/index.d.ts"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
 }

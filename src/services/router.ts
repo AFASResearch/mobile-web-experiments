@@ -1,6 +1,6 @@
 import {Projector} from 'maquette';
 import {RouteRegistry} from '../route-registry';
-import {Page} from '../components/page/page';
+import {Page} from '../components/page';
 
 export interface Router {
   getCurrentPage: () => Page;

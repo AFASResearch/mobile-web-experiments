@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import 'variables';
+
+* {
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch; // smooth scroll on iOS
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  font-family: $font-main;
+  font-size: $font-size-main;
+  height: 100vh;
+  line-height: 16px;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  flex: 1;
+  background: $menu-background;
+
+}
+
+.header {
+  background-color: $header-color;
+  color: $text-color;
+  display: flex;
+  font-family: $font-header;
+  font-size: $font-size-header;
+  font-weight: 500;
+  height: $header-height;
+  min-height: $header-height;
+  line-height: 24px;
+  padding: 8px 8px 8px 8px;
+  width: 100%;
+
+  .titleText {
+    line-height: 0;
+    position: absolute;
+    margin-top: 13px;
+  }
+
+.backbutton {
+  color: white;
+  text-decoration: none; 
+  img {
+    height: 24px;
+    margin-right: 10px;
+  }
+}
+
+  .currentuser-holder {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+
+    .navbar-username {
+      color: white;
+      text-decoration: none;
+    }
+
+    img {
+      height: 30px;
+      width: 30px;
+      margin-left: 10px;
+      margin-right: 10px;
+      align-self: center;
+    }
+  }
+}
+
+.body {
+  background-color: $background-color;
+  flex: 1;
+  overflow-y: scroll;
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+
+  z-index: 3;
+  box-shadow: -10px 0px 20px -5px #555555;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+}
+
+.profile-picture {
+  height: $profile-picture-size-normal;
+  width: $profile-picture-size-normal;
+  border-radius: 50%;
+  border: $table-border;
+  object-fit: cover;
+
+  &.small {
+    height: $profile-picture-size-small;
+    width: $profile-picture-size-small;
+  }
+
+  &.large {
+    height: $profile-picture-size-large;
+    width: $profile-picture-size-large;
+  }
+
+  &.xlarge {
+    height: $profile-picture-size-xlarge;
+    width: $profile-picture-size-xlarge;
+  }
+
+  &.margin {
+    margin-right: 10px;
+  }
+}

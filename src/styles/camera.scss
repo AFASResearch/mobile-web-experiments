@@ -1,0 +1,21 @@
+video {
+  width: 100%;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  border: none;
+}
+
+.camera-holder {
+  position: relative;
+  width: inherit;
+  height: inherit;
+}
+
+.toggleWebcamButton {
+  top: 30px;
+  left: 20px;
+  z-index: 1;
+  position: absolute;
+}

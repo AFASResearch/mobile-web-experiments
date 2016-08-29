@@ -1,69 +1,34 @@
 import {Projector} from 'maquette';
-import {createList} from '../components/list/list';
+import {createChatList, destroyChatList} from '../components/chat-list';
 import {DataService} from '../services/data-service';
-import {createPage} from '../components/page/page';
-import {createMessageComposer} from '../components/message-composer/message-composer';
-import {UserInfo, MessageInfo} from '../interfaces';
-import {nameOfUser, randomId} from '../utilities';
+import {UserService} from '../services/user-service';
 
-export let createChatPage = (dataService: DataService, user: UserInfo, toUserId: string, projector: Projector) => {
-  let otherUser: UserInfo;
-  let messages: MessageInfo[];
-  let chatRoomId = [user.id, toUserId].sort().join('-'); // format: lowestUserId-highestUserId
+import {createPage} from '../components/page';
+import {UserInfo} from '../interfaces';
 
-  let otherUserSubscription = dataService.horizon('users').find(toUserId).watch().subscribe((userInfo: UserInfo) => {
-    otherUser = userInfo;
+export let createChatPage = (dataService: DataService, userService: UserService, toUserId: string, projector: Projector) => {
+
+  let username = '';
+  let setOtherUser = (otheruser: UserInfo) => { 
+    username = `${otheruser.firstName} ${otheruser.lastName}`;
     projector.scheduleRender();
-  });
-
-  let messagesSubscription = dataService.horizon('directMessages')
-    .findAll({ chatRoomId: chatRoomId })
-    .order('timestamp', 'descending')
-    .limit(500)
-    .watch()
-    .subscribe((msgs: MessageInfo[]) => {
-      projector.scheduleRender();
-      messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
-    });
-
-  let list = createList({ columns: [{ header: 'From', key: 'from' }, { header: 'Message', key: 'message' }] }, {
-    getItems: () => messages,
-    getKey: (message: MessageInfo) => message.id,
-    renderCell: (item: MessageInfo, columnKey: string) => {
-      switch (columnKey) {
-        case 'from':
-          return item.fromUserId === toUserId ? otherUser.firstName : 'me';
-        case 'message':
-          return item.text;
-      }
-    }
-  });
-
-  let sendMessage = (text: string) => {
-    let message: MessageInfo = {
-      date: new Date(),
-      timestamp: new Date().valueOf(),
-      fromUserId: user.id,
-      id: randomId(),
-      chatRoomId,
-      text,
-      toUserId
-    };
-    dataService.horizon('directMessages').upsert(message);
-  };
-
-  let messageComposer = createMessageComposer({ sendMessage });
+  }
 
   return createPage({
-    title: () => `Chat with ${nameOfUser(otherUser)}`,
+    backButton: {title: '⬅', route: '#users'},
     dataService,
+    userService,
+    projector,
     body: [
-      list,
-      messageComposer
-    ],
-    destroy: () => {
-      otherUserSubscription.unsubscribe();
-      messagesSubscription.unsubscribe();
+      createChatList({dataService: dataService, user: userService.getUserInfo(), projector: projector}, {toUserId: () => toUserId, getOtherUser: setOtherUser})
+    ], destroy: () => {
+      destroyChatList();
     }
-  });
+  }, {title: () => { 
+    if (username) { 
+      return `Chat with ${username}`;
+    } else {
+      return 'Chat'
+    }
+  } });
 };

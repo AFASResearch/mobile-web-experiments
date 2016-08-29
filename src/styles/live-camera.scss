@@ -1,0 +1,32 @@
+@import "variables";
+
+canvas {
+  margin: 10px 0px 0px 0px;
+ // border: 1px solid black;
+  position: relative;
+}
+
+video {
+  margin: 24px 8px 8px 8px;
+//  border: 2px solid #ffff00;
+  position: relative;
+}
+
+// inside barcodescanner the overlay must lie over it
+.viewport {
+  canvas {
+    z-index: 2;
+
+    position: absolute;
+  }
+
+  video {
+    position: absolute;
+    z-index: 0;
+  }
+
+  #uploadedImageCanvas {
+    z-index: 1;
+    position: absolute;
+  }
+}

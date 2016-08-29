@@ -7,7 +7,7 @@ export interface UserService {
   getUserInfo(): UserInfo;
 }
 
-export let createUserService = (store: LocalForage, scheduleRender: () => void): UserService => {
+export let createUserService = (store: any, scheduleRender: () => void): UserService => {
   let users: any;
   let userInfo: UserInfo;
 

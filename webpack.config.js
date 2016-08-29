@@ -17,12 +17,15 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.ts', '.webpack.js', '.web.js', '.js', '.css']
+    extensions: ['', '.ts', '.webpack.js', '.web.js', '.js', '.css'],
   },
 
   // Source maps support ('inline-source-map' also works)
   devtool: 'source-map',
 
+  node: {
+    fs: "empty"
+  },
   // Add the loader for .ts files.
   module: {
     loaders: [
@@ -31,13 +34,13 @@ module.exports = {
         loader: 'ts-loader'
       },
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader?modules&sourceMap!postcss-loader'
+        test: /\.scss$/,
+        loaders: ["style", "css", "sass"]
       }
     ]
   },
-  postcss: function() {
-    return [autoprefixer({browsers: ['iOS 8', 'last 1 version']})];
+  sassLoader: {
+    includePaths: [path.resolve(__dirname, "./src/styles")]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -45,7 +48,7 @@ module.exports = {
       template: 'index.ejs'
     }),
     new CopyWebpackPlugin([
-      // {output}/file.txt 
+      // {output}/file.txt
       { from: 'public' }
     ]),
     new SWPrecacheWebpackPlugin({

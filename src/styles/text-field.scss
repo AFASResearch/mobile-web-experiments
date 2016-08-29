@@ -1,0 +1,58 @@
+@import "variables";
+
+.textField {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+  height: 50px;
+}
+
+.label {
+  margin-left: 8px;
+  color: text-color-inverted;
+}
+
+.input {
+  padding: 3px 7px;
+  line-height: 24px;
+  border: 0;
+}
+
+.prefilled {
+  background-color: yellow;
+}
+
+.voicecontrollinputholder {
+  display: flex;
+  padding: 1px;
+  background-color: white;
+  border:$text-field-border;
+  border-radius: 4px;
+
+  .voice-control-button {
+    justify-content: flex-end;
+    margin: 0;
+    margin-right: 10px;
+    background: url('~/icons/voice-input.png') no-repeat 7px 5px;
+    background-size: 13px 20px;
+    background-color: $transparent;
+    color: $transparent;
+    border: 0;
+    width: 24px;
+    padding: 0;
+    line-height: 24px;
+  }
+
+  input {
+    flex: 1;
+  }
+}
+
+.voice-control-animation {
+  justify-content: flex-end;
+  margin-right: 20px;
+  height: 30px;
+  background-size: 100% 100%;
+  overflow: hidden;
+  margin-top: 1px;
+}

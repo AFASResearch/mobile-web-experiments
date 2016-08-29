@@ -1,0 +1,58 @@
+@import "variables";
+
+.mainMenu {
+  position: absolute;
+  width: 266px;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 0;
+}
+
+.openButton {
+  color: #EEEEEE;
+  line-height: 8px;
+  font-size: 16px;
+  padding: 8px 8px 8px 8px;
+  width: 40px;
+  cursor: pointer;
+}
+
+.touchArea {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(40vw + 10px);
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.touchArea.isOpen {
+  left:0;
+}
+
+.menu {
+  height: 100%;
+  width: calc(40vw - 2px);
+  min-width: 200px;
+  max-width: 300px;
+  text-decoration: none;
+
+  a {
+    color: $text-color-inverted;
+    text-decoration: none;
+  }
+}
+
+.item {
+  line-height: 24px;
+  font-size: 16px;
+  padding: 8px 8px 8px 16px;
+}
+
+#swipeMenuBox {
+  position: absolute;
+  height: 100vw;
+  width: 10px;
+  left: 0;
+}
