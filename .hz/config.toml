@@ -49,7 +49,7 @@ project_name = "collaboration"
 # 'start_rethinkdb' will run an internal RethinkDB instance
 #------------------------------------------------------------------------------
 # connect = "localhost:28015"
-# start_rethinkdb = false
+# start_rethinkdb = true
 
 
 ###############################################################################
