@@ -7,6 +7,7 @@ import {createMainMenu} from './main-menu';
 require('../styles/page.scss');
 
 declare let window: any; 
+declare let navigator: any;
 
 export interface PageConfig {
   dataService: DataService;
@@ -38,7 +39,7 @@ export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
   let {body, backButton, destroy, className, dataService, userService, projector, sideBarVisible} = config;
   let {title} = bindings; 
 
-  let runningiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  let runningiOS = 'standalone' in navigator && !navigator.standalone && (/iphone|ipod|ipad/gi).test(navigator.platform) && (/Safari/i).test(navigator.appVersion);
 
   let page: Page = {
     hasBackButton: () => {
@@ -54,7 +55,7 @@ export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
       ]);
     },
     renderBody: () => {
-      return h('div', { class: className ? `page ${className}` : 'page', key: page, styles: {'height': runningiOS ? 'calc(100vh - 40px - 20pt)' : 'calc(100vh - 40px)' } }, [
+      return h('div', { class: className ? `page ${className}` : 'page', key: page, styles: {'height': runningiOS ? 'calc(100vh - 40px - 10pt)' : 'calc(100vh - 40px)' } }, [
         body.map(c => c.renderMaquette())
       ]);
     }

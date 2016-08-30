@@ -12,7 +12,7 @@ declare let cordova: any;
 declare let localNotification: any;
 declare let Object: any;
 declare let window: any;
-
+declare let navigator: any;
 
 let snapper: any;
 
@@ -99,7 +99,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
       let user = userService.getUserInfo();
       let currentPage = user ? router.getCurrentPage() : registerPage;
-      let runningiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      let runningiOS = 'standalone' in navigator && !navigator.standalone && (/iphone|ipod|ipad/gi).test(navigator.platform) && (/Safari/i).test(navigator.appVersion);
 
 
       return h('body', { class: 'app' }, [
@@ -123,7 +123,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
       ]),
 
         h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate }, [
-        h('div', { class: 'header', styles:{'padding-top': runningiOS ? 'calc(20pt + 8px)' : '8px', 'height': runningiOS ? 'calc(40px + 20pt)' : '40px' }}, [
+        h('div', { class: 'header', styles:{'padding-top': runningiOS ? 'calc(10pt + 8px)' : '8px', 'height': runningiOS ? 'calc(40px + 10pt)' : '40px' }}, [
           !currentPage.hasBackButton() ? h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']) : undefined,
           currentPage.renderHeader()
         ]),
