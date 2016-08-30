@@ -1,3 +1,4 @@
+.idea
 .c9
 node_modules
 rethinkdb_data
@@ -6,10 +7,10 @@ dist
 cordova-demo/platforms/*
 cordova-demo/hooks/*
 
-cordova-demo/plugins/* 
+cordova-demo/plugins/*
 !cordova-demo/plugins/*/
 
-cordova-demo/plugins/*/* 
+cordova-demo/plugins/*/*
 !cordova-demo/plugins/*/plugin.xml
 cordova-demo/plugins/cordova-plugin-camera/CONTRIBUTING.md
 cordova-demo/plugins/cordova-plugin-camera/LICENSE
