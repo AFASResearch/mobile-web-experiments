@@ -6,6 +6,10 @@
   -webkit-overflow-scrolling: touch; // smooth scroll on iOS
 }
 
+html {
+  background-color: $brand-default;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -24,6 +28,8 @@
 .header {
   background-color: $header-color;
   color: $text-color;
+  position: fixed;
+  z-index: 10;
   display: flex;
   font-family: $font-header;
   font-size: $font-size-header;
@@ -33,6 +39,7 @@
   line-height: 24px;
   padding: 8px 8px 8px 8px;
   width: 100%;
+  margin-top: -1px; //delete a really small line between the body
 
   .titleText {
     line-height: 0;

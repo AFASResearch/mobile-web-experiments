@@ -39,8 +39,6 @@ export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
   let {body, backButton, destroy, className, dataService, userService, projector, sideBarVisible} = config;
   let {title} = bindings; 
 
-  let runningiOS = 'standalone' in navigator && !navigator.standalone && (/iphone|ipod|ipad/gi).test(navigator.platform) && (/Safari/i).test(navigator.appVersion);
-
   let page: Page = {
     hasBackButton: () => {
       return backButton !== undefined;
@@ -55,7 +53,7 @@ export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
       ]);
     },
     renderBody: () => {
-      return h('div', { class: className ? `page ${className}` : 'page', key: page, styles: {'height': runningiOS ? 'calc(100vh - 40px - 10pt)' : 'calc(100vh - 40px)' } }, [
+      return h('div', { class: className ? `page ${className}` : 'page', key: page}, [
         body.map(c => c.renderMaquette())
       ]);
     }

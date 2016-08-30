@@ -12,7 +12,7 @@ declare let cordova: any;
 declare let localNotification: any;
 declare let Object: any;
 declare let window: any;
-declare let navigator: any;
+declare let userAgent: any;
 
 let snapper: any;
 
@@ -99,8 +99,9 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
       let user = userService.getUserInfo();
       let currentPage = user ? router.getCurrentPage() : registerPage;
-      let runningiOS = 'standalone' in navigator && !navigator.standalone && (/iphone|ipod|ipad/gi).test(navigator.platform) && (/Safari/i).test(navigator.appVersion);
+var userAgent = window.navigator.userAgent;
 
+let runningAsiOSApp = (window.navigator.standalone && (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)));
 
       return h('body', { class: 'app' }, [
       h('div', { key: 0, class: 'mainMenu'}, [
@@ -122,8 +123,8 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
         ]),
       ]),
 
-        h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate }, [
-        h('div', { class: 'header', styles:{'padding-top': runningiOS ? 'calc(10pt + 8px)' : '8px', 'height': runningiOS ? 'calc(40px + 10pt)' : '40px' }}, [
+        h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate, styles: { 'border-top': true ? '10pt solid cornflowerblue' : '0' } }, [
+        h('div', { class: 'header' }, [
           !currentPage.hasBackButton() ? h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']) : undefined,
           currentPage.renderHeader()
         ]),
