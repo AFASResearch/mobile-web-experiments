@@ -8,6 +8,8 @@ export let createDataService = (horizon: any, scheduleRender: () => void): DataS
   horizon.status((evt: { type: string }) => {
     status = evt.type;
     scheduleRender();
+  }, (error: any) => {
+    console.error('horizon connection error', error);
   });
 
   return {

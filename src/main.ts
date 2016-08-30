@@ -1,4 +1,4 @@
-import './service-worker-registration';
+//import './service-worker-registration';
 
 import Horizon = require('@horizon/client');
 const localforage = <any>require('localforage');
