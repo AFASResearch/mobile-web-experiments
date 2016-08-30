@@ -10,6 +10,10 @@ html {
   background-color: $brand-default;
 }
 
+.bodyHolder {
+      overflow: hidden;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -40,7 +44,6 @@ html {
   padding: 8px 8px 8px 8px;
   width: 100%;
   border: 0;
-  margin-top: -3px; //delete a really small line between the body
 
   .titleText {
     line-height: 0;
