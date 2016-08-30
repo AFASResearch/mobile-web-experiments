@@ -86,8 +86,8 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
             date: new Date(),
             timestamp: 0
           };
-
           messages = [firstMessage];
+          
         }
       });
     };
@@ -121,6 +121,15 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
     return createList({className: 'chat-list'}, {
       getItems: () => messages,
       getKey: (message: MessageInfo) => message.id,
+      firstMessage: () => { 
+        return h('div', [
+        otherUser ? [
+          h('h3', [`Chat with ${otherUser.firstName} ${otherUser.lastName}`]),
+          h('img', { class: 'profile-picture', src: otherUser.image, onclick: toggleModal })
+         ] : undefined,
+        h('hr')
+        ]);
+      },
       renderHeader: () => {
 
         let modal = createModal({
@@ -133,9 +142,9 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           toggleModal: toggleModal
         });
 
-      return h('div', [
-        modal.renderMaquette()
-      ]);
+        return h('div', [
+          modal.renderMaquette()
+        ]);
       },
       // renderRow renders a row for each item in the messages array.
       renderRow: (item: MessageInfo) => {
@@ -154,7 +163,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
 
           return h('div', { class: 'chatrow', classes: {right: false}, afterCreate: scrollpage }, [
             otherUser ? [
-            h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image, onclick: item.fromUserId === userId ? toggleModal: undefined }),
+            h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image, onclick: item.fromUserId === userId ? toggleModal : undefined }),
             h('div', {key: item, class: 'messagecontainer' }, [
               h('div', { class: 'messageTitleContainer'}, [
                 h('b', [ otherUser.firstName ]),
