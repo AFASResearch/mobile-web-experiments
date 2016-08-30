@@ -11,7 +11,7 @@ module.exports = {
     ]
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "dist").replace(/\\/g,'/'),
     publicPath: "/",
     filename: "bundle.js"
   },
@@ -53,6 +53,7 @@ module.exports = {
     ]),
     new SWPrecacheWebpackPlugin({
       cacheId: "mobile-web-experiments",
+      stripPrefix: path.resolve(__dirname, "dist").replace(/\\/g,'/')+'/',
       dynamicUrlToDependencies: {
         '/': ['index.ejs'],
         '/index.html': ['index.ejs']
@@ -63,3 +64,5 @@ module.exports = {
     contentBase: './public'
   }
 };
+
+console.log(path.resolve(__dirname, "dist").replace(/\\/g,'/'));
