@@ -39,7 +39,8 @@ html {
   line-height: 24px;
   padding: 8px 8px 8px 8px;
   width: 100%;
-  margin-top: -1px; //delete a really small line between the body
+  border: 0;
+  margin-top: -3px; //delete a really small line between the body
 
   .titleText {
     line-height: 0;

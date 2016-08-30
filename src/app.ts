@@ -123,7 +123,7 @@ let runningAsiOSApp = (window.navigator.standalone && (userAgent.match(/iPad/i) 
         ]),
       ]),
 
-        h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate, styles: { 'border-top': true ? '10pt solid cornflowerblue' : '0' } }, [
+        h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate, styles: { 'border-top': runningAsiOSApp ? '10pt solid cornflowerblue' : '0' } }, [
         h('div', { class: 'header' }, [
           !currentPage.hasBackButton() ? h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']) : undefined,
           currentPage.renderHeader()
