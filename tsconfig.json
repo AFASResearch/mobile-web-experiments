@@ -17,6 +17,7 @@
     ],
     "files": [
         "src/app.ts",
+        "src/components/Barcode-camera.ts",
         "src/components/button.ts",
         "src/components/camera.ts",
         "src/components/chat-list.ts",
@@ -26,7 +27,6 @@
         "src/components/file-download.ts",
         "src/components/image-uploader.ts",
         "src/components/list.ts",
-        "src/components/live-camera.ts",
         "src/components/main-menu.ts",
         "src/components/message-composer.ts",
         "src/components/modal.ts",
