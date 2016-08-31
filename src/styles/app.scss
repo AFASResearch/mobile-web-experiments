@@ -4,14 +4,19 @@
 * {
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch; // smooth scroll on iOS
+    ::-webkit-scrollbar { 
+      display: none; 
+  }
 }
+
 
 html {
   background-color: $brand-default;
 }
 
 .bodyHolder {
-      overflow: hidden;
+      overflow-y: scroll;
+      overflow-x: hidden;
 }
 
 .app {

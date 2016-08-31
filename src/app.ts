@@ -12,7 +12,6 @@ declare let cordova: any;
 declare let localNotification: any;
 declare let Object: any;
 declare let window: any;
-declare let userAgent: any;
 
 let snapper: any;
 
@@ -83,10 +82,10 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
   let closeSnapper = () => { 
     snapper.close();
-  }
+  };
 
   let handleMenuButtonClick = () => { 
-     if( snapper.state().state=="left" ){
+     if (snapper.state().state === 'left') {
         snapper.close();
     } else {
         snapper.open('left');
@@ -99,10 +98,11 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
       let user = userService.getUserInfo();
       let currentPage = user ? router.getCurrentPage() : registerPage;
-var userAgent = window.navigator.userAgent;
+      let userAgent = window.navigator.userAgent;
 
-let runningAsiOSApp = (window.navigator.standalone && (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)));
-//let runningAsiOSApp = true;
+      let runningAsiOSApp = (window.navigator.standalone && (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)));
+      // let runningAsiOSApp = true;
+      
       return h('body', { class: 'app' }, [
       h('div', { key: 0, class: 'mainMenu'}, [
         h('div', { key: 'touchArea', id: 'touchArea', class: 'touchArea' }, [
