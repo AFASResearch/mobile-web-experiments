@@ -2,8 +2,6 @@ import {Component, VNode, h, Projector} from 'maquette';
 import {DataService} from '../services/data-service';
 import {UserService} from '../services/user-service';
 
-import {createMainMenu} from './main-menu';
-
 require('../styles/page.scss');
 
 declare let window: any; 
@@ -36,7 +34,7 @@ export interface Page {
 }
 
 export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
-  let {body, backButton, destroy, className, dataService, userService, projector, sideBarVisible} = config;
+  let {body, backButton, destroy, className} = config;
   let {title} = bindings; 
 
   let page: Page = {

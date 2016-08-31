@@ -13,3 +13,8 @@ export let nameOfUser = (user: UserInfo) => {
 export let getFormattedDate = (date: Date) => {
   return moment(date).format('YYYY-MM-DD HH:mm');
 };
+
+export let getFormattedDateSmall = (date: Date) => {
+ // return moment(date).format('HH:mm');
+   return moment(date).calendar();
+};

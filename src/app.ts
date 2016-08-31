@@ -78,10 +78,12 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
       slideIntent: 40,
       minDragDistance: 5
     });
-  }
+  };
 
   let closeSnapper = () => { 
+    if (snapper) {
     snapper.close();
+    }
   };
 
   let handleMenuButtonClick = () => { 
@@ -90,7 +92,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
     } else {
         snapper.open('left');
     }
-  }
+  };
 
 
   return {
@@ -102,7 +104,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
       let runningAsiOSApp = (window.navigator.standalone && (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)));
       // let runningAsiOSApp = true;
-      
+
       return h('body', { class: 'app' }, [
       h('div', { key: 0, class: 'mainMenu'}, [
         h('div', { key: 'touchArea', id: 'touchArea', class: 'touchArea' }, [
@@ -120,7 +122,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
               h('div', { class: 'item' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
             ])
           ] 
-        ]),
+        ])
       ]),
 
         h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate }, [
@@ -128,7 +130,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
           !currentPage.hasBackButton() ? h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']) : undefined,
           currentPage.renderHeader()
         ]),
-         h('div', { class: 'bodyHolder', styles: {'padding-top': runningAsiOSApp ? 'calc(40px + 10pt)' : '40px' } }, [
+         h('div', { class: 'bodyHolder', styles: {'padding-top': runningAsiOSApp ? 'calc(40px + 10pt)' : '40px'}, afterCreate: closeSnapper  }, [ 
            currentPage.renderBody()
          ])
         ])

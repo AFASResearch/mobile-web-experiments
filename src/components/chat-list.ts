@@ -9,7 +9,7 @@ import {createList} from '../components/list';
 import {createMessageComposer} from '../components/message-composer';
 import {DataService} from '../services/data-service';
 import {UserInfo, MessageInfo} from '../interfaces';
-import {getFormattedDate, randomId} from '../utilities';
+import {getFormattedDateSmall, randomId} from '../utilities';
 import {createModal} from './modal';
 import {createContactInfo} from './contact-info';
 
@@ -166,7 +166,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
             h('div', {key: item, class: 'messagecontainer' }, [
               h('div', { class: 'messageTitleContainer'}, [
                 h('b', [ otherUser.firstName ]),
-                h('span', {class: 'messageTimeStamp'}, [getFormattedDate(item.date)])
+                h('span', {class: 'messageTimeStamp'}, [getFormattedDateSmall(item.date)])
               ]),
               h('span', [item.text])
             ]) ] : undefined
@@ -176,7 +176,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           h('div', {key: item, class: 'messagecontainer' }, [
             h('div', { class: 'messageTitleContainer'}, [
               h('b', ['me']),
-              h('span', {class: 'messageTimeStamp'}, [getFormattedDate(item.date)])
+              h('span', {class: 'messageTimeStamp'}, [getFormattedDateSmall(item.date)])
             ]),
             h('span', [item.text])
           ]),
