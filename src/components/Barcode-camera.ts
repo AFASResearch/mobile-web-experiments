@@ -5,19 +5,18 @@ This component uses the Quagga.js Library for scanning the barcodes.
 */
 
 import {h, Projector} from 'maquette';
-require('../styles/live-camera.scss');
+require('../styles/Barcode-camera.scss');
 
 const Quagga = <any>require('quagga'); // library for scanning barcodes
 
-export interface LiveCameraConfig {
+export interface BarcodeCameraConfig {
   projector: Projector;
-  BarcodeScanEnabled: Boolean;
 }
 
-export interface LiveCameraBindings { }
+export interface BarcodeCameraBindings { }
 
-export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBindings) => {
-  let {projector, BarcodeScanEnabled} = config;
+export let createBarcodeCamera = (config: BarcodeCameraConfig, bindings: BarcodeCameraBindings) => {
+  let {projector} = config;
 
   let detectedCode = 'nothing detected yet...';
   let barcodeReaders = ['ean_reader', 'code_128_reader', 'code_39_reader', 'codabar_reader', 'upc_reader', 'i2of5_reader'];
@@ -42,11 +41,8 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
         return;
       }
 
-      // only start quagga if we want it
-      if (BarcodeScanEnabled) {
-        console.log('Initialization finished. Ready to start');
-        Quagga.start();
-      }
+      console.log('Initialization finished. Ready to start');
+      Quagga.start();
     });
 
     Quagga.onProcessed(function (result: any) {
@@ -125,30 +121,23 @@ export let createLiveCamera = (config: LiveCameraConfig, bindings: LiveCameraBin
           cameraIsNotSupported ? [
              h('h1', [`Your browser does not support the camera :'( `]),
              h('i', [`Use google Chrome, Mozilla Firefox or Microsoft Edge to use this functionality`])
-
-          ] : [
-            BarcodeScanEnabled ? [
+             ] : [
              h('h1', [`Show a barcode to scan it`]),
-             h('i', [`...or upload a picture from your computer`])
-            ] : undefined,
-          
-          BarcodeScanEnabled ? [
-            h('input', { type: 'file', capture: 'camera', accept: 'image/*', id: 'takePictureField', onchange: decodeImage })
-          ] : undefined,
+             h('i', [`...or upload a picture from your computer`]),
+             h('input', { type: 'file', capture: 'camera', accept: 'image/*', id: 'takePictureField', onchange: decodeImage }),
         
-          // after the DOM is loaded we will try to load the video in it
-          h('div', { id: 'barcodeScanViewHolder', class: 'viewport', afterCreate: startCamera }, [
-            // for barcode scanning we need an extra canvas in here
-            BarcodeScanEnabled ? h('canvas', { id: 'uploadedImageCanvas', class: 'overlayCanvas' }, []) : undefined
-          ]),
-
-          BarcodeScanEnabled ? h('h2', [detectedCode]) : undefined,
-          ],
+            // after the DOM is loaded we will try to load the video in it
+            h('div', { id: 'barcodeScanViewHolder', class: 'viewport', afterCreate: startCamera }, [
+              // for barcode scanning we need an extra canvas in here
+              h('canvas', { id: 'uploadedImageCanvas', class: 'overlayCanvas' }, []) 
+            ]),
+            h('h2', [detectedCode])
+            ]
         ]);
       }
     };
   };
 
-export let destroyLiveCamera = () => {
+export let destroyBarcodeCamera = () => {
     Quagga.stop();
 };

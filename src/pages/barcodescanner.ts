@@ -2,7 +2,7 @@ import {createPage} from '../components/page';
 import {Projector} from 'maquette';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
-import {createLiveCamera, destroyLiveCamera} from '../components/live-camera';
+import {createBarcodeCamera, destroyBarcodeCamera} from '../components/Barcode-camera';
 
 export let createBarcodePage = (dataService: DataService, userService: UserService, projector: Projector) => {
   return createPage({
@@ -11,9 +11,9 @@ export let createBarcodePage = (dataService: DataService, userService: UserServi
     userService,
     projector,
     body: [
-      createLiveCamera({ projector: projector, BarcodeScanEnabled: true }, {})
+      createBarcodeCamera({ projector: projector }, {})
     ], destroy: () => {
-      destroyLiveCamera();
+      destroyBarcodeCamera();
     }
   }, {title: () => 'Scan a barcode' });
 };
