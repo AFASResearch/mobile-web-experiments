@@ -127,15 +127,16 @@ export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUp
             modal.renderMaquette(),
             openModalButton.renderMaquette()
           ] : undefined,
-
-          h('input', {
-            class: 'button',
-            type: 'file',
-            capture: 'camera',
-            accept: 'image/*',
-            id: 'takePictureField',
-            onchange: getPicture
-          })
+          h('button', {class: 'button'}, [
+            h('span', {class: 'upload-button-text'}, ['or upload a file manually']),
+            h('input', {
+              type: 'file',
+              capture: 'camera',
+              accept: 'image/*',
+              id: 'takePictureField',
+              onchange: getPicture
+            })
+          ])
         ]),
         h('canvas', { id: 'canvas', width: '320', height: '240', afterCreate: setInitialImageAfterCreate })
       ]);

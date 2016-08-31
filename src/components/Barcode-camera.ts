@@ -124,8 +124,17 @@ export let createBarcodeCamera = (config: BarcodeCameraConfig, bindings: Barcode
              ] : [
              h('h1', [`Show a barcode to scan it`]),
              h('i', [`...or upload a picture from your computer`]),
-             h('input', { type: 'file', capture: 'camera', accept: 'image/*', id: 'takePictureField', onchange: decodeImage }),
-        
+
+            h('button', {class: 'button'}, [
+              h('span', {class: 'upload-button-text'}, ['Choose a file...']),
+              h('input', {
+                type: 'file',
+                capture: 'camera',
+                accept: 'image/*',
+                id: 'takePictureField',
+                onchange: decodeImage
+              })
+            ]),        
             // after the DOM is loaded we will try to load the video in it
             h('div', { id: 'barcodeScanViewHolder', class: 'viewport', afterCreate: startCamera }, [
               // for barcode scanning we need an extra canvas in here
