@@ -14,8 +14,21 @@ video {
 }
 
 .toggleWebcamButton {
-  top: 30px;
+  top: 50px;
   left: 20px;
   z-index: 1;
   position: absolute;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 1px solid black;
+  padding: 0px;
+  background: url('/icons/switch-camera-icon.png');
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  &:active { 
+    opacity: .5;
+  }
 }

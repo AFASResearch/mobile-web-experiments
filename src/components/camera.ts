@@ -125,7 +125,7 @@ export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
     renderMaquette: () => {
       return h('div', { class: 'camera-holder' }, [
         !multipleCamerasAvailable ? h('h1', ['a button will appear if there is more than 1 camera connected to your device']) : undefined,
-        multipleCamerasAvailable ? h('button', {class: 'toggleWebcamButton', primary: false, onclick: handleSwitchButtonClick}, ['switch camera']) : undefined,
+        true ? h('button', {class: 'toggleWebcamButton', primary: false, onclick: handleSwitchButtonClick}) : undefined,
         h('video', { autoplay: true, afterCreate: createElementsAfterCreate })
       ]);
     }
