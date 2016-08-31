@@ -122,12 +122,11 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
       getItems: () => messages,
       getKey: (message: MessageInfo) => message.id,
       firstMessage: () => { 
-        return h('div', [
+        return h('div', {class: 'first-message-holder'}, [
         otherUser ? [
-          h('h3', [`Chat with ${otherUser.firstName} ${otherUser.lastName}`]),
-          h('img', { class: 'profile-picture', src: otherUser.image, onclick: toggleModal })
-         ] : undefined,
-        h('hr')
+          h('img', { class: 'profile-picture margin', src: otherUser.image, onclick: toggleModal }),
+          h('h3', [`Start messaging with ${otherUser.firstName} ${otherUser.lastName}`])
+         ] : undefined
         ]);
       },
       renderHeader: () => {

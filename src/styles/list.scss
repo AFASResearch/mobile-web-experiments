@@ -175,6 +175,8 @@
   overflow-y: scroll;
 }
 
-#chat-list-listHolder {
-  background-color: gainsboro;
+.first-message-holder {
+  display: flex;
+  border-bottom: $table-border;
+  padding: 20px;
 }
