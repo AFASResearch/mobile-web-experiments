@@ -4,11 +4,10 @@
 
 import {createModal} from './modal';
 import {createButton} from './button';
-import {createLiveCamera} from './live-camera';
+import {createCamera, destroyCamera} from './camera';
 import {UserService} from '../services/user-service';
 import {h, Projector} from 'maquette';
 require('../styles/image-uploader.scss');
-const Quagga = <any>require('quagga'); // library for scanning barcodes
 
 export interface ImageUploaderConfig {
   projector: Projector;
@@ -59,8 +58,7 @@ export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUp
       // Grab elements, create settings, etc.
       createCanvas();
       // get video from the holder
-      let parent = <any>document.getElementById('barcodeScanViewHolder');
-      video = <HTMLVideoElement>parent.getElementsByTagName('video')[0];
+      video = <any>document.getElementById('camera-view');
       videoObj = { 'video' : true };
 
       elementsCreated = true;
@@ -81,7 +79,7 @@ export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUp
   let toggleModal = () => {
     modalIsOpen = !modalIsOpen;
     if (!modalIsOpen) {
-      Quagga.stop();
+    destroyCamera();
     }
   };
 
@@ -115,7 +113,7 @@ export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUp
         isOpen: modalIsOpen,
         title: 'Create a snapshot',
         contents: [
-          createLiveCamera({ projector: projector, BarcodeScanEnabled: false }, {}), // we don't want to use barcodes when uploading images.
+          createCamera({ projector: projector}, {}),
           createScreenshotButton
         ]
       },
