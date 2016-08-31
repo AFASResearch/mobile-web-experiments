@@ -45,9 +45,6 @@ let stopListening = () => {
 };
 
 let startListening = () => {
-  console.log('start listtening');
-
-  console.log(recognition);
   recognition.start();
   startStopButtonText = '';
   projector.scheduleRender();
@@ -104,7 +101,6 @@ let startOrStopListening = () => {
           // i.e. interim. You can use these results to give the user near real time experience.
           recognizedSpeech = event.results[i][0].transcript;
           console.log('interim');
-
         }
       }
       console.log('ok');
@@ -112,12 +108,20 @@ let startOrStopListening = () => {
     };
   }
 
+  let switchInput = (evt: Event) => { 
+  if (isListening) {
+   onInput(evt); 
+  } else { 
+    handleInput();
+  }
+  }
+
   let textField = {
     renderMaquette: () => {
       return h('label', { class: 'textField', key: textField }, [
         h('span', { class: 'label' }, [label]),
         h('div', {class: 'voicecontrollinputholder'}, [
-          h('input', { class: 'input', classes: {'prefilled': prefilled}, oninput: isListening ? onInput : handleInput , onkeydown: onKeyDown, type: 'text',
+          h('input', { class: 'input', classes: {'prefilled': prefilled}, oninput: switchInput, onkeydown: onKeyDown, type: 'text',
           value: isListening ? recognizedSpeech : getValue()}),
           isListening ? h('img', {class: 'voice-control-animation', src: 'icons/voice-spinner.gif', onclick: startOrStopListening}) :
           speechApiSupported ? h('button', { class: 'voice-control-button', onclick: startOrStopListening }, [startStopButtonText]) : undefined
