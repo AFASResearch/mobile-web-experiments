@@ -3,6 +3,7 @@ import {UserInfo} from '../interfaces';
 export interface UserService {
   initialize(): Promise<void>;
   initializeHorizon(horizon: any): void;
+  initializeServiceWorker(serviceWorker: any): void;
   updateUserInfo(newUserInfo: UserInfo): void;
   getUserInfo(): UserInfo;
 }
@@ -10,6 +11,25 @@ export interface UserService {
 export let createUserService = (store: any, scheduleRender: () => void): UserService => {
   let users: any;
   let userInfo: UserInfo;
+  let serviceWorker: any;
+  let enablingPush = false;
+
+  let enablePush = () => {
+    if (!enablingPush && userInfo && !userInfo.pushEndpoint) {
+      enablingPush = true;
+      serviceWorker.pushManager.subscribe(
+        {
+          userVisibleOnly: true
+        }
+      ).then(
+        function (sub: any) {
+          console.log('push endpoint:', sub.endpoint);
+          userInfo.pushEndpoint = sub.endpoint;
+          updateUserInfo(userInfo);
+        }
+      );
+    }
+  };
 
   let updateUserInfo = (newUserInfo: UserInfo) => {
     users.upsert(newUserInfo).subscribe({
@@ -19,6 +39,9 @@ export let createUserService = (store: any, scheduleRender: () => void): UserSer
           userInfo = newUserInfo;
           scheduleRender();
         });
+        if (serviceWorker) {
+          enablePush();
+        }
       }
     });
   };
@@ -38,10 +61,14 @@ export let createUserService = (store: any, scheduleRender: () => void): UserSer
             (serverInfo: UserInfo[]) => {
               if (serverInfo.length === 0) {
                 // The server forgot about us, lets remind him who we are
+                userInfo.pushEndpoint = undefined;
                 updateUserInfo(userInfo);
               } else {
                 // The server may have updated info
                 userInfo = serverInfo[0];
+              }
+              if (serviceWorker) {
+                enablePush();
               }
             },
             (err: any) => {
@@ -49,6 +76,12 @@ export let createUserService = (store: any, scheduleRender: () => void): UserSer
             }
           );
         } catch(ex) {console.warn('probably offline', ex);}
+      }
+    },
+    initializeServiceWorker: (newServiceWorker: any) => {
+      serviceWorker = newServiceWorker;
+      if (userInfo) {
+        enablePush();
       }
     },
     updateUserInfo,

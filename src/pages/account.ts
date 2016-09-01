@@ -11,6 +11,7 @@ import {createImageUploader} from '../components/image-uploader';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
 import {Projector} from 'maquette';
+import {createText} from '../components/text';
 
 export let createAccountPage = (dataService: DataService, userService: UserService, projector: Projector) => {
 

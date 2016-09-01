@@ -20,6 +20,7 @@ export interface UserInfo {
   company?: string;
   skypeUserName?: string;
   oauth?: { };
+  pushEndpoint?: string;
 }
 
 export interface NotificationInfo {

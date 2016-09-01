@@ -53,6 +53,7 @@ module.exports = {
     ]),
     new SWPrecacheWebpackPlugin({
       cacheId: "mobile-web-experiments",
+      importScripts: ['push.js'],
       stripPrefix: path.resolve(__dirname, "dist").replace(/\\/g,'/')+'/',
       dynamicUrlToDependencies: {
         '/': ['index.ejs'],
