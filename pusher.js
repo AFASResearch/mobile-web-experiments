@@ -20,6 +20,7 @@ r.connect({host: 'localhost', port: process.argv[2], db: 'collaboration'}, funct
 //      var bothUserIds = row.new_val.chatRoomId.split('-');
 //      var userId = bothUserIds[0] === row.new_val.fromUserId ? bothUserIds[1] : bothUserIds[0];
         var userId = row.new_val.toUserId;
+        var fromUserId = row.new_val.fromUserId;
         console.log('recieved message of '+text.length+' characters to user '+userId);
         r.table('users').get(userId).run(connection, function(err, result) {
           if (err) {
@@ -35,7 +36,11 @@ r.connect({host: 'localhost', port: process.argv[2], db: 'collaboration'}, funct
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  registration_ids: [senderId]
+                  registration_ids: [senderId],
+                  data: {
+                    text: text,
+                    fromUserId: fromUserId
+                  }
                 })
               }, function(error, response, body) {
                 if (err) {
