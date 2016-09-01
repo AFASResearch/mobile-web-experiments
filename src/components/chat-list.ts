@@ -98,7 +98,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
         id: randomId(),
         chatRoomId: chatRoomId, // format: see chat-page
         fromUserId: user.id,
-        toUserId: chatRoomId,
+        toUserId: toUserId(),
         text: text,
         date: date,
         timestamp: date.valueOf()
