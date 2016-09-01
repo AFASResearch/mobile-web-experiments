@@ -37,6 +37,11 @@ export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
   let {body, backButton, destroy, className} = config;
   let {title} = bindings; 
 
+
+  let setSmoothScroll = (elem: HTMLDivElement) => { 
+    elem.setAttribute('style', '-webkit-overflow-scrolling: touch');
+  };
+
   let page: Page = {
     hasBackButton: () => {
       return backButton !== undefined;
@@ -51,7 +56,7 @@ export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
       ]);
     },
     renderBody: () => {
-      return h('div', { class: className ? `page ${className}` : 'page', key: page}, [
+      return h('div', { class: className ? `page ${className}` : 'page', key: page, afterCreate: setSmoothScroll}, [
         body.map(c => c.renderMaquette())
       ]);
     }
