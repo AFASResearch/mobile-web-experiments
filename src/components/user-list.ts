@@ -17,25 +17,33 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
   let usersCollection = dataService.horizon('users');
   let lastMessages: MessageInfo[] = [];
 
-  subscription = usersCollection.order('lastName').watch().subscribe((allUsers: UserInfo[]) => {
-    users = allUsers;
-    users.forEach((otheruser) => {
-      let chatRoomId: string = [user.id, otheruser.id].sort().join('-'); // format: lowestUserId-highestUserId
+  try {
+    subscription = usersCollection.order('lastName').watch().subscribe(
+      (allUsers: UserInfo[]) => {
+        users = allUsers;
+        users.forEach(
+          (otheruser) => {
+            let chatRoomId: string = [user.id, otheruser.id].sort().join('-'); // format: lowestUserId-highestUserId
 
-      dataService.horizon('directMessages').findAll({ chatRoomId: chatRoomId }).order('timestamp', 'descending').limit(1).watch().subscribe((msg: any) => {
+            dataService.horizon('directMessages').findAll({ chatRoomId: chatRoomId }).order('timestamp', 'descending').limit(1).watch().subscribe(
+              (msg: any) => {
 
-        if (msg[0]) {
-          lastMessages.push(msg[0]); // TODO: check if there was already an object for the current chatroom available and overwrite it.
-          lastMessages.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
+                if (msg[0]) {
+                  lastMessages.push(msg[0]); // TODO: check if there was already an object for the current chatroom available and overwrite it.
+                  lastMessages.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
 
-          let lastmessage = lastMessages[lastMessages.length - 1];
-          let notification: NotificationInfo = {title: otheruser.firstName, body: lastmessage.text};
-          sendNotification(notification);
-        }
-        projector.scheduleRender();
-      });
-    });
-  });
+                  let lastmessage = lastMessages[lastMessages.length - 1];
+                  let notification: NotificationInfo = { title: otheruser.firstName, body: lastmessage.text };
+                  sendNotification(notification);
+                }
+                projector.scheduleRender();
+              }
+            );
+          }
+        );
+      }
+    );
+  } catch(ex) {console.warn('probably offline', ex);}
 
   let list = createList({className: 'user-list'}, {
     getItems: () => users,
@@ -75,5 +83,7 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
 };
 
 export let destroyUserList = () => {
-  subscription.unsubscribe();
+  if (subscription) {
+    subscription.unsubscribe();
+  }
 };

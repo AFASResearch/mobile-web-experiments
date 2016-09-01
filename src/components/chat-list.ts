@@ -49,7 +49,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
     otherUserSubscription = dataService.horizon('users').find(toUserId()).watch().subscribe(
       (userInfo: UserInfo) => {
         otherUser = userInfo;
-        if (getOtherUser) { 
+        if (getOtherUser) {
           getOtherUser(userInfo);
         }
         projector.scheduleRender();
@@ -87,7 +87,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
             timestamp: 0
           };
           messages = [firstMessage];
-          
+
         }
       });
     };
@@ -112,8 +112,10 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
 
     // run these functions for the first time
     updateChatRoomId();
-    updateOtherUserSubscription();
-    updateMessagesSubscription();
+    try {
+      updateOtherUserSubscription();
+      updateMessagesSubscription();
+    } catch(ex) {console.warn('probably offline', ex);}
 
     let messageComposer = createMessageComposer({ projector}, { sendMessage });
     let contactInfo = createContactInfo({}, {user: () => otherUser});
@@ -121,7 +123,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
     return createList({className: 'chat-list'}, {
       getItems: () => messages,
       getKey: (message: MessageInfo) => message.id,
-      firstMessage: () => { 
+      firstMessage: () => {
         return h('div', {class: 'first-message-holder'}, [
         otherUser ? [
           h('img', { class: 'profile-picture margin', src: otherUser.image, onclick: toggleModal }),
@@ -191,6 +193,10 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
   };
 
 export let destroyChatList = () => {
-  messagesSubscription.unsubscribe();
-  otherUserSubscription.unsubscribe();
+  if (messagesSubscription) {
+    messagesSubscription.unsubscribe();
+  }
+  if (otherUserSubscription) {
+    otherUserSubscription.unsubscribe();
+  }
 };
