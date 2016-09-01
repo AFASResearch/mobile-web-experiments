@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import 'roboto';
 @import 'variables';
 
 * {
   box-sizing: border-box;
   // -webkit-overflow-scrolling: touch; // smooth scroll on iOS
-    ::-webkit-scrollbar { 
-      display: none; 
+    ::-webkit-scrollbar {
+      display: none;
   }
 }
 
@@ -57,7 +57,7 @@ html {
 
 .backbutton {
   color: white;
-  text-decoration: none; 
+  text-decoration: none;
   img {
     height: 24px;
     margin-right: 10px;
