@@ -1,6 +1,5 @@
 self.addEventListener('push', function(event) {
   console.log('Push message', event);
-  console.log('Push message', event.data.json());
   var title = 'Showcase';
   event.waitUntil(
     // We could have added some code here to retrieve the unread messages from the server and display its contents
