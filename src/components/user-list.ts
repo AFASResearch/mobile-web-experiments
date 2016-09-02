@@ -28,6 +28,8 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
             dataService.horizon('directMessages').findAll({ chatRoomId: chatRoomId }).order('timestamp', 'descending').limit(1).watch().subscribe(
               (msg: any) => {
 
+                console.log('ok'); 
+
                 if (msg[0]) {
                   lastMessages.push(msg[0]); // TODO: check if there was already an object for the current chatroom available and overwrite it.
                   lastMessages.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
@@ -60,34 +62,33 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
 
       let lastMessageMustBeRead: boolean; 
 
-      
-
+      // get the last message of each chatroom 
       lastMessages.forEach((message) => {
         if (message.chatRoomId === chatRoomId) {
           lastMessage = message;
 
+          
         if (!lastMessage.isRead) {
-            let touserids = lastMessage.toUserId.split('-'); 
-            let receiverid: string = '';
-            if (touserids[0] === lastMessage.fromUserId) { 
-              receiverid = touserids[1]; 
-            } else { 
-              receiverid = touserids[0];
-            }
-            lastMessageMustBeRead = receiverid === user.id;
+          // check if unread lastmessages must be read by the current user
+            lastMessageMustBeRead = lastMessage.toUserId === user.id;
+            console.log(message.text, lastMessageMustBeRead);
            }
         }
       });
 
-      return h('div', {class: 'row'}, [
+      return h('div', {class: 'row', 
+     styles: {'background-color': lastMessageMustBeRead ? 'lightgreen' : 'white' } 
+      }, [
         h('img', {class: 'profile-picture margin', src: item.image}),
         h('div', {class: 'userlistItemContainer'}, [
           h('div', { class: 'userlistItemTitleContainer'}, [
-            h('h3', { class: 'userlistItemTitle'}, [item.firstName + ' ' + item.lastName]),
+            h('h3', { class: 'userlistItemTitle',  styles: {'color': !lastMessageMustBeRead ? 'black' : 'green'} }, [item.firstName + ' ' + item.lastName]),
             h('span', {class: 'userlistItemTimeStamp'}, [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
           ]),
           lastMessage ?
-          h('p', { class: 'userlistItemContent', styles: {'color': !lastMessageMustBeRead ? 'black' : 'green', 'font-weight': !lastMessageMustBeRead ? 'regular' : 'bold' } }, [ lastMessage.text ])
+            h('p', { class: 'userlistItemContent', 
+            styles: {'color': !lastMessageMustBeRead ? 'black' : 'green', 'font-weight': !lastMessageMustBeRead ? 'normal' : 'bold' } }, 
+            [ lastMessage.text ])
           : undefined
         ])
       ]);

@@ -75,44 +75,26 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
         if (msgs.length > 0) {
           projector.scheduleRender();
 
-
-        //   messages.forEach((message) => {
-        //     msgs.forEach((msg) => {
-        //         if (msg.id !== message.id) {
-        //           messages.push(msg);
-        //         }
-        //       });
-        //   });
-
           msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
 
          messages = [];
             
-          if (msgs[0]) {
-            messages.push(msgs[0]);
-          }
-          for (let i = 1; i < msgs.length; i++) {
-              if (msgs[i].id !== msgs[i - 1].id) {
+          for (let i = 0; i < msgs.length - 1; i++) {
+              if (msgs[i].id !== msgs[i + 1].id) {
                   messages.push(msgs[i]);
               }
           }
+          messages.push(msgs[msgs.length - 1]); // also push the last message
 
-          messages.forEach( (item) => { 
+         messages.forEach( (msg: MessageInfo) => { 
 
-          if (!item.isRead) {
-            let touserids = item.toUserId.split('-'); 
-            let receiverid: string = '';
-            if (touserids[0] === item.fromUserId) { 
-              receiverid = touserids[1]; 
-            } else { 
-              receiverid = touserids[0];
-            }
+          if (!msg.isRead) {
+console.log( 'isread: ', msg.isRead, 'touserid: ', msg.toUserId, 'userid: ', user.id);
 
-            if (receiverid === user.id) {
-              setTimeout( () => { 
-              item.isRead = true;
-              dataService.horizon('directMessages').update(item);
-              }); 
+            if (msg.toUserId === user.id) {
+              msg.isRead = true;
+              dataService.horizon('directMessages').update(msg);
+              console.log('currently uploading to isRead', msg.text);
             }
            }
         });
@@ -133,6 +115,8 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
 
         }
       });
+
+
     };
 
     let sendMessage = (text: string) => {
