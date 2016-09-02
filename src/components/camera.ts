@@ -16,14 +16,14 @@ export interface CameraBindings { }
 let window = <any>Window;
 let videoElement: HTMLVideoElement;
 
-  let stop = () => {
-    if (window.stream) {
-      videoElement.src = null;
-      window.stream.getTracks().forEach(function (track: any) {
-        track.stop();
-      });
-    }
-  };
+let stop = () => {
+  if (window.stream) {
+    videoElement.src = null;
+    window.stream.getTracks().forEach(function (track: any) {
+      track.stop();
+    });
+  }
+};
 
 export let createCamera = (config: CameraConfig, bindings: CameraBindings) => {
   let {projector} = config;

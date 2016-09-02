@@ -58,9 +58,24 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
       let chatRoomId = [user.id, item.id].sort().join('-'); // format: lowestUserId-highestUserId
       let lastMessage: MessageInfo;
 
+      let lastMessageMustBeRead: boolean; 
+
+      
+
       lastMessages.forEach((message) => {
         if (message.chatRoomId === chatRoomId) {
           lastMessage = message;
+
+        if (!lastMessage.isRead) {
+            let touserids = lastMessage.toUserId.split('-'); 
+            let receiverid: string = '';
+            if (touserids[0] === lastMessage.fromUserId) { 
+              receiverid = touserids[1]; 
+            } else { 
+              receiverid = touserids[0];
+            }
+            lastMessageMustBeRead = receiverid === user.id;
+           }
         }
       });
 
@@ -71,7 +86,9 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
             h('h3', { class: 'userlistItemTitle'}, [item.firstName + ' ' + item.lastName]),
             h('span', {class: 'userlistItemTimeStamp'}, [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
           ]),
-          h('p', { class: 'userlistItemContent'}, [lastMessage ? lastMessage.text : undefined])
+          lastMessage ?
+          h('p', { class: 'userlistItemContent', styles: {'color': !lastMessageMustBeRead ? 'black' : 'green', 'font-weight': !lastMessageMustBeRead ? 'regular' : 'bold' } }, [ lastMessage.text ])
+          : undefined
         ])
       ]);
     },

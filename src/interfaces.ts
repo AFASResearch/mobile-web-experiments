@@ -6,6 +6,7 @@ export interface MessageInfo {
   text: string;
   date: Date;
   timestamp: number;
+  isRead?: boolean;
 }
 
 export interface UserInfo {

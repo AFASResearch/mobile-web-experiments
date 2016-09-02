@@ -63,6 +63,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
       }
     };
 
+
     let updateMessagesSubscription = () => {
       messagesSubscription = dataService.horizon('directMessages')
       .findAll({ chatRoomId: chatRoomId })
@@ -73,7 +74,49 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
         // if there is a new message, append it and sort the array
         if (msgs.length > 0) {
           projector.scheduleRender();
-          messages = msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
+
+
+        //   messages.forEach((message) => {
+        //     msgs.forEach((msg) => {
+        //         if (msg.id !== message.id) {
+        //           messages.push(msg);
+        //         }
+        //       });
+        //   });
+
+          msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
+
+         messages = [];
+            
+          if (msgs[0]) {
+            messages.push(msgs[0]);
+          }
+          for (let i = 1; i < msgs.length; i++) {
+              if (msgs[i].id !== msgs[i - 1].id) {
+                  messages.push(msgs[i]);
+              }
+          }
+
+          messages.forEach( (item) => { 
+
+          if (!item.isRead) {
+            let touserids = item.toUserId.split('-'); 
+            let receiverid: string = '';
+            if (touserids[0] === item.fromUserId) { 
+              receiverid = touserids[1]; 
+            } else { 
+              receiverid = touserids[0];
+            }
+
+            if (receiverid === user.id) {
+              setTimeout( () => { 
+              item.isRead = true;
+              dataService.horizon('directMessages').update(item);
+              }); 
+            }
+           }
+        });
+
         } else { // if there are no messages, then make a fake message with some nice text
           let firstMessage: MessageInfo;
 
@@ -101,7 +144,8 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
         toUserId: toUserId(),
         text: text,
         date: date,
-        timestamp: date.valueOf()
+        timestamp: date.valueOf(),
+        isRead: false 
       };
       dataService.horizon('directMessages').upsert(message);
     };
@@ -167,7 +211,10 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
             h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image, onclick: item.fromUserId === userId ? toggleModal : undefined }),
             h('div', {key: item, class: 'messagecontainer' }, [
               h('div', { class: 'messageTitleContainer'}, [
-                h('b', [ otherUser.firstName ]),
+                h('b', [ 
+                  otherUser.firstName,
+                  '   ', 
+                  item.isRead ? '✓' : ''  ]),
                 h('span', {class: 'messageTimeStamp'}, [getFormattedDateSmall(item.date)])
               ]),
               h('span', [item.text])
@@ -177,7 +224,10 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           return h('div', { class: 'chatrow', classes: {right: true}, afterCreate: scrollpage }, [
           h('div', {key: item, class: 'messagecontainer' }, [
             h('div', { class: 'messageTitleContainer'}, [
-              h('b', ['me']),
+             h('b', [ 
+              'me',
+              '   ', 
+              item.isRead ? '✓' : ''  ]),
               h('span', {class: 'messageTimeStamp'}, [getFormattedDateSmall(item.date)])
             ]),
             h('span', [item.text])
