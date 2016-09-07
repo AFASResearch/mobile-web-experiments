@@ -11,6 +11,7 @@ import {DataService} from '../services/data-service';
 import {createImageUploader} from '../components/image-uploader';
 import {getLocationData} from '../services/location-service';
 import {Projector} from 'maquette';
+import {createSimpleImageUploader} from '../components/simple-image-uploader';
 
 export let createRegisterPage = (dataService: DataService, userService: UserService, projector: Projector, id: string) => {
 
@@ -18,7 +19,7 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
   let lastName = '';
   let company = '';
   let phoneNumber = '';
-  let image = '';
+  let image: string = undefined;
   let skypeUserName = '';
   let address: string;
   let city: string;
@@ -42,13 +43,6 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
     });
   };
 
-  getLocationData().then((locationdata: any) => {
-    address = `${locationdata.street} ${locationdata.streetnumber}`;
-    city = locationdata.city;
-    country = locationdata.country;
-    projector.scheduleRender();
-  });
-
   let page = createPage({
     dataService,
     userService,
@@ -58,18 +52,12 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
       createText({ htmlContent: 'How may we identify you?' }),
       createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value; } }),
       createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
-      createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
-      createTextField({ label: 'Skype name' }, { getValue: () => skypeUserName, setValue: (value) => { skypeUserName = value; } }),
       createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
 
-      // these fields will be prefilled automatically since we estimate the location of the user
-      createTextField({ label: 'Address', prefilled: true}, { getValue: () => address, setValue: (value) => { address = value; }}),
-      createTextField({ label: 'City', prefilled: true}, { getValue: () => city, setValue: (value) => { city = value; }}),
-      createTextField({ label: 'Country', prefilled: true}, { getValue: () => country, setValue: (value) => { country = value; }}),
-
-      createImageUploader({ projector: projector, userService: userService, image: 'images/barcode.jpg' }, {}),
+      createSimpleImageUploader({projector}, { getImage: () => image, setImage: (newImage: string) => {image = newImage;} }),
       createButton({ text: 'Register', primary: true }, { onClick: doRegister })
     ]
   }, {title: () => 'Registration' });
   return page;
 };
+

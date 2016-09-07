@@ -9,6 +9,7 @@ import {createChatPage} from './pages/chat-page';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
 import {createFileUploadPage} from './pages/file-upload';
+import {createMorePage} from './pages/more-page';
 
 export interface RouteRegistry {
   initializePage(route: string): Page;
@@ -26,6 +27,8 @@ export let createRouteRegistry = (dataService: DataService, projector: Projector
           return createBarcodePage(dataService, userService, projector);
         case 'file-upload':
           return createFileUploadPage(dataService, userService, projector);
+        case 'more':
+          return createMorePage(dataService, userService, projector);
         case 'camera':
           return createMultiCamPage(dataService, userService, projector);
         default:

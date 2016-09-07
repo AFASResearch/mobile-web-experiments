@@ -19,6 +19,10 @@ const MENU_ITEMS: { text: string, route: string }[] = [
   {
     text: 'Multiple camera support',
     route: 'camera'
+  },
+  {
+    text: 'More',
+    route: 'more'
   }
 ];
 
@@ -49,7 +53,7 @@ export let createMainMenu = (dataService: DataService, userService: UserService,
               ])),
               h('div', { class: 'item' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
             ])
-          ] 
+          ]
         ]),
       ]);
     }

@@ -7,49 +7,13 @@ import {createUserList, destroyUserList} from '../components/user-list.ts';
 import {createChatList, destroyChatList} from '../components/chat-list.ts';
 
 export let createUserListPage = (dataService: DataService, userService: UserService, projector: Projector) => {
-  let chatRoomId = '';
-
-  let w = <any>window;
-  let ResponsiveMode = false;
-
-  let checkResponsiveMode = () => {
-    if (w.innerWidth < 796) {
-      ResponsiveMode = true;
-    } else {
-      ResponsiveMode = false;
-    }
-  };
-
-  w.addEventListener('resize', () => {
-    checkResponsiveMode();
-    projector.scheduleRender();
-  });
 
   let handleClick = (itemId: string) => {
-    // small screens
-    if (ResponsiveMode) {
-      w.location = `#chat/${itemId}` ;
-    } else { // large screens
-      chatRoomId = itemId;
-    }
+    (window as any).location = `#chat/${itemId}` ;
   };
-
-
-  let username = '';
-  let setOtherUser = (otheruser: UserInfo) => { 
-    if (otheruser) {
-      username = `${otheruser.firstName} ${otheruser.lastName}`;
-      projector.scheduleRender();
-    }
-  }
-
-
-  // check responsive mode on start
-  checkResponsiveMode();
 
   // create the components
   let userlist = createUserList(dataService, userService.getUserInfo(), projector, handleClick);
-  let chatlist = createChatList({dataService: dataService, user: userService.getUserInfo(), projector: projector}, {toUserId: () => chatRoomId, getOtherUser: setOtherUser});
 
   let page = createPage({
     dataService,
@@ -58,10 +22,7 @@ export let createUserListPage = (dataService: DataService, userService: UserServ
     body: [ {
       renderMaquette: () => {
         return h('div',  {class: 'card chatPagesHolder'}, [
-          userlist.renderMaquette(),
-          !ResponsiveMode ? [
-            chatRoomId === '' ? h('div', {class: 'chat-list no-chat-selected'}, ['Choose someone to chat with']) : chatlist.renderMaquette()
-          ] : undefined
+          userlist.renderMaquette()
         ]);
       }
     }],
@@ -69,12 +30,8 @@ export let createUserListPage = (dataService: DataService, userService: UserServ
       destroyUserList();
       destroyChatList();
     }
-  }, {title: () => { 
-    if (username) { 
-      return `Chat with ${username}`;
-    } else {
-      return 'Chat'
-    }
+  }, {title: () => {
+      return 'Users'
   } });
   return page;
 };

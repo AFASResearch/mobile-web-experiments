@@ -100,9 +100,9 @@ export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUp
   let setInitialImageAfterCreate = () => {
     createCanvas();
 
-    let img = new Image;
+    let img = new Image();
     img.src = image;
-    context.drawImage(img, 0, 0, 320, 240);
+    context.drawImage(img, 0, 0, 240, 240);
   };
 
   let createScreenshotButton = createButton({ text: 'Create Snapshot', primary: false }, { onClick: createScreenShot });
@@ -127,8 +127,8 @@ export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUp
             modal.renderMaquette(),
             openModalButton.renderMaquette()
           ] : undefined,
-          h('button', {class: 'button'}, [
-            h('span', {class: 'upload-button-text'}, ['or upload a file manually']),
+          h('button.button', [
+            h('span.upload-button-text', ['or upload a file manually']),
             h('input', {
               type: 'file',
               capture: 'camera',
@@ -138,7 +138,7 @@ export let createImageUploader = (config: ImageUploaderConfig, bindings: ImageUp
             })
           ])
         ]),
-        h('canvas', { id: 'canvas', width: '320', height: '240', afterCreate: setInitialImageAfterCreate })
+        h('canvas', { id: 'canvas', width: '240', height: '240', afterCreate: setInitialImageAfterCreate })
       ]);
     }
   };
