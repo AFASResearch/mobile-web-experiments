@@ -63,8 +63,11 @@ export let createUserService = (store: any, scheduleRender: () => void): UserSer
             (serverInfo: UserInfo[]) => {
               if (serverInfo.length === 0) {
                 // The server forgot about us, lets remind him who we are
-                userInfo.pushEndpoint = undefined;
-                updateUserInfo(userInfo);
+                //userInfo.pushEndpoint = undefined;
+                //updateUserInfo(userInfo);
+                userInfo = undefined;
+                scheduleRender();
+                return;
               } else {
                 // The server may have updated info
                 userInfo = serverInfo[0];
