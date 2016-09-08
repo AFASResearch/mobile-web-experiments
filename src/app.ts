@@ -39,6 +39,10 @@ if (typeof Object.assign !== 'function') {
 
 const MENU_ITEMS: { text: string, route: string }[] = [
   {
+    text: 'Account',
+    route: 'account'
+  },
+  {
     text: 'Chat',
     route: 'users'
   },
@@ -131,15 +135,15 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
             [
             h('div', { class: 'menu' }, [
               h('div', { class: 'item'}, [
-                user ? [
-                h('a', {class: 'navbar-username', href: '#account'}, [user.firstName + ' ' + user.lastName]),
-                h('img', {src: user.image, class: 'profile-picture', height: 20})
-                ] : undefined
+                // user ? [
+                // h('a', {class: 'navbar-username', href: '#account'}, [user.firstName + ' ' + user.lastName]),
+                // h('img', {src: user.image, class: 'profile-picture', height: 20})
+                // ] : undefined
               ]),
               MENU_ITEMS.map(item => h('div', { class: 'item' }, [
                 h('a', { onclick: closeSnapper, href: `#${item.route}` }, [item.text])
               ])),
-              h('div', { class: 'item' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
+              h('div.status', { classes: {online: dataService.isOnline()} }, [dataService.isOnline() ? 'Online' : 'Offline'])
             ])
           ]
         ])

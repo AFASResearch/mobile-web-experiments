@@ -2,10 +2,10 @@
 
 .mainMenu {
   position: absolute;
-  width: 266px;
+  width: 100%;
   top: 0;
   left: 0;
-  height: 100vh;
+  height: 100%;
   z-index: 0;
 }
 
@@ -22,9 +22,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: calc(40vw + 10px);
-  min-width: 200px;
-  max-width: 300px;
+  width: 100%;
 }
 
 .touchArea.isOpen {
@@ -33,21 +31,33 @@
 
 .menu {
   height: 100%;
-  width: calc(40vw - 2px);
+  width: 100%;
   min-width: 200px;
-  max-width: 300px;
   text-decoration: none;
 
   a {
     color: $text-color-inverted;
     text-decoration: none;
+    height: 40px;
+    padding: 8px;
+    display: block;
+    border-bottom: solid 1px #888888;
   }
 }
 
 .item {
   line-height: 24px;
   font-size: 16px;
-  padding: 8px 8px 8px 16px;
+}
+
+.status {
+  padding: 8px;
+  line-height: 24px;
+  color: darkred;
+
+  &.online {
+    color: green;
+  }
 }
 
 #swipeMenuBox {
