@@ -78,7 +78,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
 
          messages = [];
-            
+
           for (let i = 0; i < msgs.length - 1; i++) {
               if (msgs[i].id !== msgs[i + 1].id) {
                   messages.push(msgs[i]);
@@ -86,7 +86,7 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           }
           messages.push(msgs[msgs.length - 1]); // also push the last message
 
-         messages.forEach( (msg: MessageInfo) => { 
+         messages.forEach( (msg: MessageInfo) => {
 
           if (!msg.isRead) {
 console.log( 'isread: ', msg.isRead, 'touserid: ', msg.toUserId, 'userid: ', user.id);
@@ -100,23 +100,9 @@ console.log( 'isread: ', msg.isRead, 'touserid: ', msg.toUserId, 'userid: ', use
         });
 
         } else { // if there are no messages, then make a fake message with some nice text
-          let firstMessage: MessageInfo;
-
-          firstMessage = {
-            id: '',
-            chatRoomId: chatRoomId, // format: see chat-page
-            fromUserId: user.id,
-            toUserId: toUserId(),
-            text: 'maak je eerste bericht',
-            date: new Date(),
-            timestamp: 0
-          };
-          messages = [firstMessage];
-
+          messages = [];
         }
       });
-
-
     };
 
     let sendMessage = (text: string) => {
@@ -129,7 +115,7 @@ console.log( 'isread: ', msg.isRead, 'touserid: ', msg.toUserId, 'userid: ', use
         text: text,
         date: date,
         timestamp: date.valueOf(),
-        isRead: false 
+        isRead: false
       };
       dataService.horizon('directMessages').upsert(message);
     };
@@ -155,7 +141,7 @@ console.log( 'isread: ', msg.isRead, 'touserid: ', msg.toUserId, 'userid: ', use
         return h('div', {class: 'first-message-holder'}, [
         otherUser ? [
           h('img', { class: 'profile-picture margin', src: otherUser.image, onclick: toggleModal }),
-          h('h3', [`Start messaging with ${otherUser.firstName} ${otherUser.lastName}`])
+          h('h3', [`Conversation with ${otherUser.firstName}`])
          ] : undefined
         ]);
       },
@@ -195,10 +181,9 @@ console.log( 'isread: ', msg.isRead, 'touserid: ', msg.toUserId, 'userid: ', use
             h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image, onclick: item.fromUserId === userId ? toggleModal : undefined }),
             h('div', {key: item, class: 'messagecontainer' }, [
               h('div', { class: 'messageTitleContainer'}, [
-                h('b', [ 
+                h('b', [
                   otherUser.firstName,
-                  '   ', 
-                  item.isRead ? '✓' : ''  ]),
+                ]),
                 h('span', {class: 'messageTimeStamp'}, [getFormattedDateSmall(item.date)])
               ]),
               h('span', [item.text])
@@ -208,10 +193,10 @@ console.log( 'isread: ', msg.isRead, 'touserid: ', msg.toUserId, 'userid: ', use
           return h('div', { class: 'chatrow', classes: {right: true}, afterCreate: scrollpage }, [
           h('div', {key: item, class: 'messagecontainer' }, [
             h('div', { class: 'messageTitleContainer'}, [
-             h('b', [ 
-              'me',
-              '   ', 
-              item.isRead ? '✓' : ''  ]),
+              h('b', [
+                'me',
+//              item.isRead ? '✓' : ''
+              ]),
               h('span', {class: 'messageTimeStamp'}, [getFormattedDateSmall(item.date)])
             ]),
             h('span', [item.text])

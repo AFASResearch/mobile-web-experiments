@@ -53,6 +53,10 @@ const MENU_ITEMS: { text: string, route: string }[] = [
   {
     text: 'Multiple camera support',
     route: 'camera'
+  },
+  {
+    text: 'More',
+    route: 'more'
   }
 ];
 
@@ -82,17 +86,25 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
   let afterBodyHolderCreate = (elem: HTMLDivElement) => {
     closeSnapper();
-    setSmoothScroll(elem);
+  };
+
+  let handleTouchMove = (evt: TouchEvent) => {
+    let target = evt.target as HTMLElement;
+    while (target !== evt.currentTarget) {
+      if (target.classList.contains('scroll-allowed')) {
+//        if (target.scrollHeight > target.clientHeight) {
+          return; // ok, you may scroll
+//        }
+      }
+      target = target.parentElement;
+    }
+    evt.preventDefault(); // Do not scroll this body
   };
 
   let closeSnapper = () => {
     if (snapper) {
     snapper.close();
     }
-  };
-
-  let setSmoothScroll = (elem: HTMLDivElement) => {
-    elem.setAttribute('style', '-webkit-overflow-scrolling: touch');
   };
 
   let handleMenuButtonClick = () => {
@@ -102,7 +114,6 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
         snapper.open('left');
     }
   };
-
 
   return {
     renderMaquette: () => {
@@ -114,7 +125,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
       let runningAsiOSApp = (window.navigator.standalone && (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)));
       // let runningAsiOSApp = true;
 
-      return h('body', { class: 'app' }, [
+      return h('body', { class: 'app', ontouchmove: handleTouchMove }, [
       h('div', { key: 0, class: 'mainMenu'}, [
         h('div', { key: 'touchArea', id: 'touchArea', class: 'touchArea' }, [
             [
@@ -135,13 +146,12 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
       ]),
 
         h('div', { id: 'body', key: currentPage, class: 'body', afterCreate: createSnapAfterCreate }, [
-        h('div', { class: 'header', styles: { 'height': runningAsiOSApp ? 'calc(40px + 10pt)' : '40px', 'padding-top': runningAsiOSApp ? 'calc(8px + 10pt)' : '8px' }}, [
-          !currentPage.hasBackButton() ? h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']) : undefined,
-          currentPage.renderHeader()
-        ]),
-         h('div', { class: 'bodyHolder', styles: {'padding-top': runningAsiOSApp ? 'calc(40px + 10pt)' : '40px'}, afterCreate: afterBodyHolderCreate }, [
-           currentPage.renderBody()
-         ])
+          h('div', { class: 'header', styles: { 'height': runningAsiOSApp ? 'calc(40px + 10pt)' : '40px', 'padding-top': runningAsiOSApp ? 'calc(8px + 10pt)' : '8px' }}, [
+            !currentPage.hasBackButton() ? h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']) : undefined,
+            currentPage.renderHeader()
+          ]),
+          currentPage.renderBody(),
+          h('div', {afterCreate: afterBodyHolderCreate })
         ])
       ]);
     }

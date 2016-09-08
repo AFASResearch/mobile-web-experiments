@@ -7,13 +7,13 @@
   padding-top: 20px;
   background-color: #efefef;
 
+  .textField {
+    flex-grow: 1;
+  }
+
   input:focus{
     outline: none;
   }
-}
-
-.textField {
-  flex: 1;
 }
 
 .send {

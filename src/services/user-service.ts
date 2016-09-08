@@ -38,6 +38,8 @@ export let createUserService = (store: any, scheduleRender: () => void): UserSer
         store.setItem('user-info', newUserInfo).then(() => {
           userInfo = newUserInfo;
           scheduleRender();
+        }).catch((e: any) => {
+          console.error(e);
         });
         if (serviceWorker) {
           enablePush();

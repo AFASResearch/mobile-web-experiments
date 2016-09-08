@@ -12,6 +12,7 @@ import {createImageUploader} from '../components/image-uploader';
 import {getLocationData} from '../services/location-service';
 import {Projector} from 'maquette';
 import {createSimpleImageUploader} from '../components/simple-image-uploader';
+import {createScroller} from '../components/scroller';
 
 export let createRegisterPage = (dataService: DataService, userService: UserService, projector: Projector, id: string) => {
 
@@ -49,12 +50,14 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
     projector,
     className: 'card',
     body: [
-      createText({ htmlContent: 'How may we identify you?' }),
-      createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value; } }),
-      createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
-      createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
+      createScroller([
+        createText({ htmlContent: 'How may we identify you?' }),
+        createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value; } }),
+        createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
+        createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
 
-      createSimpleImageUploader({projector}, { getImage: () => image, setImage: (newImage: string) => {image = newImage;} }),
+        createSimpleImageUploader({projector}, { getImage: () => image, setImage: (newImage: string) => {image = newImage;} }),
+      ]),
       createButton({ text: 'Register', primary: true }, { onClick: doRegister })
     ]
   }, {title: () => 'Registration' });

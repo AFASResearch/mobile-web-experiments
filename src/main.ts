@@ -1,4 +1,4 @@
-//import {registerServiceWorker} from './service-worker-registration';
+import {registerServiceWorker} from './service-worker-registration';
 
 import Horizon = require('@horizon/client');
 const localforage = <any>require('localforage');
@@ -32,7 +32,7 @@ let projector = createProjector({});
 let userService = createUserService(store, projector.scheduleRender);
 let dataService = createDataService(horizon, projector.scheduleRender);
 
-//registerServiceWorker(userService);
+registerServiceWorker(userService);
 
 let startApp = () => {
   userService.initializeHorizon(horizon);

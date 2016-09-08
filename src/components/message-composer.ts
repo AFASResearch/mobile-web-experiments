@@ -17,6 +17,7 @@ export interface MessageComposerBindings {
 export let createMessageComposer = (config: MessageComposerConfig, bindings: MessageComposerBindings) => {
   let {projector} = config;
   let textToSend = '';
+  let element: HTMLElement;
 
   let sendMessage = () => {
     if (textToSend.trim() !== '') { // do not send empty messages, or only spaces
@@ -24,6 +25,10 @@ export let createMessageComposer = (config: MessageComposerConfig, bindings: Mes
       textToSend = '';
     }
   };
+
+  let handleAfterCreate = (createdElement: HTMLElement) => {
+    element = createdElement;
+  }
 
   let handleKeyDown = (evt: KeyboardEvent) => {
     if (evt.which === 13) { // enter
@@ -33,13 +38,13 @@ export let createMessageComposer = (config: MessageComposerConfig, bindings: Mes
   };
 
   let handleInput = (evt: Event) => {
-    console.log('ok');
     textToSend = (evt.target as HTMLInputElement).value;
   };
 
   let handleSendClick = (evt: Event) => {
     evt.preventDefault();
     sendMessage();
+    (element.querySelector('input') as HTMLInputElement).focus();
   };
 
   let textfield = createVoiceControlledTextField({label: '', projector: projector}, {
@@ -50,7 +55,7 @@ export let createMessageComposer = (config: MessageComposerConfig, bindings: Mes
 
   return {
     renderMaquette: () => {
-      return h('div', { class: 'messageComposer' }, [
+      return h('div', { class: 'messageComposer', afterCreate: handleAfterCreate }, [
         textfield.renderMaquette(),
         h('button', { class: 'send', onclick: handleSendClick })
       ]);

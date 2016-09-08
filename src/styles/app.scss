@@ -2,41 +2,54 @@
 @import 'variables';
 
 * {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
   box-sizing: border-box;
-  // -webkit-overflow-scrolling: touch; // smooth scroll on iOS
-    ::-webkit-scrollbar {
-      display: none;
+  ::-webkit-scrollbar {
+    display: none;
   }
 }
 
 
 html {
   background-color: $brand-default;
-}
-
-.bodyHolder {
-  overflow-y: scroll;
   overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: block;
 }
 
-.app {
-  display: flex;
-  flex-direction: column;
+body {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
   font-family: $font-main;
   font-size: $font-size-main;
-  height: 100vh;
   line-height: 16px;
   margin: 0;
-  overflow: hidden;
   padding: 0;
-  flex: 1;
   background: $menu-background;
+}
+
+.body {
+  background-color: $background-color;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  z-index: 3;
+  box-shadow: -5px 0px 20px 5px #888888;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
 }
 
 .header {
   background-color: $header-color;
   color: $text-color;
-  position: fixed;
   z-index: 10;
   display: flex;
   font-family: $font-header;
@@ -48,12 +61,19 @@ html {
   padding: 8px 8px 8px 8px;
   width: 100%;
   border: 0;
+}
 
-  .titleText {
-    line-height: 0;
-    position: absolute;
-    margin-top: 13px;
-  }
+.titleText {
+  line-height: 0;
+  position: absolute;
+  margin-top: 13px;
+}
+
+.bodyHolder {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: hidden;
+}
 
 .backbutton {
   color: white;
@@ -64,40 +84,25 @@ html {
   }
 }
 
-  .currentuser-holder {
-    display: flex;
-    flex: 1;
-    justify-content: center;
+.currentuser-holder {
+  display: flex;
+  flex: 1;
+  justify-content: center;
 
-    .navbar-username {
-      color: white;
-      text-decoration: none;
-    }
+  .navbar-username {
+    color: white;
+    text-decoration: none;
+  }
 
-    img {
-      height: 30px;
-      width: 30px;
-      margin-left: 10px;
-      margin-right: 10px;
-      align-self: center;
-    }
+  img {
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    align-self: center;
   }
 }
 
-.body {
-  background-color: $background-color;
-  flex: 1;
-  overflow-y: scroll;
-  width: inherit;
-  display: flex;
-  flex-direction: column;
-
-  z-index: 3;
-  box-shadow: -10px 0px 20px -5px #555555;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-}
 
 .profile-picture {
   height: $profile-picture-size-normal;
@@ -123,5 +128,18 @@ html {
 
   &.margin {
     margin-right: 10px;
+  }
+}
+
+.scroller {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    flex-shrink: 0;
   }
 }

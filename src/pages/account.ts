@@ -12,6 +12,7 @@ import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
 import {Projector} from 'maquette';
 import {createText} from '../components/text';
+import {createScroller} from '../components/scroller';
 
 export let createAccountPage = (dataService: DataService, userService: UserService, projector: Projector) => {
 
@@ -42,15 +43,17 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
     projector,
     className: 'card',
     body: [
-      createVoiceControlledTextField({label: 'First name', projector: projector}, { getValue: () => firstName, setValue: (value) => {firstName = value; }}),
-      createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
-      createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
-      createTextField({ label: 'Skype name' }, { getValue: () => skypeUserName, setValue: (value) => { skypeUserName = value; } }),
-      createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
-      createTextField({ label: 'Address' }, { getValue: () => address, setValue: (value) => { address = value; } }),
-      createTextField({ label: 'City' }, { getValue: () => city, setValue: (value) => { city = value; } }),
-      createTextField({ label: 'Country' }, { getValue: () => country, setValue: (value) => { country = value; } }),
-      createImageUploader({ projector: projector, userService: userService, image: image }, {}),
+      createScroller([
+        createVoiceControlledTextField({label: 'First name', projector: projector}, { getValue: () => firstName, setValue: (value) => {firstName = value; }}),
+        createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
+        createTextField({ label: 'Phone number' }, { getValue: () => phoneNumber, setValue: (value) => { phoneNumber = value; } }),
+        createTextField({ label: 'Skype name' }, { getValue: () => skypeUserName, setValue: (value) => { skypeUserName = value; } }),
+        createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
+        createTextField({ label: 'Address' }, { getValue: () => address, setValue: (value) => { address = value; } }),
+        createTextField({ label: 'City' }, { getValue: () => city, setValue: (value) => { city = value; } }),
+        createTextField({ label: 'Country' }, { getValue: () => country, setValue: (value) => { country = value; } }),
+        createImageUploader({ projector: projector, userService: userService, image: image }, {}),
+      ]),
       createButton({ text: 'Update', primary: true }, { onClick: doUpdate })
     ]
   }, { title: () => 'Account' });

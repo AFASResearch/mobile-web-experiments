@@ -28,7 +28,7 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
             dataService.horizon('directMessages').findAll({ chatRoomId: chatRoomId }).order('timestamp', 'descending').limit(1).watch().subscribe(
               (msg: any) => {
 
-                console.log('ok'); 
+                console.log('ok');
 
                 if (msg[0]) {
                   lastMessages.push(msg[0]); // TODO: check if there was already an object for the current chatroom available and overwrite it.
@@ -60,14 +60,14 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
       let chatRoomId = [user.id, item.id].sort().join('-'); // format: lowestUserId-highestUserId
       let lastMessage: MessageInfo;
 
-      let lastMessageMustBeRead: boolean; 
+      let lastMessageMustBeRead: boolean;
 
-      // get the last message of each chatroom 
+      // get the last message of each chatroom
       lastMessages.forEach((message) => {
         if (message.chatRoomId === chatRoomId) {
           lastMessage = message;
 
-          
+
         if (!lastMessage.isRead) {
           // check if unread lastmessages must be read by the current user
             lastMessageMustBeRead = lastMessage.toUserId === user.id;
@@ -76,8 +76,8 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
         }
       });
 
-      return h('div', {class: 'row', 
-     styles: {'background-color': lastMessageMustBeRead ? 'lightgreen' : 'white' } 
+      return h('div', {class: 'row',
+        styles: {'background-color': lastMessageMustBeRead ? 'lightgreen' : 'white' }
       }, [
         h('img', {class: 'profile-picture margin', src: item.image}),
         h('div', {class: 'userlistItemContainer'}, [
@@ -86,8 +86,8 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
             h('span', {class: 'userlistItemTimeStamp'}, [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
           ]),
           lastMessage ?
-            h('p', { class: 'userlistItemContent', 
-            styles: {'color': !lastMessageMustBeRead ? 'black' : 'green', 'font-weight': !lastMessageMustBeRead ? 'normal' : 'bold' } }, 
+            h('p', { class: 'userlistItemContent',
+            styles: {'color': !lastMessageMustBeRead ? 'black' : 'green', 'font-weight': !lastMessageMustBeRead ? 'normal' : 'bold' } },
             [ lastMessage.text ])
           : undefined
         ])

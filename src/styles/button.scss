@@ -16,6 +16,7 @@
   height: 40px;
   outline: none;
   font-weight: bold;
+  flex: 0 0 auto;
 
   &:hover{
     background-color: $brand-selected;
