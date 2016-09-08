@@ -3,18 +3,19 @@
 .button {
   display: inline-block;
   min-width: 150px;
-  margin: 24px 8px 8px 8px;
+  margin: 16px 8px 8px 8px;
   border: $button-border;
   border-radius: 4px;
   text-align: center;
-  background-color: $brand-default;
+  background-color: #888888;
   color: $text-color;
-  padding: 6px 18px 6px 18px;
+  padding: 8px 18px 8px 18px;
   line-height: 24px;
   font-size: $font-size-main;
   width: inherit;
-  height: 35px;
+  height: 40px;
   outline: none;
+  font-weight: bold;
 
   &:hover{
     background-color: $brand-selected;
@@ -24,6 +25,7 @@
 
 .primary {
   background-color: $brand-primary;
+  width: calc(100% - 16px);
 }
 
 .invertedPrimary {

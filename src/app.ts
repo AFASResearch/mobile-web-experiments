@@ -60,7 +60,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
 
   let registerPage = createRegisterPage(dataService, userService, projector, randomId());
 
-  let createSnapAfterCreate = () => { 
+  let createSnapAfterCreate = () => {
    snapper = new Snap({
       element: document.getElementById('body'),
       dragger: null,
@@ -80,13 +80,22 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
     });
   };
 
-  let closeSnapper = () => { 
+  let afterBodyHolderCreate = (elem: HTMLDivElement) => {
+    closeSnapper();
+    setSmoothScroll(elem);
+  };
+
+  let closeSnapper = () => {
     if (snapper) {
     snapper.close();
     }
   };
 
-  let handleMenuButtonClick = () => { 
+  let setSmoothScroll = (elem: HTMLDivElement) => {
+    elem.setAttribute('style', '-webkit-overflow-scrolling: touch');
+  };
+
+  let handleMenuButtonClick = () => {
      if (snapper.state().state === 'left') {
         snapper.close();
     } else {
@@ -121,7 +130,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
               ])),
               h('div', { class: 'item' }, [dataService.isOnline() ? 'DB Connected' : 'DB Not connected'])
             ])
-          ] 
+          ]
         ])
       ]),
 
@@ -130,7 +139,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
           !currentPage.hasBackButton() ? h('div', { key: 'openButton', class: 'openButton', onclick: handleMenuButtonClick }, ['☰']) : undefined,
           currentPage.renderHeader()
         ]),
-         h('div', { class: 'bodyHolder', styles: {'padding-top': runningAsiOSApp ? 'calc(40px + 10pt)' : '40px'}, afterCreate: closeSnapper  }, [ 
+         h('div', { class: 'bodyHolder', styles: {'padding-top': runningAsiOSApp ? 'calc(40px + 10pt)' : '40px'}, afterCreate: afterBodyHolderCreate }, [
            currentPage.renderBody()
          ])
         ])

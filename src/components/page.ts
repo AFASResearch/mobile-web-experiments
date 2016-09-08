@@ -4,7 +4,7 @@ import {UserService} from '../services/user-service';
 
 require('../styles/page.scss');
 
-declare let window: any; 
+declare let window: any;
 declare let navigator: any;
 
 export interface PageConfig {
@@ -22,7 +22,7 @@ export interface PageConfig {
   body: Component[];
 }
 
-export interface PageBindings { 
+export interface PageBindings {
   title: () => string;
 }
 
@@ -35,12 +35,7 @@ export interface Page {
 
 export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
   let {body, backButton, destroy, className} = config;
-  let {title} = bindings; 
-
-
-  let setSmoothScroll = (elem: HTMLDivElement) => { 
-    elem.setAttribute('style', '-webkit-overflow-scrolling: touch');
-  };
+  let {title} = bindings;
 
   let page: Page = {
     hasBackButton: () => {
@@ -49,17 +44,17 @@ export let createPage = (config: PageConfig, bindings: PageBindings): Page => {
     destroy,
     renderHeader: () => {
       return h('span', { class: 'title'}, [
-        backButton ? h('a', {class: 'backbutton', href: backButton.route}, [ 
+        backButton ? h('a', {class: 'backbutton', href: backButton.route}, [
           h('img', {src: 'icons/arrow_back.png'})
         ]) : undefined,
        h('span', {class: 'titleText'}, [ title() ] )
       ]);
     },
     renderBody: () => {
-      return h('div', { class: className ? `page ${className}` : 'page', key: page, afterCreate: setSmoothScroll}, [
+      return h('div', { class: className ? `page ${className}` : 'page', key: page}, [
         body.map(c => c.renderMaquette())
       ]);
     }
-  }; 
+  };
   return page;
 };

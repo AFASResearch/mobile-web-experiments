@@ -84,7 +84,8 @@ export let createSimpleImageUploader = (config: {projector: Projector}, bindings
   return {
     renderMaquette: () => {
       let image = bindings.getImage();
-      return h('div.live-camera-holder', [
+      return h('div.simple-image-uploader', [
+        h('canvas', { id: 'canvas', styles: {display: image ? undefined: 'none'}, width: '240', height: '240', afterCreate: setInitialImageAfterCreate }),
         h('label.button', [
           h('input', {
             style: 'display:none',
@@ -94,10 +95,10 @@ export let createSimpleImageUploader = (config: {projector: Projector}, bindings
             id: 'takePictureField',
             onchange: getPicture
           }),
-          'Take a picture'
+          image ? 'Change picture' : 'Take a picture'
         ]),
-        h('canvas', { id: 'canvas', styles: {display: image ? undefined: 'none'}, width: '240', height: '240', afterCreate: setInitialImageAfterCreate })
       ]);
     }
   };
 };
+
