@@ -11,7 +11,6 @@ import {createRouteRegistry} from './route-registry';
 import {createUserService} from './services/user-service';
 
 declare let cordova: any;
-declare let Notification: any;
 declare let window: any;
 
 // for testing on local network

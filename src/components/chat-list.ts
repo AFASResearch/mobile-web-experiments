@@ -67,40 +67,33 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
     let updateMessagesSubscription = () => {
       messagesSubscription = dataService.horizon('directMessages')
       .findAll({ chatRoomId: chatRoomId })
-      .order('timestamp', 'descending')
+      .order('timestamp', 'ascending')
       .limit(500)
       .watch()
       .subscribe((msgs: MessageInfo[]) => {
+        projector.scheduleRender();
+        messages = [];
         // if there is a new message, append it and sort the array
         if (msgs.length > 0) {
-          projector.scheduleRender();
-
           msgs.sort((msg1, msg2) => msg1.timestamp - msg2.timestamp);
-
-         messages = [];
-
+          messages = [];
           for (let i = 0; i < msgs.length - 1; i++) {
-              if (msgs[i].id !== msgs[i + 1].id) {
-                  messages.push(msgs[i]);
-              }
+            if (msgs[i].id !== msgs[i + 1].id) {
+              messages.push(msgs[i]);
+            }
           }
           messages.push(msgs[msgs.length - 1]); // also push the last message
-
-         messages.forEach( (msg: MessageInfo) => {
-
-          if (!msg.isRead) {
-console.log( 'isread: ', msg.isRead, 'touserid: ', msg.toUserId, 'userid: ', user.id);
-
-            if (msg.toUserId === user.id) {
-              msg.isRead = true;
-              dataService.horizon('directMessages').update(msg);
-              console.log('currently uploading to isRead', msg.text);
+          messages.forEach((msg: MessageInfo) => {
+            if (!msg.isRead) {
+              if (msg.toUserId === user.id) {
+                setTimeout(() => {
+                  msg.isRead = true;
+                  dataService.horizon('directMessages').update(msg);
+                  console.log('currently uploading to isRead', msg.text);
+                }, 500);
+              }
             }
-           }
-        });
-
-        } else { // if there are no messages, then make a fake message with some nice text
-          messages = [];
+          });
         }
       });
     };
@@ -137,14 +130,6 @@ console.log( 'isread: ', msg.isRead, 'touserid: ', msg.toUserId, 'userid: ', use
     return createList({className: 'chat-list'}, {
       getItems: () => messages,
       getKey: (message: MessageInfo) => message.id,
-      firstMessage: () => {
-        return h('div', {class: 'first-message-holder'}, [
-        otherUser ? [
-          h('img', { class: 'profile-picture margin', src: otherUser.image, onclick: toggleModal }),
-          h('h3', [`Conversation with ${otherUser.firstName}`])
-         ] : undefined
-        ]);
-      },
       renderHeader: () => {
 
         let modal = createModal({

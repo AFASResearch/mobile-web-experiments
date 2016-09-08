@@ -36,7 +36,7 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
 
                   let lastmessage = lastMessages[lastMessages.length - 1];
                   let notification: NotificationInfo = { title: otheruser.firstName, body: lastmessage.text };
-                  sendNotification(notification);
+                  //sendNotification(notification);
                 }
                 projector.scheduleRender();
               }

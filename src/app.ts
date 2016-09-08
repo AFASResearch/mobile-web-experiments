@@ -9,7 +9,6 @@ let Snap = <any>require('snapjs');
 require('./styles/app.scss');
 require('./styles/main-menu.scss');
 declare let cordova: any;
-declare let localNotification: any;
 declare let Object: any;
 declare let window: any;
 
