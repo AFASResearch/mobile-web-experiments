@@ -27,7 +27,6 @@
         "src/components/file-download.ts",
         "src/components/image-uploader.ts",
         "src/components/list.ts",
-        "src/components/main-menu.ts",
         "src/components/message-composer.ts",
         "src/components/modal.ts",
         "src/components/page.ts",

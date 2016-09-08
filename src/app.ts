@@ -4,7 +4,7 @@ import {randomId} from './utilities';
 import {Router} from './services/router';
 import {UserService} from './services/user-service';
 import {DataService} from './services/data-service';
-import {createMainMenu} from './components/main-menu';
+
 let Snap = <any>require('snapjs');
 require('./styles/app.scss');
 require('./styles/main-menu.scss');
