@@ -1,7 +1,3 @@
-Experimental chat app which uses only web technologies. Used for demonstrations.
-
-This chat app consists has three folders that can be built. One for web, one for Electron and one for cordova. Build instructions can be found below. 
-
 #Initial installation
 To run the application, install Rethinkdb and execute the following commands:
 
