@@ -2,28 +2,30 @@
 $header-height: 40px;
 
 // colors
-$background-color: white;
-$header-color: cornflowerblue;
-$light-gray: #f5f5f5;
+
 $gray: gray;
-$brand-primary: green;
-$brand-default: cornflowerblue;
+$brand-primary: #126EB7;
+$brand-default: #1E8184;
 $brand-danger: orangered;
-$brand-selected: mediumpurple;
+$brand-selected: #0b426e;
 $transparent: rgba(0, 0, 0, 0);
-$menu-background: $light-gray;
+$background-color: $brand-primary;
+$header-color: $brand-primary;
+$border-color: #dedede;
+$light-gray: #f5f5f5;
+$menu-background: $brand-primary;
 
 // fonts and text
 $font-main: 'Roboto', 'Arial', sans-serif;
 $font-header: 'Roboto', 'Arial', sans-serif;
-$text-color: white;
+$text-color: #2b2b2b;
 $text-color-inverted: black;
 $font-size-main: 16px;
 $font-size-header: 18px;
 
 // borders
 $button-border: 0;
-$table-border: 1px solid #c5c5c5;
+$table-border: 1px solid #e6e6e6;
 $card-border: 1px solid #c5c5c5;
 $text-field-border: 1px solid #cacaca;
 
@@ -35,6 +37,6 @@ $message-otheruser-background: #efefef;
 
 // images
 $profile-picture-size-small: 30px;
-$profile-picture-size-normal: 50px;
+$profile-picture-size-normal: 52px;
 $profile-picture-size-large: 70px;
 $profile-picture-size-xlarge: 120px;

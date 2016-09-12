@@ -41,7 +41,7 @@ export let createAccountPage = (dataService: DataService, userService: UserServi
     dataService,
     userService,
     projector,
-    className: 'card',
+    className: 'card.registerPage',
     body: [
       createScroller([
         createVoiceControlledTextField({label: 'First name', projector: projector}, { getValue: () => firstName, setValue: (value) => {firstName = value; }}),

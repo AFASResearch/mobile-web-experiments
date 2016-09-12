@@ -2,7 +2,7 @@ import {createModal} from './modal';
 import {createButton} from './button';
 import {createCamera, destroyCamera} from './camera';
 import {UserService} from '../services/user-service';
-import {h, Projector} from 'maquette';
+import {h, Projector, Component} from 'maquette';
 import {ImageUploaderConfig, ImageUploaderBindings} from './image-uploader';
 require('../styles/image-uploader.scss');
 
@@ -54,7 +54,7 @@ let drawImageProp = (ctx: any, img: any, x?: number, y?: number, w?: number, h?:
   ctx.drawImage(img, cx, cy, cw, ch,  x, y, w, h);
 }
 
-export let createSimpleImageUploader = (config: {projector: Projector}, bindings: {getImage: () => string; setImage: (imageData: string) => void}) => {
+export let createSimpleImageUploader = (config: {projector: Projector}, bindings: {getImage: () => string; setImage: (imageData: string) => void}): Component => {
   let canvas: HTMLCanvasElement;
   let context: CanvasRenderingContext2D;
 

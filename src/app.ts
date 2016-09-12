@@ -142,7 +142,7 @@ export let createApp = (dataService: DataService, store: LocalForage, router: Ro
               MENU_ITEMS.map(item => h('div', { class: 'item' }, [
                 h('a', { onclick: closeSnapper, href: `#${item.route}` }, [item.text])
               ])),
-              h('div.status', { classes: {online: dataService.isOnline()} }, [dataService.isOnline() ? 'Online' : 'Offline'])
+              h('div.status', h('div.item', { classes: {online: dataService.isOnline()} }, [ h('span', 'Status: '), [dataService.isOnline() ? 'online' : 'offline']]))
             ])
           ]
         ])

@@ -29,18 +29,36 @@
 }
 
 .simple-image-uploader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 8px;
+  width: 114px;
+  height: 114px;
+  min-width: 0;
+  margin: -84px auto 0px;
+  border-radius: 100%;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 1), 0 4px 5px rgba(255, 255, 255, 0.6), 0 0 50px 50px rgba(255, 255, 255, 0.25);
+  overflow: hidden;
 
   > canvas {
-    padding: 8px 8px 0 8px;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
     border-radius: 50%;
   }
 
   > .button {
-    margin: 8px 8px 8px 8px;
-    width: 160px;
+    height: 100%;
+    width: 100%;
+    line-height: 1000;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    background-image: url(https://images.designtrends.com/wp-content/uploads/2016/01/18110453/Flat-Camera-Icon.png);
+    background-color: #e8e8e8;
+    background-size: 60% 60%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    :hover {
+      background-color: #33b5e5;
+    }
   }
 }

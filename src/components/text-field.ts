@@ -22,14 +22,16 @@ export let createTextField = (config: TextFieldConfig, bindings: TextFieldBindin
 
   let textField = {
     renderMaquette: () => {
-      return h('label', { class: 'textField', key: textField }, [
-        h('span', { class: 'label' }, [label]),
+      return h('div.input-holder', { class: 'textField', key: textField }, [
+        h('label', { class: 'label', for: label  }, [label]),
         h('div', {class: 'voicecontrollinputholder'}, [
-          h('input', { class: 'input',
+          h('input', {
+            class: 'input',
             classes: {'prefilled': prefilled},
             type: 'text',
             value: getValue(),
-            oninput: handleInput
+            oninput: handleInput,
+            id: label
           })
         ])
       ]);

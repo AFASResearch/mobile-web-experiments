@@ -164,30 +164,22 @@ export let createChatList = (config: ChatListConfig, bindings: ChatListBindings)
           return h('div', { class: 'chatrow', classes: {right: false}, afterCreate: scrollpage }, [
             otherUser ? [
             h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image, onclick: item.fromUserId === userId ? toggleModal : undefined }),
-            h('div', {key: item, class: 'messagecontainer' }, [
+            h('div.messagecontainer', [
+              h('div', {key: item, class: 'message' }, item.text),
               h('div', { class: 'messageTitleContainer'}, [
-                h('b', [
-                  otherUser.firstName,
-                ]),
                 h('span', {class: 'messageTimeStamp'}, [getFormattedDateSmall(item.date)])
-              ]),
-              h('span', [item.text])
-            ]) ] : undefined
+              ])
+            ])
+            ] : undefined
           ]);
         } else {
           return h('div', { class: 'chatrow', classes: {right: true}, afterCreate: scrollpage }, [
           h('div', {key: item, class: 'messagecontainer' }, [
+            h('div', {key: item, class: 'message' }, item.text),
             h('div', { class: 'messageTitleContainer'}, [
-              h('b', [
-                'me',
-//              item.isRead ? '✓' : ''
-              ]),
               h('span', {class: 'messageTimeStamp'}, [getFormattedDateSmall(item.date)])
-            ]),
-            h('span', [item.text])
-          ]),
-          h('img', { class: 'profile-picture', src: item.fromUserId === userId ? otherUser.image : user.image })
-          ]);
+            ])
+          ])])
         }
       },
       renderFooter: () => {

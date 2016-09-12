@@ -1,14 +1,31 @@
 @import "variables";
 
+
+#chat-list-listHolder {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  > .list {
+    flex: 0;
+    margin: 20px 0;
+  }
+}
+
 .messageComposer {
   flex: 0 0 auto;
   display: flex;
   padding: 10px;
-  padding-top: 20px;
   background-color: #efefef;
+  border-top: $border-color 1px solid;
+  display: flex;
+  align-items: center;
+
 
   .textField {
     flex-grow: 1;
+  }
+  .label:empty {
+    margin: 0;
   }
 
   input:focus{
@@ -18,8 +35,6 @@
 
 .send {
   justify-content: flex-end;
-  margin: 0;
-  margin-right: 10px;
   background: url('~/icons/text-send.png') no-repeat 7px 5px;
   background-size: 30px 30px;
   background-position: center;
@@ -28,5 +43,5 @@
   border: 0;
   width: 30px;
   height: 30px;
-  margin-top: 10px;
+  padding: 10px;
 }

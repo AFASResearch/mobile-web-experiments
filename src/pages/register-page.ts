@@ -3,14 +3,11 @@ New users will be redirected to this page and can fill in their credentials and 
 */
 
 import {createPage} from '../components/page';
-import {createText} from '../components/text';
 import {createTextField} from '../components/text-field';
 import {createButton} from '../components/button';
 import {UserService} from '../services/user-service';
 import {DataService} from '../services/data-service';
-import {createImageUploader} from '../components/image-uploader';
-import {getLocationData} from '../services/location-service';
-import {Projector} from 'maquette';
+import {Projector, h} from 'maquette';
 import {createSimpleImageUploader} from '../components/simple-image-uploader';
 import {createScroller} from '../components/scroller';
 
@@ -44,21 +41,62 @@ export let createRegisterPage = (dataService: DataService, userService: UserServ
     });
   };
 
+  let companyField = createTextField(
+    { label: 'Company' }, {
+      getValue: () => company, setValue: (value) => {
+        company = value;
+      }
+    }
+  );
+  let lastNameField = createTextField(
+      { label: 'Last name' }, {
+        getValue: () => lastName, setValue: (value) => {
+          lastName = value;
+        }
+      }
+    );
+
+  let firstNameField = createTextField(
+    { label: 'First name' }, {
+      getValue: () => firstName, setValue: (value) => {
+        firstName = value;
+      }
+    });
+
+
+  let button = createButton({ text: 'Register', primary: true }, { onClick: doRegister });
+
+  let imageField = createSimpleImageUploader(
+    { projector }, {
+      getImage: () => image, setImage: (newImage: string) => {
+        image = newImage;
+      }
+    }
+  );
+
   let page = createPage({
     dataService,
     userService,
     projector,
-    className: 'card',
+    className: 'card registerPage',
     body: [
       createScroller([
-        createText({ htmlContent: 'How may we identify you?' }),
-        createTextField({ label: 'First name' }, { getValue: () => firstName, setValue: (value) => { firstName = value; } }),
-        createTextField({ label: 'Last name' }, { getValue: () => lastName, setValue: (value) => { lastName = value; } }),
-        createTextField({ label: 'Company' }, { getValue: () => company, setValue: (value) => { company = value; } }),
-
-        createSimpleImageUploader({projector}, { getImage: () => image, setImage: (newImage: string) => {image = newImage;} }),
+        {
+          renderMaquette: () => h('div', [
+            h('h1', {}, 'Register'),
+            h(
+            'div.register', [
+              imageField.renderMaquette(),
+              firstNameField.renderMaquette(),
+              lastNameField.renderMaquette(),
+              companyField.renderMaquette(),
+              button.renderMaquette()
+            ]
+          )
+          ])
+        }
       ]),
-      createButton({ text: 'Register', primary: true }, { onClick: doRegister })
+
     ]
   }, {title: () => 'Registration' });
   return page;

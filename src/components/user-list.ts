@@ -77,17 +77,19 @@ export let createUserList = (dataService: DataService, user: UserInfo, projector
       });
 
       return h('div', {class: 'row',
-        styles: {'background-color': lastMessageMustBeRead ? 'lightgreen' : 'white' }
+        classes: {
+          'lastMessageMustBeRead' : lastMessageMustBeRead
+        }
       }, [
         h('img', {class: 'profile-picture margin', src: item.image}),
         h('div', {class: 'userlistItemContainer'}, [
           h('div', { class: 'userlistItemTitleContainer'}, [
-            h('h3', { class: 'userlistItemTitle',  styles: {'color': !lastMessageMustBeRead ? 'black' : 'green'} }, [item.firstName + ' ' + item.lastName]),
+            h('h3', { class: 'userlistItemTitle'}, [item.firstName + ' ' + item.lastName]),
             h('span', {class: 'userlistItemTimeStamp'}, [lastMessage ? getFormattedDate(lastMessage.date) : undefined ])
           ]),
           lastMessage ?
             h('p', { class: 'userlistItemContent',
-            styles: {'color': !lastMessageMustBeRead ? 'black' : 'green', 'font-weight': !lastMessageMustBeRead ? 'normal' : 'bold' } },
+            styles: {'color': !lastMessageMustBeRead ? 'black' : '', 'font-weight': !lastMessageMustBeRead ? '300' : '600' } },
             [ lastMessage.text ])
           : undefined
         ])

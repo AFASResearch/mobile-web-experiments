@@ -34,14 +34,20 @@
   width: 100%;
   min-width: 200px;
   text-decoration: none;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-top: 56px;
+  border-top: solid 1px rgba(255,255,255, 0.15);
+
 
   a {
-    color: $text-color-inverted;
+    color: white;
+    font-weight: 300;
     text-decoration: none;
-    height: 40px;
-    padding: 8px;
+    padding: 8px 18px;
     display: block;
-    border-bottom: solid 1px #888888;
+    border-bottom: solid 1px rgba(255,255,255, 0.15);
   }
 }
 
@@ -51,12 +57,19 @@
 }
 
 .status {
-  padding: 8px;
-  line-height: 24px;
-  color: darkred;
-
-  &.online {
-    color: green;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column-reverse;
+  > .item {
+    padding: 8px 18px;
+    line-height: 24px;
+    color: darkred;
+    font-weight: 300;
+    background: $header-color;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    &.online {
+      color: green;
+    }
   }
 }
 

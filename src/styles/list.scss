@@ -3,7 +3,22 @@
 .list {
   border-collapse: collapse;
   flex: 1 1 auto;
-  flex: 1;
+
+
+  .lastMessageMustBeRead {
+    &::before {
+      content: '';
+      display: block;
+      height: 10px;
+      width: 10px;
+      position: absolute;
+      margin-left: -20px;
+      margin-top: 20px;
+      background: #137ed2;
+      border-radius: 50%;
+    }
+  }
+
 
   .container {
     display: flex;
@@ -11,7 +26,11 @@
 
   .chatrow {
     display: flex;
-    margin: 10px;
+    margin: 10px 30px;
+
+    > .profile-picture {
+      background: lightgrey;
+    }
 
 
     .messageTitleContainer {
@@ -20,36 +39,65 @@
       font-weight: 500;
 
       .messageTimeStamp {
-        flex: 1;
-        width: 100%;
-        text-align: right;
-        padding-left:12px;
-        color: black;
-        font-weight: 200;
-        font-size: 12px;
+        flex: 1 1 auto;
+        padding-left: 20px;
+        padding-top: 4px;
+        font-size: 11px;
+        color: lightgray;
+        font-weight: 300;
       }
     }
 
     .messagecontainer {
-      min-width: $message-min-width;
-      max-width: $message-max-width;
-      border-radius: 20px;
-      background-color: white;
       display: flex;
       flex-direction: column;
-      padding: 10px;
-      margin: 10px;
-      margin-top: 0;
-      background-color: $message-otheruser-background;
-      margin-left: 20px;
-      margin-right: 20px;
+    }
+
+    .message {
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      background-color: #91D98A;
+      color: white;
+      font-weight: 300;
+      position: relative;
+      margin: 0 20px;
+      padding: 10px 20px 10px 20px;
+      flex: 1 1 auto;
+      align-self: flex-start;
+      word-wrap: break-word;
+      word-break: break-all;
+
+      &::before {
+        content: " ";
+        display: block;
+        width: 0;
+        height: 0;
+        border: 12px solid transparent;
+        top: 6px;
+        position: absolute;
+        z-index: 2;
+        left: -20px;
+        border-right-color: #91D98A;
+      }
     }
 
     &.right {
       justify-content: flex-end;
 
-      .messagecontainer{
-        background-color: $message-currentuser-background;
+      .message{
+        background-color: #8AC0D9;
+        &::before {
+          left: auto;
+          right: -20px;
+          border-right-color: transparent;
+          border-left-color: #8AC0D9;
+        }
+      }
+      .messageTimeStamp {
+        padding-left: 0;
+        padding-right: 20px;
+        text-align: right;
       }
     }
   }
@@ -57,13 +105,9 @@
   .row {
     display: flex;
     border-bottom: $table-border;
-    background: white;
     transition: background-color .3s ease-in-out;
-    padding: 8px;
-
-    &:hover {
-      background-color: $background-color;
-    }
+    padding: 8px 0;
+    margin: 0 32px;
   }
 }
 
@@ -71,6 +115,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  justify-content: center;
 }
 
 
@@ -127,23 +172,25 @@
 
   .userlistItemTitle {
     line-height: 1;
-    margin: 0;
-    margin-top: 5px;
-    margin-bottom: 10px;
+    font-weight: 600;
     padding: 0;
+    font-size: 16px;
+    margin: 0;
   }
 
   .userlistItemContent {
     margin: 0;
     padding: 0;
     line-height: 1;
+    font-size: 14px;
+    color: lightgray;
   }
 
   .userlistItemTimeStamp {
     margin: 0;
     padding: 0;
-    line-height: 1;
     font-size: 12px;
+    opacity: 0.5;
   }
 }
 
