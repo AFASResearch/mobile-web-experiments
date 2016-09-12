@@ -57,7 +57,7 @@
       border-radius: 4px;
       display: flex;
       flex-direction: column;
-      background-color: #91D98A;
+      background-color: #76bf6e;
       color: white;
       font-weight: 300;
       position: relative;
@@ -78,7 +78,7 @@
         position: absolute;
         z-index: 2;
         left: -20px;
-        border-right-color: #91D98A;
+        border-right-color: #76bf6e;
       }
     }
 
@@ -86,12 +86,12 @@
       justify-content: flex-end;
 
       .message{
-        background-color: #8AC0D9;
+        background-color: #2f99ee;
         &::before {
           left: auto;
           right: -20px;
           border-right-color: transparent;
-          border-left-color: #8AC0D9;
+          border-left-color: #2f99ee;
         }
       }
       .messageTimeStamp {
@@ -163,12 +163,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-
-  .row {
-    &:hover {
-      background-color: #efefef;
-    }
-  }
 
   .userlistItemTitle {
     line-height: 1;
