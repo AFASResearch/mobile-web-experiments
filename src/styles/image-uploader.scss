@@ -52,11 +52,12 @@
     margin: 0;
     padding: 0;
     min-width: 0;
-    background-image: url(https://images.designtrends.com/wp-content/uploads/2016/01/18110453/Flat-Camera-Icon.png);
+    background-image: url('/images/Flat-Camera-Icon.png');
     background-color: #e8e8e8;
     background-size: 60% 60%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
+    cursor: pointer;
     :hover {
       background-color: #33b5e5;
     }
