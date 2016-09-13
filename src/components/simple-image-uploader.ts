@@ -85,8 +85,8 @@ export let createSimpleImageUploader = (config: {projector: Projector}, bindings
     renderMaquette: () => {
       let image = bindings.getImage();
       return h('div.simple-image-uploader', [
-        h('canvas', { id: 'canvas', styles: {display: image ? undefined: 'none'}, width: '240', height: '240', afterCreate: setInitialImageAfterCreate }),
         h('label.button', [
+          h('canvas', { id: 'canvas', styles: {display: image ? undefined: 'none'}, width: '240', height: '240', afterCreate: setInitialImageAfterCreate }),
           h('input', {
             style: 'display:none',
             type: 'file',
@@ -94,8 +94,7 @@ export let createSimpleImageUploader = (config: {projector: Projector}, bindings
             accept: 'image/*',
             id: 'takePictureField',
             onchange: getPicture
-          }),
-          image ? 'Change picture' : 'Take a picture'
+          })
         ]),
       ]);
     }

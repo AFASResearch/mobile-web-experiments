@@ -36,14 +36,7 @@
   border-radius: 100%;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 1), 0 4px 5px rgba(255, 255, 255, 0.6), 0 0 50px 50px rgba(255, 255, 255, 0.25);
   overflow: hidden;
-
-  > canvas {
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    border-radius: 50%;
-  }
+  position: relative;
 
   > .button {
     height: 100%;
@@ -60,6 +53,17 @@
     cursor: pointer;
     :hover {
       background-color: #33b5e5;
+    }
+
+    > canvas {
+      position: absolute;
+      left: 0;
+      pointer-events: none;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      border-radius: 50%;
     }
   }
 }
